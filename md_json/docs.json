@@ -1086,6 +1086,11 @@
       "meta": {}
     },
     {
+      "filename": "design.md",
+      "link": "/zh-cn/docs/dev/configcenter/design.html",
+      "meta": {}
+    },
+    {
       "filename": "contract.md",
       "link": "/zh-cn/docs/dev/contract.html",
       "meta": {}

@@ -38,7 +38,7 @@ configCenter.setAddress(<span class="hljs-string">"zookeeper://127.0.0.1:2181"</
 <span class="hljs-meta">dubbo.registry.address</span>=<span class="hljs-string">zookeeper://127.0.0.1:2181</span>
 <span class="hljs-meta">dubbo.registry.simplified</span>=<span class="hljs-string">true</span>
 
-<span class="hljs-meta">dubbo.metadataReport.address</span>=<span class="hljs-string">zookeeper://127.0.0.1:2181</span>
+<span class="hljs-meta">dubbo.metadata-report.address</span>=<span class="hljs-string">zookeeper://127.0.0.1:2181</span>
 
 <span class="hljs-meta">dubbo.protocol.name</span>=<span class="hljs-string">dubbo</span>
 <span class="hljs-meta">dubbo.protocol.port</span>=<span class="hljs-string">20880</span>
@@ -49,7 +49,7 @@ configCenter.setAddress(<span class="hljs-string">"zookeeper://127.0.0.1:2181"</
 <li>优先级</li>
 </ul>
 <p>外部化配置默认较本地配置有更高的优先级，因此这里配置的内容会覆盖本地配置值，关于<a href="./configuration-load-process.md">各配置形式间的覆盖关系</a>有单独一章说明，你也可通过以下选项调整配置中心的优先级：</p>
-<pre><code class="language-properties"><span class="hljs-meta">-Ddubbo.configCenter.highestPriority</span>=<span class="hljs-string">false</span>
+<pre><code class="language-properties"><span class="hljs-meta">-Ddubbo.config-center.highest-priority</span>=<span class="hljs-string">false</span>
 </code></pre>
 <ul>
 <li>作用域</li>
