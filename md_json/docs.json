@@ -1086,11 +1086,6 @@
       "meta": {}
     },
     {
-      "filename": "design.md",
-      "link": "/zh-cn/docs/dev/configcenter/design.html",
-      "meta": {}
-    },
-    {
       "filename": "contract.md",
       "link": "/zh-cn/docs/dev/contract.html",
       "meta": {}
@@ -1123,6 +1118,11 @@
     {
       "filename": "compiler.md",
       "link": "/zh-cn/docs/dev/impls/compiler.html",
+      "meta": {}
+    },
+    {
+      "filename": "config-center.md",
+      "link": "/zh-cn/docs/dev/impls/config-center.html",
       "meta": {}
     },
     {
