@@ -1339,6 +1339,10 @@ export default {
                     {
                         title: '服务测试',
                         link: '/zh-cn/docs/admin/serviceTest.html',
+                    },
+                    {
+                        title: 'Metrics统计',
+                        link: '/zh-cn/docs/admin/metrics.html'
                     }
 
                 ]
