@@ -1011,11 +1011,6 @@
       "meta": {}
     },
     {
-      "filename": "metrics.md",
-      "link": "/zh-cn/docs/admin/metrics.html",
-      "meta": {}
-    },
-    {
       "filename": "dubbo-ops.md",
       "link": "/zh-cn/docs/admin/ops/dubbo-ops.html",
       "meta": {}
@@ -1091,11 +1086,6 @@
       "meta": {}
     },
     {
-      "filename": "design.md",
-      "link": "/zh-cn/docs/dev/configcenter/design.html",
-      "meta": {}
-    },
-    {
       "filename": "contract.md",
       "link": "/zh-cn/docs/dev/contract.html",
       "meta": {}
@@ -1128,6 +1118,11 @@
     {
       "filename": "compiler.md",
       "link": "/zh-cn/docs/dev/impls/compiler.html",
+      "meta": {}
+    },
+    {
+      "filename": "config-center.md",
+      "link": "/zh-cn/docs/dev/impls/config-center.html",
       "meta": {}
     },
     {
@@ -1515,6 +1510,11 @@
     {
       "filename": "configuration-load-process.md",
       "link": "/zh-cn/docs/user/configuration/configuration-load-process.html",
+      "meta": {}
+    },
+    {
+      "filename": "environment-variables.md",
+      "link": "/zh-cn/docs/user/configuration/environment-variables.html",
       "meta": {}
     },
     {
