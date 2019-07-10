@@ -62,7 +62,7 @@
 <li>'Provider' registers services to 'Register' and report time-consuming statistic(not include network overhead) to 'Monitor'</li>
 <li>'Consumer' gets a list of service provider addresses from <code>Registry</code>, call the provider directly according to the LB algorithm, report the time-consuming statistic to <code>Monitor</code>, which includes network overhead</li>
 <li>The connections between <code>Register</code>, <code>Provider</code> and <code>Consumer</code> are long connections, <code>Moniter</code> is an exception</li>
-<li><code>Register</code> is aware of the existence of <code>Provider</code> through the long connection, when <code>Provider</code> gets down, <code>Provider</code> will push the event to <code>Consumer</code></li>
+<li><code>Register</code> is aware of the existence of <code>Provider</code> through the long connection, when <code>Provider</code> gets down, <code>Register</code> will push the event to <code>Consumer</code></li>
 <li>It doesn't affect the already running instances of <code>Provider</code> and <code>Consumer</code> even all of the <code>Register</code> and <code>Monitor</code> get down, since <code>Consumer</code> got a cache of <code>Provider</code>s list</li>
 <li><code>Register</code> and <code>Monitor</code> are optional, <code>Consumer</code> can connect <code>Provider</code> directly</li>
 </ul>
