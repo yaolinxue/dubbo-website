@@ -446,7 +446,11 @@
     {
       "filename": "annotation.md",
       "link": "/en-us/docs/user/configuration/annotation.html",
-      "meta": {}
+      "meta": {
+        "title": "Annotation Configuration",
+        "keywords": "dubbo,annotation configuration",
+        "description": "Annotation Configuration"
+      }
     },
     {
       "filename": "api.md",
@@ -1495,7 +1499,11 @@
     {
       "filename": "annotation.md",
       "link": "/zh-cn/docs/user/configuration/annotation.html",
-      "meta": {}
+      "meta": {
+        "title": "注解配置",
+        "keywords": "dubbo,注解配置",
+        "description": "注解配置"
+      }
     },
     {
       "filename": "api.md",
