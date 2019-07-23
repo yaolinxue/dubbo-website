@@ -4,10 +4,10 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<meta name="keywords" content="dubbo-registry" />
-	<meta name="description" content="dubbo-registry" />
+	<meta name="keywords" content="dubbo,registry" />
+	<meta name="description" content="dubbo:registry" />
 	<!-- 网页标签标题 -->
-	<title>dubbo-registry</title>
+	<title>dubbo:registry</title>
 	<link rel="shortcut icon" href="/img/dubbo.ico"/>
 	<link rel="stylesheet" href="/build/documentation.css" />
 </head>
@@ -129,6 +129,16 @@
 <td>Above 2.0.0</td>
 </tr>
 <tr>
+<td>wait</td>
+<td>registry.wait</td>
+<td>int</td>
+<td>False</td>
+<td>0</td>
+<td>Performance optimize</td>
+<td>Stop wait for a notice completion time (ms)</td>
+<td>Above 2.0.0</td>
+</tr>
+<tr>
 <td>check</td>
 <td>check</td>
 <td>boolean</td>
@@ -177,6 +187,26 @@
 <td>Service governance</td>
 <td>Service registration grouping, cross-group services will not affect each other, and can not be called each other, suitable for environmental isolation.</td>
 <td>Above 2.0.5</td>
+</tr>
+<tr>
+<td>simplified</td>
+<td>simplified</td>
+<td>boolean</td>
+<td>False</td>
+<td>false</td>
+<td>Service governance</td>
+<td>Registered with the registry URL whether to adopt the lean mode (compatible with low version)</td>
+<td>Above 2.7.0</td>
+</tr>
+<tr>
+<td>extra-keys</td>
+<td>extraKeys</td>
+<td>string</td>
+<td>False</td>
+<td></td>
+<td>Service governance</td>
+<td>In simplified = true, extraKeys allows you to outside the default arguments put additional key in the URL, format: &quot;interface, key1, key2&quot;.</td>
+<td>Above 2.7.0</td>
 </tr>
 </tbody>
 </table>

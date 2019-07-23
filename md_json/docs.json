@@ -930,12 +930,20 @@
     {
       "filename": "dubbo-reference.md",
       "link": "/en-us/docs/user/references/xml/dubbo-reference.html",
-      "meta": {}
+      "meta": {
+        "title": "dubbo:reference",
+        "keywords": "dubbo,reference",
+        "description": "dubbo:reference"
+      }
     },
     {
       "filename": "dubbo-registry.md",
       "link": "/en-us/docs/user/references/xml/dubbo-registry.html",
-      "meta": {}
+      "meta": {
+        "title": "dubbo:registry",
+        "keywords": "dubbo,registry",
+        "description": "dubbo:registry"
+      }
     },
     {
       "filename": "dubbo-service.md",
@@ -2073,7 +2081,11 @@
     {
       "filename": "dubbo-registry.md",
       "link": "/zh-cn/docs/user/references/xml/dubbo-registry.html",
-      "meta": {}
+      "meta": {
+        "title": "dubbo:registry",
+        "keywords": "dubboregistry",
+        "description": "dubbo:registry"
+      }
     },
     {
       "filename": "dubbo-service.md",
