@@ -28,7 +28,7 @@
 <p>或</p>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:registry</span> <span class="hljs-attr">protocol</span>=<span class="hljs-string">"multicast"</span> <span class="hljs-attr">address</span>=<span class="hljs-string">"224.5.6.7:1234"</span> /&gt;</span>
 </code></pre>
-<p>为了减少广播量，Dubbo 缺省使用单播发送提供者地址信息给消费者，如果一个机器上同时启了多个消费者进程，消费者需声明 <code>unicast=false</code>，否则只会有一个消费者能收到消息：</p>
+<p>为了减少广播量，Dubbo 缺省使用单播发送提供者地址信息给消费者，如果一个机器上同时启了多个消费者进程，消费者需声明 <code>unicast=false</code>，否则只会有一个消费者能收到消息;当服务者和消费者运行在同一台机器上，消费者同样需要声明<code>unicast=false</code>，否则消费者无法收到消息，导致No provider available for the service异常：</p>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:registry</span> <span class="hljs-attr">address</span>=<span class="hljs-string">"multicast://224.5.6.7:1234?unicast=false"</span> /&gt;</span>
 </code></pre>
 <p>或</p>
