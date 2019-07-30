@@ -2124,7 +2124,11 @@
     {
       "filename": "version-270.md",
       "link": "/zh-cn/docs/user/versions/version-270.html",
-      "meta": {}
+      "meta": {
+        "title": "升级与可能的兼容性问题总结",
+        "keywords": "Dubbo,升级与可能的兼容性问题总结",
+        "description": "升级与可能的兼容性问题总结"
+      }
     }
   ]
 }
