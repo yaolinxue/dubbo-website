@@ -483,6 +483,11 @@
       "meta": {}
     },
     {
+      "filename": "async-call-deprecated.md",
+      "link": "/en-us/docs/user/demos/async-call-deprecated.html",
+      "meta": {}
+    },
+    {
       "filename": "async-call.md",
       "link": "/en-us/docs/user/demos/async-call.html",
       "meta": {}

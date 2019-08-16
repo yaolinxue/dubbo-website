@@ -717,6 +717,15 @@
       }
     },
     {
+      "filename": "rpc-introduction.md",
+      "link": "/zh-cn/blog/rpc-introduction.html",
+      "meta": {
+        "title": "浅谈 RPC",
+        "keywords": "RPC, Dubbo, Spring Cloud",
+        "description": "RPC-远程过程调用，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。"
+      }
+    },
+    {
       "filename": "sentinel-introduction-for-dubbo.md",
       "link": "/zh-cn/blog/sentinel-introduction-for-dubbo.html",
       "meta": {
