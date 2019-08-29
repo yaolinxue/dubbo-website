@@ -166,6 +166,11 @@
       "meta": {}
     },
     {
+      "filename": "config-center.md",
+      "link": "/en-us/docs/dev/impls/config-center.html",
+      "meta": {}
+    },
+    {
       "filename": "container.md",
       "link": "/en-us/docs/dev/impls/container.html",
       "meta": {}
