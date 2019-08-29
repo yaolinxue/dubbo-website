@@ -235,6 +235,15 @@
       }
     },
     {
+      "filename": "service-test.md",
+      "link": "/en-us/blog/service-test.html",
+      "meta": {
+        "title": "Dubbo Admin service test",
+        "keywords": "Dubbo, test",
+        "description": "This article introduces how to make service test with Dubbo."
+      }
+    },
+    {
       "filename": "spring-boot-dubbo-start-stop-analysis.md",
       "link": "/en-us/blog/spring-boot-dubbo-start-stop-analysis.html",
       "meta": {
