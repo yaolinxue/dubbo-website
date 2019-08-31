@@ -1559,6 +1559,11 @@
       "meta": {}
     },
     {
+      "filename": "properties.md",
+      "link": "/zh-cn/docs/user/configuration/properties.html",
+      "meta": {}
+    },
+    {
       "filename": "xml.md",
       "link": "/zh-cn/docs/user/configuration/xml.html",
       "meta": {}
