@@ -913,6 +913,11 @@
       "meta": {}
     },
     {
+      "filename": "dubbo-config-center.md",
+      "link": "/en-us/docs/user/references/xml/dubbo-config-center.html",
+      "meta": {}
+    },
+    {
       "filename": "dubbo-consumer.md",
       "link": "/en-us/docs/user/references/xml/dubbo-consumer.html",
       "meta": {}
