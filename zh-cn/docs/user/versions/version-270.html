@@ -74,7 +74,7 @@
 <p>建议将此配置集中管理，参考<a href="#1.2">外部化配置</a>。
 在此了解更多<a href="">元数据中心</a>设计目的与用途。</p>
 <h4 id="1.2">使用外部化配置</h4>
-<p>需要在项目启动前，使用<a href="https://github.com/apache/dubbo-ops">最新版本Dubbo-OPS</a>完成外部化配置迁移，理论上配置中心支持所有本地dubbo.properties所支持的配置项。</p>
+需要在项目启动前，使用[最新版本Dubbo-OPS](https://github.com/apache/dubbo-ops)完成外部化配置迁移，理论上配置中心支持所有本地dubbo.properties所支持的配置项。
 <p>以XML开发形式为例，假设我们本地有如下配置：</p>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:application</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"demo-provider"</span>/&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:config-center</span> <span class="hljs-attr">address</span>=<span class="hljs-string">"zookeeper://127.0.0.1:2181"</span>/&gt;</span>
@@ -168,9 +168,7 @@
 </ul>
 <p>点击链接，了解关于异步API如何使用的更多<a href="">使用示例</a>。</p>
 <h4 id="1.1">包名改造</h4>
-<ol>
-<li>Maven坐标</li>
-</ol>
+1. Maven坐标
 <p><strong>groupId 由 <code>com.alibaba</code> 改为 <code>org.apache.dubbo</code></strong></p>
 <ol start="2">
 <li>package</li>
@@ -236,11 +234,11 @@
 </tr>
 <tr>
 <td>ConsumerConfig</td>
-<td>提供端默认配置采集API</td>
+<td>消费端默认配置采集API</td>
 </tr>
 <tr>
 <td>ProviderConfig</td>
-<td>消费端默认配置采集API</td>
+<td>提供端默认配置采集API</td>
 </tr>
 <tr>
 <td>ProtocolConfig</td>
