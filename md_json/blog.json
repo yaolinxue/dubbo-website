@@ -172,6 +172,15 @@
       }
     },
     {
+      "filename": "dubboAsync_server.md",
+      "link": "/en-us/blog/dubboAsync_server.html",
+      "meta": {
+        "title": "Implementation background and practice of Dubbo server asynchronous interface",
+        "keywords": "Dubbo, Asynchrony, Reactive",
+        "description": "Implementation background and practice of Dubbo server asynchronous interface"
+      }
+    },
+    {
       "filename": "gsoc-2018.md",
       "link": "/en-us/blog/gsoc-2018.html",
       "meta": {
@@ -627,7 +636,7 @@
       "filename": "dubboAsync_server.md",
       "link": "/zh-cn/blog/dubboAsync_server.html",
       "meta": {
-        "title": "Dubbo客户端异步接口的实现背景和实践",
+        "title": "Dubbo服务端异步接口的实现背景和实践",
         "keywords": "Dubbo, 异步, Reactive",
         "description": "Dubbo服务端异步接口的实现背景和实践"
       }
