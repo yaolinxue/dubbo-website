@@ -16,7 +16,7 @@
 <h3>概述</h3>
 <p>在Dubbo的整体设计中，Filter是一个很重要的概念，包括Dubbo本身的大多数功能，都是基于此扩展点实现的，在每次的调用过程中，Filter的拦截都会被执行。</p>
 <h4>Dubbo Filter的加载机制</h4>
-<p>Dubbo中已经实现的Filter大概有二十几个，它们的入口都是ProtocolFilterWrapper，ProtocolFilterWrapper对Protocol做了Wrapper，会在加载扩展的时候被加载进来，下面我们来看下然后我们看一下这个Filter链是如何构造的。</p>
+<p>Dubbo中已经实现的Filter大概有二十几个，它们的入口都是ProtocolFilterWrapper，ProtocolFilterWrapper对Protocol做了Wrapper，会在加载扩展的时候被加载进来，下面我们来看下这个Filter链是如何构造的。</p>
 <pre><code class="language-java"><span class="hljs-comment">//ProtocolFilterWrapper.java</span>
 <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">Invoker&lt;T&gt; <span class="hljs-title">refer</span><span class="hljs-params">(Class&lt;T&gt; type, URL url)</span> <span class="hljs-keyword">throws</span> RpcException </span>{
         <span class="hljs-keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) {
