@@ -12,11 +12,14 @@
 	<link rel="stylesheet" href="/build/blogDetail.css" />
 </head>
 <body>
-	<div id="root"><div class="blog-detail-page" data-reactroot=""><header class="header-container header-container-normal"><div class="header-body"><a href="/zh-cn/index.html"><img class="logo" src="/img/dubbo_colorful.png"/></a><div class="search search-normal"><span class="icon-search"></span></div><span class="language-switch language-switch-normal">En</span><div class="header-menu"><img class="header-menu-toggle" src="/img/menu_gray.png"/><ul><li class="menu-item menu-item-normal"><a href="/zh-cn/index.html">首页</a></li><li class="menu-item menu-item-normal"><a href="/zh-cn/docs/user/quick-start.html">文档</a></li><li class="menu-item menu-item-normal"><a href="/zh-cn/docs/developers/developers_dev.html">开发者</a></li><li class="menu-item menu-item-normal menu-item-normal-active"><a href="/zh-cn/blog/index.html">博客</a></li><li class="menu-item menu-item-normal"><a href="/zh-cn/community/index.html">社区</a></li><li class="menu-item menu-item-normal"><a href="/zh-cn/ecology/index.html">生态系统</a></li><li class="menu-item menu-item-normal"><a href="/zh-cn/blog/download.html">下载</a></li></ul></div></div></header><section class="blog-content markdown-body"><h1>第一个Dubbo Filter</h1>
-<h3>概述</h3>
-<p>在Dubbo的整体设计中，Filter是一个很重要的概念，包括Dubbo本身的大多数功能，都是基于此扩展点实现的，在每次的调用过程中，Filter的拦截都会被执行。</p>
-<h4>Dubbo Filter的加载机制</h4>
-<p>Dubbo中已经实现的Filter大概有二十几个，它们的入口都是ProtocolFilterWrapper，ProtocolFilterWrapper对Protocol做了Wrapper，会在加载扩展的时候被加载进来，下面我们来看下这个Filter链是如何构造的。</p>
+	<div id="root"><div class="blog-detail-page" data-reactroot=""><header class="header-container header-container-normal"><div class="header-body"><a href="/en-us/index.html"><img class="logo" src="/img/dubbo_colorful.png"/></a><div class="search search-normal"><span class="icon-search"></span></div><span class="language-switch language-switch-normal">中</span><div class="header-menu"><img class="header-menu-toggle" src="/img/menu_gray.png"/><ul><li class="menu-item menu-item-normal"><a href="/en-us/index.html">HOME</a></li><li class="menu-item menu-item-normal"><a href="/en-us/docs/user/quick-start.html">DOCS</a></li><li class="menu-item menu-item-normal"><a href="/en-us/docs/developers/developers_dev.html">DEVELOPERS</a></li><li class="menu-item menu-item-normal menu-item-normal-active"><a href="/en-us/blog/index.html">BLOG</a></li><li class="menu-item menu-item-normal"><a href="/en-us/community/index.html">COMMUNITY</a></li><li class="menu-item menu-item-normal"><a href="/en-us/ecology/index.html">ECOSYSTEM</a></li><li class="menu-item menu-item-normal"><a href="/en-us/blog/download.html">DOWNLOAD</a></li></ul></div></div></header><section class="blog-content markdown-body"><h1>First Dubbo Filter</h1>
+<h3>Overview</h3>
+<p>In overall design of Dubbo, Filter is a very important concept, most of Dubbo's functions are based on this
+extension point, and the Filter interception will be executed during each call.</p>
+<h4>Extension Mechanism of Dubbo Filter</h4>
+<p>There are already about 20 Filters implemented in Dubbo. Their entry is ProtocolFilterWrapper, ProtocolFilterWrapper
+makes a Wrapper on Protocol and will be loaded when the extension is loaded. Then, let's see how
+the Filter chain is constructed.</p>
 <pre><code class="language-java"><span class="hljs-comment">//ProtocolFilterWrapper.java</span>
 <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">Invoker&lt;T&gt; <span class="hljs-title">refer</span><span class="hljs-params">(Class&lt;T&gt; type, URL url)</span> <span class="hljs-keyword">throws</span> RpcException </span>{
         <span class="hljs-keyword">if</span> (Constants.REGISTRY_PROTOCOL.equals(url.getProtocol())) {
@@ -65,8 +68,11 @@
     }
 
 </code></pre>
-<h4>Dubbo Filter的激活机制</h4>
-<p>通过上述代码我们可以看到，在<code>buildInvokerChain</code>中,先获取所有已经激活的调用链，这里的调用链是已经排好序的。再通过Invoker来构造出一个Filter的调用链，最后构建出的调用链大致可以表示为：Filter1-&gt;Filter2-&gt;Filter3-&gt;......-&gt;Invoker,下面我们来看一下，第一步中获取已经激活的调用链的详细流程：</p>
+<h4>Activation Mechanism of Dubbo Filter</h4>
+<p>Through the above code we can see that, in the method buildInvokerChain, first get all
+activated chains, the chain here is already sorted. Then construct a call chain of Filter
+through the Invoker, finally the constructed call chain can be roughly expressed as: Filter1-&gt;Filter2-&gt;Filter3-&gt;......-&gt;Invoker,
+now let's see the detailed flow of the activated chain in the above step.</p>
 <pre><code class="language-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;T&gt; <span class="hljs-title">getActivateExtension</span><span class="hljs-params">(URL url, String key, String group)</span> </span>{
         String value = url.getParameter(key);
         <span class="hljs-keyword">return</span> getActivateExtension(url, value == <span class="hljs-keyword">null</span> || value.length() == <span class="hljs-number">0</span> ? <span class="hljs-keyword">null</span> : Constants.COMMA_SPLIT_PATTERN.split(value), group);
@@ -114,9 +120,13 @@
         <span class="hljs-keyword">return</span> exts;
     }
 </code></pre>
-<p>通过以上代码可以看到，用户自己配置的Filter中，有些是默认激活，有些是需要通过配置文件来激活。而所有Filter的加载顺序，也是先处理Dubbo的默认Filter，再来处理用户自己定义并且配置的Filter。通过&quot;-&quot;配置，可以替换掉Dubbo的原生Filter，通过这样的设计，可以灵活地替换或者修改Filter的加载顺序。</p>
-<h4>Dubbo原生的Filter</h4>
-<p>Dubbo原生的Filter很多，RpcContext，accesslog等功能都可以通过Dubbo来实现，下面我们来介绍一下Consumer端用于上下文传递的ConsumerContextFilter：</p>
+<p>Through the above code we can see that, some of the Filters configured by the user are activated by default,
+and some need to be activated by the configuration file. The loading order of all Filters is to process Dubbo's
+default Filter first, and then to process the Filter defined by the user. With the &quot;-&quot; configuration, Dubbo's defualt Filter
+can be replaced, with this configuration, the user can flexibly replace or modify the Filter's load order.</p>
+<h4>Built-in Filter of Dubbo</h4>
+<p>Dubbo has lots of built-in Filter. RpcContext, accesslog and other functions can be implemented by Dubbo.
+Now let's see the ConsumerContextFilter which used by the Consumer side for context delivery:</p>
 <pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">public</span> Result <span class="hljs-title">invoke</span><span class="hljs-params">(Invoker&lt;?&gt; invoker, Invocation invocation)</span> <span class="hljs-keyword">throws</span> RpcException </span>{
         RpcContext.getContext()
                 .setInvoker(invoker)
@@ -134,20 +144,25 @@
         }
     }
 </code></pre>
-<p>此Filter记录了调用过程中的状态信息，并且通过invocation对象将客户端设置的attachments参数传递到服务端。并且在调用完成后清除这些参数，这就是为什么请求状态信息可以按次记录并且进行传递。</p>
-<h4>实现一个Dubbo Filter</h4>
-<p>得益于Dubbo灵活的设计和良好的可扩展性，我们可以通过实现自己的Dubbo Filter来完成调用链路中的逻辑嵌入，比如，耗时统计，monitor信息统计等，下面我们来实现一个简单的Filter:</p>
-<p>Maven 项目结构：</p>
+<p>This Filter records the state information during call, and passes the attachments parameter set
+by the client to the server through the invocation object, and these parameters will be cleared
+after the call is completed, which is why the request status information can be recorded by times
+and delivered.</p>
+<h4>Implement A Dubbo Filter</h4>
+<p>Because of Dubbo's flexible design and good scalability, we can implement business logic
+in the call chain by implementing our own Dubbo Filter, such as time-consuming statistics, monitor information statistics, etc.
+Now, let's implement a simple Filter:</p>
+<p>Maven project structure:</p>
 <pre><code>src
  |-main
     |-java
         |-com
             |-xxx
-                |-XxxFilter.java (实现Filter接口)
+                |-XxxFilter.java (impelement Filter interface)
     |-resources
         |-META-INF
             |-dubbo
-                |-com.alibaba.dubbo.rpc.Filter (纯文本文件，内容为：xxx=com.xxx.XxxFilter)
+                |-com.alibaba.dubbo.rpc.Filter (Plain text file with content：xxx=com.xxx.XxxFilter)
 </code></pre>
 <p>XxxFilter.java：</p>
 <pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">XxxFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Filter</span> </span>{
@@ -162,25 +177,26 @@
 <p>META-INF/dubbo/com.alibaba.dubbo.rpc.Filter：</p>
 <pre><code>xxx=com.xxx.XxxFilter
 </code></pre>
-<p>在 xml 中配置:</p>
-<pre><code class="language-xml"><span class="hljs-comment">&lt;!-- 消费方调用过程拦截 --&gt;</span>
+<p>configure in xml as:</p>
+<pre><code class="language-xml"><span class="hljs-comment">&lt;!-- Consumer call process interception --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:reference</span> <span class="hljs-attr">filter</span>=<span class="hljs-string">"xxx"</span> /&gt;</span>
-<span class="hljs-comment">&lt;!-- 消费方调用过程缺省拦截器，将拦截所有reference --&gt;</span>
+<span class="hljs-comment">&lt;!-- Consumer call process default interception，intercept all reference --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:consumer</span> <span class="hljs-attr">filter</span>=<span class="hljs-string">"xxx"</span>/&gt;</span>
-<span class="hljs-comment">&lt;!-- 提供方调用过程拦截 --&gt;</span>
+<span class="hljs-comment">&lt;!-- Provider call process interception --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:service</span> <span class="hljs-attr">filter</span>=<span class="hljs-string">"xxx"</span> /&gt;</span>
-<span class="hljs-comment">&lt;!-- 提供方调用过程缺省拦截器，将拦截所有service --&gt;</span>
+<span class="hljs-comment">&lt;!-- Provider call process default interception，intercept all service --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:provider</span> <span class="hljs-attr">filter</span>=<span class="hljs-string">"xxx"</span>/&gt;</span>
 </code></pre>
-<p>或者使用注解：</p>
+<p>or use annotation as:</p>
 <pre><code class="language-java"><span class="hljs-meta">@Activate</span>(group = <span class="hljs-string">"consumer"</span>)
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">XxxFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Filter</span> </span>{
     <span class="hljs-comment">// ...</span>
 }
 </code></pre>
-<p>使用 xml 的配置方式会更加灵活，粒度更细。</p>
-<p>在before和after中，可以实现自己的业务逻辑来赋予该filter一定的功能。编写和配置完成后，该filter就会被Dubbo框架激活并且在调用链中执行。</p>
-</section><footer class="footer-container"><div class="footer-body"><img src="/img/dubbo_gray.png"/><img class="apache" src="/img/apache_logo.png"/><div class="cols-container"><div class="col col-12"><h3></h3><p></p></div><div class="col col-4"><dl><dt>ASF</dt><dd><a href="http://www.apache.org" target="_self">基金会</a></dd><dd><a href="http://www.apache.org/licenses/" target="_self">证书</a></dd><dd><a href="http://www.apache.org/events/current-event" target="_self">事件</a></dd><dd><a href="http://www.apache.org/foundation/sponsorship.html" target="_self">赞助</a></dd><dd><a href="http://www.apache.org/foundation/thanks.html" target="_self">致谢</a></dd></dl></div><div class="col col-4"><dl><dt>文档</dt><dd><a href="/zh-cn/docs/user/quick-start.html" target="_self">快速开始</a></dd><dd><a href="/zh-cn/docs/dev/build.html" target="_self">开发者指南</a></dd><dd><a href="/zh-cn/docs/admin/ops/dubbo-ops.html" target="_self">运维管理</a></dd><dd><a href="https://github.com/apache/dubbo-website/issues/new" target="_self">报告文档问题</a></dd><dd><a href="https://github.com/apache/dubbo-website" target="_self">编辑此文档</a></dd></dl></div><div class="col col-4"><dl><dt>资源</dt><dd><a href="/zh-cn/blog/index.html" target="_self">博客</a></dd><dd><a href="/zh-cn/community/index.html" target="_self">社区</a></dd><dd><a href="https://www.apache.org/security" target="_self">安全</a></dd></dl></div></div><div class="copyright"><span>Copyright © 2018-2019 The Apache Software Foundation. Apache and the Apache feather logo are trademarks of The Apache Software Foundation.</span></div></div></footer></div></div>
+<p>Using xml configuration is more flexible and granular.</p>
+<p>In before and after, you can implement your own business logic to give the filter a certain function.
+Once written and configured, the filter is activated by the Dubbo and executed in the call chain.</p>
+</section><footer class="footer-container"><div class="footer-body"><img src="/img/dubbo_gray.png"/><img class="apache" src="/img/apache_logo.png"/><div class="cols-container"><div class="col col-12"><h3></h3><p></p></div><div class="col col-4"><dl><dt>ASF</dt><dd><a href="http://www.apache.org" target="_self">Foundation</a></dd><dd><a href="http://www.apache.org/licenses/" target="_self">License</a></dd><dd><a href="http://www.apache.org/events/current-event" target="_self">Events</a></dd><dd><a href="http://www.apache.org/foundation/sponsorship.html" target="_self">Sponsorship</a></dd><dd><a href="http://www.apache.org/foundation/thanks.html" target="_self">Thanks</a></dd></dl></div><div class="col col-4"><dl><dt>Documentation</dt><dd><a href="/en-us/docs/user/quick-start.html" target="_self">Quick start</a></dd><dd><a href="/en-us/docs/dev/build.html" target="_self">Developer guide</a></dd><dd><a href="/en-us/docs/admin/ops/dubbo-ops.html" target="_self">Admin manual</a></dd><dd><a href="https://github.com/apache/dubbo-website/issues/new" target="_self">Report a Doc Issue</a></dd><dd><a href="https://github.com/apache/dubbo-website" target="_self">Edit This Page on GitHub</a></dd></dl></div><div class="col col-4"><dl><dt>Resources</dt><dd><a href="/en-us/blog/index.html" target="_self">Blog</a></dd><dd><a href="/en-us/community/index.html" target="_self">Community</a></dd><dd><a href="https://www.apache.org/security/" target="_self">Security</a></dd></dl></div></div><div class="copyright"><span>Copyright © 2018-2019 The Apache Software Foundation. Apache and the Apache feather logo are trademarks of The Apache Software Foundation.</span></div></div></footer></div></div>
 	<script src="https://f.alicdn.com/react/15.4.1/react-with-addons.min.js"></script>
 	<script src="https://f.alicdn.com/react/15.4.1/react-dom.min.js"></script>
 	<script>
