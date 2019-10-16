@@ -145,6 +145,15 @@
       }
     },
     {
+      "filename": "dubbo-protocol.md",
+      "link": "/en-us/blog/dubbo-protocol.html",
+      "meta": {
+        "title": "Introduction to the Dubbo protocol",
+        "keywords": "Dubbo, Protocol, RPC",
+        "description": "This article introduces the design of the Dubbo protocol."
+      }
+    },
+    {
       "filename": "dubbo-zk.md",
       "link": "/en-us/blog/dubbo-zk.html",
       "meta": {
@@ -590,9 +599,9 @@
       "filename": "dubbo-protocol.md",
       "link": "/zh-cn/blog/dubbo-protocol.html",
       "meta": {
-        "title": "DUBBO协议详解",
+        "title": "Dubbo 协议详解",
         "keywords": "Dubbo, Protocol, RPC",
-        "description": "本文介绍了dubbo协议的设计"
+        "description": "本文介绍了 Dubbo 协议的设计"
       }
     },
     {
