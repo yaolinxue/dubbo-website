@@ -48,7 +48,7 @@ org.apache.spi.Bumblebee
 
     <span class="hljs-meta">@Test</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sayHello</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
-        ServiceLoader&lt;Robot&gt; serviceLoader = ServiceLoader.load(Robot.class);
+        ServiceLoader&lt;Robot&gt; serviceLoader = ServiceLoader.load(Robot<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.println(<span class="hljs-string">"Java SPI"</span>);
         serviceLoader.forEach(Robot::sayHello);
     }
@@ -68,7 +68,7 @@ bumblebee = org.apache.spi.Bumblebee
     <span class="hljs-meta">@Test</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sayHello</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
         ExtensionLoader&lt;Robot&gt; extensionLoader = 
-            ExtensionLoader.getExtensionLoader(Robot.class);
+            ExtensionLoader.getExtensionLoader(Robot<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         Robot optimusPrime = extensionLoader.getExtension(<span class="hljs-string">"optimusPrime"</span>);
         optimusPrime.sayHello();
         Robot bumblebee = extensionLoader.getExtension(<span class="hljs-string">"bumblebee"</span>);
@@ -172,7 +172,7 @@ bumblebee = org.apache.spi.Bumblebee
 <p>这里也是先检查缓存，若缓存未命中，则通过 synchronized 加锁。加锁后再次检查缓存，并判空。此时如果 classes 仍为 null，则通过 loadExtensionClasses 加载拓展类。下面分析 loadExtensionClasses 方法的逻辑。</p>
 <pre><code class="language-java"><span class="hljs-keyword">private</span> Map&lt;String, Class&lt;?&gt;&gt; loadExtensionClasses() {
     <span class="hljs-comment">// 获取 SPI 注解，这里的 type 变量是在调用 getExtensionLoader 方法时传入的</span>
-    <span class="hljs-keyword">final</span> SPI defaultAnnotation = type.getAnnotation(SPI.class);
+    <span class="hljs-keyword">final</span> SPI defaultAnnotation = type.getAnnotation(SPI<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     <span class="hljs-keyword">if</span> (defaultAnnotation != <span class="hljs-keyword">null</span>) {
         String value = defaultAnnotation.value();
         <span class="hljs-keyword">if</span> ((value = value.trim()).length() &gt; <span class="hljs-number">0</span>) {
@@ -276,7 +276,7 @@ bumblebee = org.apache.spi.Bumblebee
     }
 
     <span class="hljs-comment">// 检测目标类上是否有 Adaptive 注解</span>
-    <span class="hljs-keyword">if</span> (clazz.isAnnotationPresent(Adaptive.class)) {
+    <span class="hljs-keyword">if</span> (clazz.isAnnotationPresent(Adaptive<span class="hljs-class">.<span class="hljs-keyword">class</span>)) </span>{
         <span class="hljs-keyword">if</span> (cachedAdaptiveClass == <span class="hljs-keyword">null</span>) {
             <span class="hljs-comment">// 设置 cachedAdaptiveClass缓存</span>
             cachedAdaptiveClass = clazz;
@@ -308,7 +308,7 @@ bumblebee = org.apache.spi.Bumblebee
         <span class="hljs-comment">// 切分 name</span>
         String[] names = NAME_SEPARATOR.split(name);
         <span class="hljs-keyword">if</span> (names != <span class="hljs-keyword">null</span> &amp;&amp; names.length &gt; <span class="hljs-number">0</span>) {
-            Activate activate = clazz.getAnnotation(Activate.class);
+            Activate activate = clazz.getAnnotation(Activate<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
             <span class="hljs-keyword">if</span> (activate != <span class="hljs-keyword">null</span>) {
                 <span class="hljs-comment">// 如果类上有 Activate 注解，则使用 names 数组的第一个元素作为键，</span>
                 <span class="hljs-comment">// 存储 name 到 Activate 注解对象的映射关系</span>

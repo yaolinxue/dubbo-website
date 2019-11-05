@@ -181,7 +181,7 @@ public interface HelloService {
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoProviderApplication</span> </span>{
 
 	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-		SpringApplication.run(DemoProviderApplication.class, args);
+		SpringApplication.run(DemoProviderApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
 	}
 }
 </code></pre>
@@ -326,7 +326,7 @@ public interface HelloService {
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoConsumerApplication</span> </span>{
 
 	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-		SpringApplication.run(DemoConsumerApplication.class, args);
+		SpringApplication.run(DemoConsumerApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
 	}
 }
 </code></pre>

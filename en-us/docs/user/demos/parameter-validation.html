@@ -46,8 +46,8 @@
     <span class="hljs-meta">@Size</span>(min = <span class="hljs-number">1</span>, max = <span class="hljs-number">20</span>) <span class="hljs-comment">// range</span>
     <span class="hljs-keyword">private</span> String name;
  
-    <span class="hljs-meta">@NotNull</span>(groups = ValidationService.Save.class) <span class="hljs-comment">// It is not allowed to be blank when saving. When it is updated, it is allowed to be blank, indicating that the field is not updated </span>
-    <span class="hljs-meta">@Pattern</span>(regexp = <span class="hljs-string">"^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$"</span>)
+    <span class="hljs-meta">@NotNull</span>(groups = ValidationService.Save<span class="hljs-class">.<span class="hljs-keyword">class</span>) // <span class="hljs-title">It</span> <span class="hljs-title">is</span> <span class="hljs-title">not</span> <span class="hljs-title">allowed</span> <span class="hljs-title">to</span> <span class="hljs-title">be</span> <span class="hljs-title">blank</span> <span class="hljs-title">when</span> <span class="hljs-title">saving</span>. <span class="hljs-title">When</span> <span class="hljs-title">it</span> <span class="hljs-title">is</span> <span class="hljs-title">updated</span>, <span class="hljs-title">it</span> <span class="hljs-title">is</span> <span class="hljs-title">allowed</span> <span class="hljs-title">to</span> <span class="hljs-title">be</span> <span class="hljs-title">blank</span>, <span class="hljs-title">indicating</span> <span class="hljs-title">that</span> <span class="hljs-title">the</span> <span class="hljs-title">field</span> <span class="hljs-title">is</span> <span class="hljs-title">not</span> <span class="hljs-title">updated</span> 
+    @<span class="hljs-title">Pattern</span>(<span class="hljs-title">regexp</span> </span>= <span class="hljs-string">"^\\s*\\w+(?:\\.{0,1}[\\w-]+)*@[a-zA-Z0-9]+(?:[-.][a-zA-Z0-9]+)*\\.[a-zA-Z]+\\s*$"</span>)
     <span class="hljs-keyword">private</span> String email;
  
     <span class="hljs-meta">@Min</span>(<span class="hljs-number">18</span>) <span class="hljs-comment">// min value</span>
@@ -112,8 +112,8 @@
 <pre><code class="language-java"><span class="hljs-keyword">import</span> javax.validation.GroupSequence;
  
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ValidationService</span> </span>{   
-    <span class="hljs-meta">@GroupSequence</span>(Update.class) <span class="hljs-comment">// validate the Update group rules at the same time</span>
-    <span class="hljs-meta">@interface</span> Save{}
+    <span class="hljs-meta">@GroupSequence</span>(Update<span class="hljs-class">.<span class="hljs-keyword">class</span>) // <span class="hljs-title">validate</span> <span class="hljs-title">the</span> <span class="hljs-title">Update</span> <span class="hljs-title">group</span> <span class="hljs-title">rules</span> <span class="hljs-title">at</span> <span class="hljs-title">the</span> <span class="hljs-title">same</span> <span class="hljs-title">time</span>
+    @<span class="hljs-title">interface</span> <span class="hljs-title">Save</span></span>{}
     <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(ValidationParameter parameter)</span></span>;
  
     <span class="hljs-meta">@interface</span> Update{} 
@@ -137,29 +137,29 @@
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:service</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">"org.apache.dubbo.examples.validation.api.ValidationService"</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">"validationService"</span> <span class="hljs-attr">validation</span>=<span class="hljs-string">"true"</span> /&gt;</span>
 </code></pre>
 <h2>Validate Exception</h2>
-<pre><code class="language-java"><span class="hljs-keyword">import</span> javax.validation.ConstraintViolationException;
-<span class="hljs-keyword">import</span> javax.validation.ConstraintViolationException;
+<pre><code class="language-java">import javax.validation.ConstraintViolationException;
+import javax.validation.ConstraintViolationException;
  
-<span class="hljs-keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
  
-<span class="hljs-keyword">import</span> org.apache.dubbo.examples.validation.api.ValidationParameter;
-<span class="hljs-keyword">import</span> org.apache.dubbo.examples.validation.api.ValidationService;
-<span class="hljs-keyword">import</span> org.apache.dubbo.rpc.RpcException;
+import org.apache.dubbo.examples.validation.api.ValidationParameter;
+import org.apache.dubbo.examples.validation.api.ValidationService;
+import org.apache.dubbo.rpc.RpcException;
  
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ValidationConsumer</span> </span>{   
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-        String config = ValidationConsumer.class.getPackage().getName().replace(<span class="hljs-string">'.'</span>, <span class="hljs-string">'/'</span>) + <span class="hljs-string">"/validation-consumer.xml"</span>;
-        ClassPathXmlApplicationContext context = <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(config);
+public class ValidationConsumer {   
+    public static void main(String[] args) throws Exception {
+        String config = ValidationConsumer.class.getPackage().getName().replace('.', '/') + "/validation-consumer.xml";
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(config);
         context.start();
-        ValidationService validationService = (ValidationService)context.getBean(<span class="hljs-string">"validationService"</span>);
-        <span class="hljs-comment">// Error</span>
-        <span class="hljs-keyword">try</span> {
-            parameter = <span class="hljs-keyword">new</span> ValidationParameter();
+        ValidationService validationService = (ValidationService)context.getBean("validationService");
+        // Error
+        try {
+            parameter = new ValidationParameter();
             validationService.save(parameter);
-            System.out.println(<span class="hljs-string">"Validation ERROR"</span>);
-        } <span class="hljs-keyword">catch</span> (RpcException e) { <span class="hljs-comment">// throw RpcException</span>
-            ConstraintViolationException ve = (ConstraintViolationException) e.getCause(); <span class="hljs-comment">// Inside a ConstraintViolationException</span>
-            Set&lt;ConstraintViolation&lt;?&gt;&gt; violations = ve.getConstraintViolations(); <span class="hljs-comment">// You can get the collection of validation error details</span>
+            System.out.println("Validation ERROR");
+        } catch (RpcException e) { // throw RpcException
+            ConstraintViolationException ve = (ConstraintViolationException) e.getCause(); // Inside a ConstraintViolationException
+            Set&lt;ConstraintViolation&lt;?&gt;&gt; violations = ve.getConstraintViolations(); // You can get the collection of validation error details
             System.out.println(violations);
         }
     } 

@@ -116,8 +116,8 @@
 <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span>
 <span class="hljs-attr">key:</span> <span class="hljs-string">governance-conditionrouter-consumer</span>
 <span class="hljs-attr">conditions:</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">application=app1</span> <span class="hljs-string">=&gt;</span> <span class="hljs-string">address=*:20880</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">application=app2</span> <span class="hljs-string">=&gt;</span> <span class="hljs-string">address=*:20881</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">application=app1</span> <span class="hljs-string">=&gt;</span> <span class="hljs-string">address=*:20880</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-string">application=app2</span> <span class="hljs-string">=&gt;</span> <span class="hljs-string">address=*:20881</span>
 <span class="hljs-string">...</span>
 </code></pre>
 </li>
@@ -129,10 +129,10 @@
 <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span>
 <span class="hljs-attr">key:</span> <span class="hljs-string">governance-tagrouter-provider</span>
 <span class="hljs-attr">tags:</span>
-<span class="hljs-attr">  - name:</span> <span class="hljs-string">tag1</span>
-<span class="hljs-attr">    addresses:</span> <span class="hljs-string">["127.0.0.1:20880"]</span>
-<span class="hljs-attr">  - name:</span> <span class="hljs-string">tag2</span>
-<span class="hljs-attr">    addresses:</span> <span class="hljs-string">["127.0.0.1:20881"]</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">tag1</span>
+    <span class="hljs-attr">addresses:</span> <span class="hljs-string">["127.0.0.1:20880"]</span>
+  <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">tag2</span>
+    <span class="hljs-attr">addresses:</span> <span class="hljs-string">["127.0.0.1:20881"]</span>
 <span class="hljs-string">...</span>
 </code></pre>
 </li>
@@ -143,10 +143,10 @@
 <span class="hljs-attr">key:</span> <span class="hljs-string">org.apache.dubbo.samples.governance.api.DemoService</span>
 <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span>
 <span class="hljs-attr">configs:</span>
-<span class="hljs-attr">- addresses:</span> <span class="hljs-string">[0.0.0.0]</span>
-<span class="hljs-attr">  side:</span> <span class="hljs-string">consumer</span>
-<span class="hljs-attr">  parameters:</span>
-<span class="hljs-attr">    timeout:</span> <span class="hljs-number">6000</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">addresses:</span> <span class="hljs-string">[0.0.0.0]</span>
+  <span class="hljs-attr">side:</span> <span class="hljs-string">consumer</span>
+  <span class="hljs-attr">parameters:</span>
+    <span class="hljs-attr">timeout:</span> <span class="hljs-number">6000</span>
 <span class="hljs-string">...</span>
 </code></pre>
 </li>

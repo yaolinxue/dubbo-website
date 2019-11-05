@@ -181,7 +181,7 @@
 }
 </code></pre>
 <h6>服务提供方 Annotation 配置</h6>
-<p>将 <code>AnnotationDemoService</code> 暴露成Dubbo 服务，需要依赖 Spring Bean：<code>AplicationConfig</code>、<code>ProtocolConfig</code> 以及 <code>RegistryConfig</code>  。这三个 Spring Bean 过去可通过 XML 文件方式组装 Spring Bean：</p>
+<p>将 <code>AnnotationDemoService</code> 暴露成Dubbo 服务，需要依赖 Spring Bean：<code>ApplicationConfig</code>、<code>ProtocolConfig</code> 以及 <code>RegistryConfig</code>  。这三个 Spring Bean 过去可通过 XML 文件方式组装 Spring Bean：</p>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span>
        <span class="hljs-attr">xmlns:dubbo</span>=<span class="hljs-string">"http://code.alibabatech.com/schema/dubbo"</span>
        <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.springframework.org/schema/beans"</span>
@@ -268,11 +268,11 @@
         <span class="hljs-comment">// 创建 Annotation 配置上下文</span>
         AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext();
         <span class="hljs-comment">// 注册配置 Bean</span>
-        context.register(ProviderConfiguration.class);
+        context.register(ProviderConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-comment">// 启动上下文</span>
         context.refresh();
         <span class="hljs-comment">// 获取 DemoService Bean</span>
-        DemoService demoService = context.getBean(DemoService.class);
+        DemoService demoService = context.getBean(DemoService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-comment">// 执行 sayHello 方法</span>
         String message = demoService.sayHello(<span class="hljs-string">"World"</span>);
         <span class="hljs-comment">// 控制台输出信息</span>
@@ -368,7 +368,7 @@
         <span class="hljs-comment">// 创建 Annotation 配置上下文</span>
         AnnotationConfigApplicationContext providerContext = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext();
         <span class="hljs-comment">// 注册配置 Bean</span>
-        providerContext.register(ProviderConfiguration.class);
+        providerContext.register(ProviderConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-comment">// 启动服务提供方上下文</span>
         providerContext.refresh();
     }
@@ -383,7 +383,7 @@
         <span class="hljs-comment">// 创建服务消费方 Annotation 配置上下文</span>
         AnnotationConfigApplicationContext consumerContext = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext();
         <span class="hljs-comment">// 注册服务消费方配置 Bean</span>
-        consumerContext.register(ConsumerConfiguration.class);
+        consumerContext.register(ConsumerConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-comment">// 启动服务消费方上下文</span>
         consumerContext.refresh();
         <span class="hljs-comment">// 返回服务消费方 Annotation 配置上下文</span>
@@ -412,7 +412,7 @@
         <span class="hljs-comment">// 启动并且返回服务消费方上下文</span>
         ApplicationContext consumerContext = startConsumerContext();
         <span class="hljs-comment">// 获取 AnnotationDemoServiceConsumer Bean</span>
-        AnnotationDemoServiceConsumer consumer = consumerContext.getBean(AnnotationDemoServiceConsumer.class);
+        AnnotationDemoServiceConsumer consumer = consumerContext.getBean(AnnotationDemoServiceConsumer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-comment">// 执行 doSayHello 方法</span>
         String message = consumer.doSayHello(<span class="hljs-string">"World"</span>);
         <span class="hljs-comment">// 输出执行结果</span>
@@ -428,7 +428,7 @@
         <span class="hljs-comment">// 创建服务消费方 Annotation 配置上下文</span>
         AnnotationConfigApplicationContext consumerContext = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext();
         <span class="hljs-comment">// 注册服务消费方配置 Bean</span>
-        consumerContext.register(ConsumerConfiguration.class);
+        consumerContext.register(ConsumerConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-comment">// 启动服务消费方上下文</span>
         consumerContext.refresh();
         <span class="hljs-comment">// 返回服务消费方 Annotation 配置上下文</span>
@@ -442,7 +442,7 @@
         <span class="hljs-comment">// 创建 Annotation 配置上下文</span>
         AnnotationConfigApplicationContext providerContext = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext();
         <span class="hljs-comment">// 注册配置 Bean</span>
-        providerContext.register(ProviderConfiguration.class);
+        providerContext.register(ProviderConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-comment">// 启动服务提供方上下文</span>
         providerContext.refresh();
     }

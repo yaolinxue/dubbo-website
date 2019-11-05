@@ -237,7 +237,7 @@ $ curl -X POST -H <span class="hljs-string">"Content-Type: application/json"</sp
         ClassPathXmlApplicationContext context = <span class="hljs-keyword">new</span> ClassPathXmlApplicationContext(<span class="hljs-string">"spring/rest-consumer.xml"</span>);
         context.start();
 
-        UserService userService = context.getBean(<span class="hljs-string">"userService"</span>, UserService.class);
+        UserService userService = context.getBean(<span class="hljs-string">"userService"</span>, UserService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.println(<span class="hljs-string">"&gt;&gt;&gt; "</span> + userService.getUser(<span class="hljs-number">1L</span>));
 
         User user = <span class="hljs-keyword">new</span> User(<span class="hljs-number">2L</span>, <span class="hljs-string">"Larry Page"</span>);
@@ -303,7 +303,7 @@ $ curl -X POST -H <span class="hljs-string">"Content-Type: application/json"</sp
 <p>通过使用 <code>ProviderConfiguration</code> 来初始化一个 <code>AnnotationConfigApplicationContext</code> 实例，就可以完全摆脱 Spring XML 的配置文件，完全借助 annotation 来装配好一个 Dubbo 的服务提供方。</p>
 <pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RestProvider</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>{
-        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ProviderConfiguration.class);
+        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ProviderConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         context.start();
         System.in.read();
     }
@@ -361,10 +361,10 @@ $ curl -X POST -H <span class="hljs-string">"Content-Type: application/json"</sp
 <p>通过使用 <code>ConsumerConfiguration</code> 来初始化一个 <code>AnnotationConfigApplicationContext</code> 实例，就可以完全摆脱 Spring XML 的配置文件，完全借助 annotation 来装配好一个 Dubbo 的服务消费方。然后就可以通过查找 <code>UserServiceComponent</code> 类型的 Spring Bean 来发起远程调用。</p>
 <pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RestConsumer</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ConsumerConfiguration.class);
+        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ConsumerConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         context.start();
 
-        UserService userService = context.getBean(UserServiceComponent.class);
+        UserService userService = context.getBean(UserServiceComponent<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.println(<span class="hljs-string">"&gt;&gt;&gt; "</span> + userService.getUser(<span class="hljs-number">1L</span>));
 
         User user = <span class="hljs-keyword">new</span> User(<span class="hljs-number">2L</span>, <span class="hljs-string">"Larry Page"</span>);
@@ -503,59 +503,59 @@ INFO: Starting ProtocolHandler [<span class="hljs-string">"http-nio-8080"</span>
 <pre><code class="language-yaml"><span class="hljs-attr">openapi:</span> <span class="hljs-number">3.0</span><span class="hljs-number">.1</span>
 <span class="hljs-attr">paths:</span>
   <span class="hljs-string">/api/users/{id}:</span>
-<span class="hljs-attr">    get:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">getUser</span>
-<span class="hljs-attr">      parameters:</span>
-<span class="hljs-attr">      - name:</span> <span class="hljs-string">id</span>
-<span class="hljs-attr">        in:</span> <span class="hljs-string">path</span>
-<span class="hljs-attr">        required:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">        schema:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">integer</span>
-<span class="hljs-attr">          format:</span> <span class="hljs-string">int64</span>
-<span class="hljs-attr">      responses:</span>
-<span class="hljs-attr">        default:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">default</span> <span class="hljs-string">response</span>
-<span class="hljs-attr">          content:</span>
-            <span class="hljs-string">application/json:</span>
-<span class="hljs-attr">              schema:</span>
+    <span class="hljs-attr">get:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">getUser</span>
+      <span class="hljs-attr">parameters:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">id</span>
+        <span class="hljs-attr">in:</span> <span class="hljs-string">path</span>
+        <span class="hljs-attr">required:</span> <span class="hljs-literal">true</span>
+        <span class="hljs-attr">schema:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">integer</span>
+          <span class="hljs-attr">format:</span> <span class="hljs-string">int64</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">default:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">default</span> <span class="hljs-string">response</span>
+          <span class="hljs-attr">content:</span>
+            <span class="hljs-attr">application/json:</span>
+              <span class="hljs-attr">schema:</span>
                 <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/User'</span>
-            <span class="hljs-string">text/xml:</span>
-<span class="hljs-attr">              schema:</span>
+            <span class="hljs-attr">text/xml:</span>
+              <span class="hljs-attr">schema:</span>
                 <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/User'</span>
   <span class="hljs-string">/api/users/register:</span>
-<span class="hljs-attr">    post:</span>
-<span class="hljs-attr">      operationId:</span> <span class="hljs-string">registerUser</span>
-<span class="hljs-attr">      requestBody:</span>
-<span class="hljs-attr">        description:</span> <span class="hljs-string">a</span> <span class="hljs-string">user</span> <span class="hljs-string">to</span> <span class="hljs-string">register</span>
-<span class="hljs-attr">        content:</span>
-          <span class="hljs-string">application/json:</span>
-<span class="hljs-attr">            schema:</span>
+    <span class="hljs-attr">post:</span>
+      <span class="hljs-attr">operationId:</span> <span class="hljs-string">registerUser</span>
+      <span class="hljs-attr">requestBody:</span>
+        <span class="hljs-attr">description:</span> <span class="hljs-string">a</span> <span class="hljs-string">user</span> <span class="hljs-string">to</span> <span class="hljs-string">register</span>
+        <span class="hljs-attr">content:</span>
+          <span class="hljs-attr">application/json:</span>
+            <span class="hljs-attr">schema:</span>
               <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/User'</span>
-          <span class="hljs-string">text/xml:</span>
-<span class="hljs-attr">            schema:</span>
+          <span class="hljs-attr">text/xml:</span>
+            <span class="hljs-attr">schema:</span>
               <span class="hljs-string">$ref:</span> <span class="hljs-string">'#/components/schemas/User'</span>
-<span class="hljs-attr">      responses:</span>
-<span class="hljs-attr">        default:</span>
-<span class="hljs-attr">          description:</span> <span class="hljs-string">default</span> <span class="hljs-string">response</span>
-<span class="hljs-attr">          content:</span>
-            <span class="hljs-string">application/json:</span>
-<span class="hljs-attr">              schema:</span>
-<span class="hljs-attr">                type:</span> <span class="hljs-string">integer</span>
-<span class="hljs-attr">                format:</span> <span class="hljs-string">int64</span>
-            <span class="hljs-string">text/xml:</span>
-<span class="hljs-attr">              schema:</span>
-<span class="hljs-attr">                type:</span> <span class="hljs-string">integer</span>
-<span class="hljs-attr">                format:</span> <span class="hljs-string">int64</span>
+      <span class="hljs-attr">responses:</span>
+        <span class="hljs-attr">default:</span>
+          <span class="hljs-attr">description:</span> <span class="hljs-string">default</span> <span class="hljs-string">response</span>
+          <span class="hljs-attr">content:</span>
+            <span class="hljs-attr">application/json:</span>
+              <span class="hljs-attr">schema:</span>
+                <span class="hljs-attr">type:</span> <span class="hljs-string">integer</span>
+                <span class="hljs-attr">format:</span> <span class="hljs-string">int64</span>
+            <span class="hljs-attr">text/xml:</span>
+              <span class="hljs-attr">schema:</span>
+                <span class="hljs-attr">type:</span> <span class="hljs-string">integer</span>
+                <span class="hljs-attr">format:</span> <span class="hljs-string">int64</span>
 <span class="hljs-attr">components:</span>
-<span class="hljs-attr">  schemas:</span>
-<span class="hljs-attr">    User:</span>
-<span class="hljs-attr">      type:</span> <span class="hljs-string">object</span>
-<span class="hljs-attr">      properties:</span>
-<span class="hljs-attr">        id:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">integer</span>
-<span class="hljs-attr">          format:</span> <span class="hljs-string">int64</span>
-<span class="hljs-attr">        name:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">string</span>
+  <span class="hljs-attr">schemas:</span>
+    <span class="hljs-attr">User:</span>
+      <span class="hljs-attr">type:</span> <span class="hljs-string">object</span>
+      <span class="hljs-attr">properties:</span>
+        <span class="hljs-attr">id:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">integer</span>
+          <span class="hljs-attr">format:</span> <span class="hljs-string">int64</span>
+        <span class="hljs-attr">name:</span>
+          <span class="hljs-attr">type:</span> <span class="hljs-string">string</span>
 </code></pre>
 <h5>2. 集成 Swagger UI</h5>
 <p>在 pom.xml 中继续增加 swagger-ui 的依赖，这里使用的是 webjars 的版本，从集成的角度来说更加简洁。webjars 的工作机制可以参阅 webjars 官网 <sup class="footnote-ref"><a href="#fn5" id="fnref5">[5]</a></sup></p>

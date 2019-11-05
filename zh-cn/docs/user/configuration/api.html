@@ -48,7 +48,7 @@ ServiceConfig&lt;XxxService&gt; service = <span class="hljs-keyword">new</span> 
 service.setApplication(application);
 service.setRegistry(registry); <span class="hljs-comment">// 多个注册中心可以用setRegistries()</span>
 service.setProtocol(protocol); <span class="hljs-comment">// 多个协议可以用setProtocols()</span>
-service.setInterface(XxxService.class);
+service.setInterface(XxxService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 service.setRef(xxxService);
 service.setVersion(<span class="hljs-string">"1.0.0"</span>);
  
@@ -78,7 +78,7 @@ registry.setPassword(<span class="hljs-string">"bbb"</span>);
 ReferenceConfig&lt;XxxService&gt; reference = <span class="hljs-keyword">new</span> ReferenceConfig&lt;XxxService&gt;(); <span class="hljs-comment">// 此实例很重，封装了与注册中心的连接以及与提供者的连接，请自行缓存，否则可能造成内存和连接泄漏</span>
 reference.setApplication(application);
 reference.setRegistry(registry); <span class="hljs-comment">// 多个注册中心可以用setRegistries()</span>
-reference.setInterface(XxxService.class);
+reference.setInterface(XxxService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 reference.setVersion(<span class="hljs-string">"1.0.0"</span>);
  
 <span class="hljs-comment">// 和本地bean一样使用xxxService</span>

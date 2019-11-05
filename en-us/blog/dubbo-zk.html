@@ -105,7 +105,7 @@ world
 <h2>Using Zookeeper in Dubbo</h2>
 <p>Zookeeper is used for service registration discovery and configuration management in Dubbo, and the structure of data in Zookeeper is shown in the following figure:</p>
 <p><img src="../../img/blog/dubbo-in-zk.jpg" alt="dubbo-in-zk"></p>
-<p>First, all data related to Dubbo is organized under the root node of <code>/duboo</code>.</p>
+<p>First, all data related to Dubbo is organized under the root node of <code>/dubbo</code>.</p>
 <p>The secondary directory is the service name like <code>com.foo.BarService</code>.</p>
 <p>The three-level directory has two child nodes, <code>providers</code> and <code>consumers</code>, representing the supplier and customers of the service.</p>
 <p>The URL information for each application instance associated with the service will be recorded by the Level 4 directory. The <code>providers</code> and <code>consumer</code> will stored the providers information and the consumers information of the services seperately.<br>
@@ -150,7 +150,7 @@ For example, the service provider of <code>com.foo.BarService</code>  will regis
 <p>In the <code>main</code> method, you could provide the Dubbo service by running a Spring Context.</p>
 <pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProviderBootstrap</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ProviderConfiguration.class);
+        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ProviderConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         context.start();
         System.in.read();
     }
@@ -205,9 +205,9 @@ JLine support is enabled
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerBootstrap</span> </span>{
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException </span>{
-        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ConsumerConfiguration.class);
+        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ConsumerConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         context.start();
-        GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class);
+        GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         String hello = greetingServiceConsumer.doSayHello(<span class="hljs-string">"zookeeper"</span>);
         System.out.println(<span class="hljs-string">"result: "</span> + hello);
         System.in.read();

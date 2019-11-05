@@ -70,7 +70,7 @@ dubbo.consumer.timeout=3000
 </code></pre>
 <h3>Invoke service</h3>
 <pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-    AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ConsumerConfiguration.class);
+    AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ConsumerConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     context.start();
     <span class="hljs-keyword">final</span> AnnotationAction annotationAction = (AnnotationAction) context.getBean(<span class="hljs-string">"annotationAction"</span>);
     String hello = annotationAction.doSayHello(<span class="hljs-string">"world"</span>);

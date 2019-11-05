@@ -33,7 +33,7 @@
         
         <span class="hljs-comment">// 2.通过 SPI 加载具体的 WheelMaker</span>
         WheelMaker wheelMaker = ExtensionLoader
-            .getExtensionLoader(WheelMaker.class).getExtension(wheelMakerName);
+            .getExtensionLoader(WheelMaker<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getExtension</span>(<span class="hljs-title">wheelMakerName</span>)</span>;
         
         <span class="hljs-comment">// 3.调用目标方法</span>
         <span class="hljs-keyword">return</span> wheelMaker.makeWheel(URL url);
@@ -149,7 +149,7 @@
     String code = createAdaptiveExtensionClassCode();
     ClassLoader classLoader = findClassLoader();
     <span class="hljs-comment">// 获取编译器实现类</span>
-    com.alibaba.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(com.alibaba.dubbo.common.compiler.Compiler.class).getAdaptiveExtension();
+    com.alibaba.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(com.alibaba.dubbo.common.compiler.Compiler<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getAdaptiveExtension</span>()</span>;
     <span class="hljs-comment">// 编译代码，生成 Class</span>
     <span class="hljs-keyword">return</span> compiler.compile(code, classLoader);
 }
@@ -165,7 +165,7 @@ Method[] methods = type.getMethods();
 <span class="hljs-comment">// 遍历方法列表</span>
 <span class="hljs-keyword">for</span> (Method m : methods) {
     <span class="hljs-comment">// 检测方法上是否有 Adaptive 注解</span>
-    <span class="hljs-keyword">if</span> (m.isAnnotationPresent(Adaptive.class)) {
+    <span class="hljs-keyword">if</span> (m.isAnnotationPresent(Adaptive<span class="hljs-class">.<span class="hljs-keyword">class</span>)) </span>{
         hasAdaptiveAnnotation = <span class="hljs-keyword">true</span>;
         <span class="hljs-keyword">break</span>;
     }
@@ -177,21 +177,21 @@ Method[] methods = type.getMethods();
 </code></pre>
 <h4>2.2.2 生成类</h4>
 <p>通过 Adaptive 注解检测后，即可开始生成代码。代码生成的顺序与 Java 文件内容顺序一致，首先会生成 package 语句，然后生成 import 语句，紧接着生成类名等代码。整个逻辑如下：</p>
-<pre><code class="language-java"><span class="hljs-comment">// 生成 package 代码：package + type 所在包</span>
-codeBuilder.append(<span class="hljs-string">"package "</span>).append(type.getPackage().getName()).append(<span class="hljs-string">";"</span>);
-<span class="hljs-comment">// 生成 import 代码：import + ExtensionLoader 全限定名</span>
-codeBuilder.append(<span class="hljs-string">"\nimport "</span>).append(ExtensionLoader.class.getName()).append(<span class="hljs-string">";"</span>);
-<span class="hljs-comment">// 生成类代码：public class + type简单名称 + $Adaptive + implements + type全限定名 + {</span>
-codeBuilder.append(<span class="hljs-string">"\npublic class "</span>)
+<pre><code class="language-java">// 生成 package 代码：package + type 所在包
+codeBuilder.append("package ").append(type.getPackage().getName()).append(";");
+// 生成 import 代码：import + ExtensionLoader 全限定名
+codeBuilder.append("\nimport ").append(ExtensionLoader.class.getName()).append(";");
+// 生成类代码：public class + type简单名称 + $Adaptive + implements + type全限定名 + {
+codeBuilder.append("\npublic class ")
     .append(type.getSimpleName())
-    .append(<span class="hljs-string">"$Adaptive"</span>)
-    .append(<span class="hljs-string">" implements "</span>)
+    .append("$Adaptive")
+    .append(" implements ")
     .append(type.getCanonicalName())
-    .append(<span class="hljs-string">" {"</span>);
+    .append(" {");
 
-<span class="hljs-comment">// ${生成方法}</span>
+// ${生成方法}
 
-codeBuilder.append(<span class="hljs-string">"\n}"</span>);
+codeBuilder.append("\n}");
 </code></pre>
 <p>这里使用 ${...} 占位符代表其他代码的生成逻辑，该部分逻辑将在随后进行分析。上面代码不是很难理解，下面直接通过一个例子展示该段代码所生成的内容。以 Dubbo 的 Protocol 接口为例，生成的代码如下：</p>
 <pre><code class="language-java"><span class="hljs-keyword">package</span> com.alibaba.dubbo.rpc;
@@ -208,7 +208,7 @@ codeBuilder.append(<span class="hljs-string">"\n}"</span>);
     
     <span class="hljs-comment">// 省略无关逻辑</span>
 
-    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class);
+    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     StringBuilder code = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">512</span>);
     <span class="hljs-comment">// 如果方法上无 Adaptive 注解，则生成 throw new UnsupportedOperationException(...) 代码</span>
     <span class="hljs-keyword">if</span> (adaptiveAnnotation == <span class="hljs-keyword">null</span>) {
@@ -240,7 +240,7 @@ codeBuilder.append(<span class="hljs-string">"\n}"</span>);
     Class&lt;?&gt;[] pts = method.getParameterTypes();
     Class&lt;?&gt;[] ets = method.getExceptionTypes();
 
-    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class);
+    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     StringBuilder code = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">512</span>);
     <span class="hljs-keyword">if</span> (adaptiveAnnotation == <span class="hljs-keyword">null</span>) {
         <span class="hljs-comment">// ${无 Adaptive 注解方法代码生成逻辑}</span>
@@ -248,7 +248,7 @@ codeBuilder.append(<span class="hljs-string">"\n}"</span>);
     	<span class="hljs-keyword">int</span> urlTypeIndex = -<span class="hljs-number">1</span>;
         <span class="hljs-comment">// 遍历参数列表，确定 URL 参数位置</span>
         <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; pts.length; ++i) {
-            <span class="hljs-keyword">if</span> (pts[i].equals(URL.class)) {
+            <span class="hljs-keyword">if</span> (pts[i].equals(URL<span class="hljs-class">.<span class="hljs-keyword">class</span>)) </span>{
                 urlTypeIndex = i;
                 <span class="hljs-keyword">break</span>;
             }
@@ -264,7 +264,7 @@ codeBuilder.append(<span class="hljs-string">"\n}"</span>);
             code.append(s);
 
             <span class="hljs-comment">// 为 URL 类型参数生成赋值代码，形如 URL url = arg1</span>
-            s = String.format(<span class="hljs-string">"\n%s url = arg%d;"</span>, URL.class.getName(), urlTypeIndex);
+            s = String.format(<span class="hljs-string">"\n%s url = arg%d;"</span>, URL<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getName</span>(), <span class="hljs-title">urlTypeIndex</span>)</span>;
             code.append(s);
             
         <span class="hljs-comment">// 参数列表中不存在 URL 类型参数</span>
@@ -288,7 +288,7 @@ codeBuilder.append(<span class="hljs-string">"\n}"</span>);
                         &amp;&amp; Modifier.isPublic(m.getModifiers())
                         &amp;&amp; !Modifier.isStatic(m.getModifiers())
                         &amp;&amp; m.getParameterTypes().length == <span class="hljs-number">0</span>
-                        &amp;&amp; m.getReturnType() == URL.class) {
+                        &amp;&amp; m.getReturnType() == URL<span class="hljs-class">.<span class="hljs-keyword">class</span>) </span>{
                         urlTypeIndex = i;
                         attribMethod = name;
                         
@@ -319,7 +319,7 @@ codeBuilder.append(<span class="hljs-string">"\n}"</span>);
             <span class="hljs-comment">// 生成赋值语句，格式如下：</span>
             <span class="hljs-comment">// URL全限定名 url = argN.getter方法名()，比如 </span>
             <span class="hljs-comment">// com.alibaba.dubbo.common.URL url = invoker.getUrl();</span>
-            s = String.format(<span class="hljs-string">"%s url = arg%d.%s();"</span>, URL.class.getName(), urlTypeIndex, attribMethod);
+            s = String.format(<span class="hljs-string">"%s url = arg%d.%s();"</span>, URL<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getName</span>(), <span class="hljs-title">urlTypeIndex</span>, <span class="hljs-title">attribMethod</span>)</span>;
             code.append(s);
         }
         
@@ -349,7 +349,7 @@ com.alibaba.dubbo.common.URL url = arg0.getUrl();
     Class&lt;?&gt;[] pts = method.getParameterTypes();
     Class&lt;?&gt;[] ets = method.getExceptionTypes();
 
-    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class);
+    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     StringBuilder code = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">512</span>);
     <span class="hljs-keyword">if</span> (adaptiveAnnotation == <span class="hljs-keyword">null</span>) {
         <span class="hljs-comment">// ${无 Adaptive 注解方法代码生成逻辑}</span>
@@ -393,7 +393,7 @@ com.alibaba.dubbo.common.URL url = arg0.getUrl();
     Class&lt;?&gt;[] pts = method.getParameterTypes();    <span class="hljs-comment">// 获取参数类型列表</span>
     Class&lt;?&gt;[] ets = method.getExceptionTypes();
 
-    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class);
+    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     StringBuilder code = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">512</span>);
     <span class="hljs-keyword">if</span> (adaptiveAnnotation == <span class="hljs-keyword">null</span>) {
         <span class="hljs-comment">// ${无 Adaptive 注解方法代码生成逻辑}</span>
@@ -441,7 +441,7 @@ com.alibaba.dubbo.common.URL url = arg0.getUrl();
     Class&lt;?&gt;[] pts = method.getParameterTypes();
     Class&lt;?&gt;[] ets = method.getExceptionTypes();
 
-    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class);
+    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     StringBuilder code = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">512</span>);
     <span class="hljs-keyword">if</span> (adaptiveAnnotation == <span class="hljs-keyword">null</span>) {
         <span class="hljs-comment">// $无 Adaptive 注解方法代码生成逻辑}</span>
@@ -568,7 +568,7 @@ String[] value = [<span class="hljs-string">"client"</span>, <span class="hljs-s
     Class&lt;?&gt;[] pts = method.getParameterTypes();
     Class&lt;?&gt;[] ets = method.getExceptionTypes();
 
-    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class);
+    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     StringBuilder code = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">512</span>);
     <span class="hljs-keyword">if</span> (adaptiveAnnotation == <span class="hljs-keyword">null</span>) {
         <span class="hljs-comment">// $无 Adaptive 注解方法代码生成逻辑}</span>
@@ -586,11 +586,11 @@ String[] value = [<span class="hljs-string">"client"</span>, <span class="hljs-s
         <span class="hljs-comment">//     .getExtensionLoader(type全限定名.class).getExtension(extName);</span>
         <span class="hljs-comment">// Tips: 格式化字符串中的 %&lt;s 表示使用前一个转换符所描述的参数，即 type 全限定名</span>
         s = String.format(<span class="hljs-string">"\n%s extension = (%&lt;s)%s.getExtensionLoader(%s.class).getExtension(extName);"</span>,
-                        type.getName(), ExtensionLoader.class.getSimpleName(), type.getName());
+                        type.getName(), ExtensionLoader<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getSimpleName</span>(), <span class="hljs-title">type</span>.<span class="hljs-title">getName</span>())</span>;
         code.append(s);
 
 		<span class="hljs-comment">// 如果方法返回值类型非 void，则生成 return 语句。</span>
-        <span class="hljs-keyword">if</span> (!rt.equals(<span class="hljs-keyword">void</span>.class)) {
+        <span class="hljs-keyword">if</span> (!rt.equals(<span class="hljs-keyword">void</span><span class="hljs-class">.<span class="hljs-keyword">class</span>)) </span>{
             code.append(<span class="hljs-string">"\nreturn "</span>);
         }
 
@@ -611,7 +611,7 @@ String[] value = [<span class="hljs-string">"client"</span>, <span class="hljs-s
 </code></pre>
 <p>以 Protocol 接口举例说明，上面代码生成的内容如下：</p>
 <pre><code class="language-java">com.alibaba.dubbo.rpc.Protocol extension = (com.alibaba.dubbo.rpc.Protocol) ExtensionLoader
-    .getExtensionLoader(com.alibaba.dubbo.rpc.Protocol.class).getExtension(extName);
+    .getExtensionLoader(com.alibaba.dubbo.rpc.Protocol<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getExtension</span>(<span class="hljs-title">extName</span>)</span>;
 <span class="hljs-keyword">return</span> extension.refer(arg0, arg1);
 </code></pre>
 <h5>2.2.3.7 生成完整的方法</h5>
@@ -621,7 +621,7 @@ String[] value = [<span class="hljs-string">"client"</span>, <span class="hljs-s
     Class&lt;?&gt;[] pts = method.getParameterTypes();
     Class&lt;?&gt;[] ets = method.getExceptionTypes();
 
-    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class);
+    Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     StringBuilder code = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-number">512</span>);
     <span class="hljs-keyword">if</span> (adaptiveAnnotation == <span class="hljs-keyword">null</span>) {
         <span class="hljs-comment">// $无 Adaptive 注解方法代码生成逻辑}</span>

@@ -32,29 +32,29 @@ ExtensionLoader 的方法比较多，比较常用的方法有:</p>
 <li>getExtensionLoader方法
 这是一个静态工厂方法，入参是一个可扩展的接口，返回一个该接口的ExtensionLoader实体类。通过这个实体类，可以根据name获得具体的扩展，也可以获得一个自适应扩展。</li>
 </ol>
-<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">ExtensionLoader&lt;T&gt; <span class="hljs-title">getExtensionLoader</span><span class="hljs-params">(Class&lt;T&gt; type)</span> </span>{
-        <span class="hljs-comment">// 扩展点必须是接口</span>
-        <span class="hljs-keyword">if</span> (!type.isInterface()) {
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Extension type("</span> + type + <span class="hljs-string">") is not interface!"</span>);
+<pre><code class="language-java">public static &lt;T&gt; ExtensionLoader&lt;T&gt; getExtensionLoader(Class&lt;T&gt; type) {
+        // 扩展点必须是接口
+        if (!type.isInterface()) {
+            throw new IllegalArgumentException("Extension type(" + type + ") is not interface!");
         }
-        <span class="hljs-comment">// 必须要有@SPI注解</span>
-        <span class="hljs-keyword">if</span> (!withExtensionAnnotation(type)) {
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Extension type without @SPI Annotation!"</span>);
+        // 必须要有@SPI注解
+        if (!withExtensionAnnotation(type)) {
+            throw new IllegalArgumentException("Extension type without @SPI Annotation!");
         }
-        <span class="hljs-comment">// 从缓存中根据接口获取对应的ExtensionLoader</span>
-        <span class="hljs-comment">// 每个扩展只会被加载一次</span>
+        // 从缓存中根据接口获取对应的ExtensionLoader
+        // 每个扩展只会被加载一次
         ExtensionLoader&lt;T&gt; loader = (ExtensionLoader&lt;T&gt;) EXTENSION_LOADERS.get(type);
-        <span class="hljs-keyword">if</span> (loader == <span class="hljs-keyword">null</span>) {
-            <span class="hljs-comment">// 初始化扩展</span>
-            EXTENSION_LOADERS.putIfAbsent(type, <span class="hljs-keyword">new</span> ExtensionLoader&lt;T&gt;(type));
+        if (loader == null) {
+            // 初始化扩展
+            EXTENSION_LOADERS.putIfAbsent(type, new ExtensionLoader&lt;T&gt;(type));
             loader = (ExtensionLoader&lt;T&gt;) EXTENSION_LOADERS.get(type);
         }
-        <span class="hljs-keyword">return</span> loader;
+        return loader;
 }
     
-<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">ExtensionLoader</span><span class="hljs-params">(Class&lt;?&gt; type)</span> </span>{
-        <span class="hljs-keyword">this</span>.type = type;
-        objectFactory = (type == ExtensionFactory.class ? <span class="hljs-keyword">null</span> : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
+private ExtensionLoader(Class&lt;?&gt; type) {
+        this.type = type;
+        objectFactory = (type == ExtensionFactory.class ? null : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
 }
 </code></pre>
 <ol start="2">
@@ -131,7 +131,7 @@ ExtensionLoader 的方法比较多，比较常用的方法有:</p>
 
 <span class="hljs-comment">// synchronized in getExtensionClasses</span>
 <span class="hljs-keyword">private</span> Map&lt;String, Class&lt;?&gt;&gt; loadExtensionClasses() {
-        <span class="hljs-keyword">final</span> SPI defaultAnnotation = type.getAnnotation(SPI.class);
+        <span class="hljs-keyword">final</span> SPI defaultAnnotation = type.getAnnotation(SPI<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-keyword">if</span> (defaultAnnotation != <span class="hljs-keyword">null</span>) {
             String value = defaultAnnotation.value();
             <span class="hljs-keyword">if</span> (value != <span class="hljs-keyword">null</span> &amp;&amp; (value = value.trim()).length() &gt; <span class="hljs-number">0</span>) {
@@ -186,9 +186,9 @@ ExtensionLoader 的方法比较多，比较常用的方法有:</p>
 </code></pre>
 <p>要实现对扩展实例的依赖的自动装配，首先需要知道有哪些依赖，这些依赖的类型是什么。Dubbo的方案是查找Java标准的setter方法。即方法名以set开始，只有一个参数。如果扩展类中有这样的set方法，Dubbo会对其进行依赖注入，类似于Spring的set方法注入。
 但是Dubbo中的依赖注入比Spring要复杂，因为Spring注入的都是Spring bean，都是由Spring容器来管理的。而Dubbo的依赖注入中，需要注入的可能是另一个Dubbo的扩展，也可能是一个Spring Bean，或是Google guice的组件，或其他任何一个框架中的组件。Dubbo需要能够从任何一个场景中加载扩展。在injectExtension方法中，是用<code>Object object = objectFactory.getExtension(pt, property)</code>来实现的。objectFactory是ExtensionFactory类型的，在创建ExtensionLoader时被初始化:</p>
-<pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">ExtensionLoader</span><span class="hljs-params">(Class&lt;?&gt; type)</span> </span>{
-        <span class="hljs-keyword">this</span>.type = type;
-        objectFactory = (type == ExtensionFactory.class ? <span class="hljs-keyword">null</span> : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
+<pre><code class="language-java">private ExtensionLoader(Class&lt;?&gt; type) {
+        this.type = type;
+        objectFactory = (type == ExtensionFactory.class ? null : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
     }
 </code></pre>
 <p>objectFacory本身也是一个扩展，通过<code>ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension())</code>来获取。</p>
@@ -206,7 +206,7 @@ ExtensionLoader 的方法比较多，比较常用的方法有:</p>
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;ExtensionFactory&gt; factories;
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AdaptiveExtensionFactory</span><span class="hljs-params">()</span> </span>{
-        ExtensionLoader&lt;ExtensionFactory&gt; loader = ExtensionLoader.getExtensionLoader(ExtensionFactory.class);
+        ExtensionLoader&lt;ExtensionFactory&gt; loader = ExtensionLoader.getExtensionLoader(ExtensionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         List&lt;ExtensionFactory&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;ExtensionFactory&gt;();
         <span class="hljs-keyword">for</span> (String name : loader.getSupportedExtensions()) {
             list.add(loader.getExtension(name));
@@ -310,7 +310,7 @@ ProtocolFilterWrapper代码如下：</p>
 <pre><code class="language-java"><span class="hljs-keyword">private</span> Class&lt;?&gt; createAdaptiveExtensionClass() {
         String code = createAdaptiveExtensionClassCode();
         ClassLoader classLoader = findClassLoader();
-        org.apache.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(org.apache.dubbo.common.compiler.Compiler.class).getAdaptiveExtension();
+        org.apache.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(org.apache.dubbo.common.compiler.Compiler<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getAdaptiveExtension</span>()</span>;
         <span class="hljs-keyword">return</span> compiler.compile(code, classLoader);
     }
 </code></pre>
@@ -343,7 +343,7 @@ ProtocolFilterWrapper代码如下：</p>
         String extName = (url.getProtocol() == <span class="hljs-keyword">null</span> ? <span class="hljs-string">"dubbo"</span> : url.getProtocol());
         <span class="hljs-keyword">if</span> (extName == <span class="hljs-keyword">null</span>)
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Fail to get extension(org.apache.dubbo.rpc.Protocol) name from url("</span> + url.toString() + <span class="hljs-string">") use keys([protocol])"</span>);
-        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(org.apache.dubbo.rpc.Protocol.class).getExtension(extName);
+        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(org.apache.dubbo.rpc.Protocol<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getExtension</span>(<span class="hljs-title">extName</span>)</span>;
         <span class="hljs-keyword">return</span> extension.export(arg0);
     }
 
@@ -353,7 +353,7 @@ ProtocolFilterWrapper代码如下：</p>
         String extName = (url.getProtocol() == <span class="hljs-keyword">null</span> ? <span class="hljs-string">"dubbo"</span> : url.getProtocol());
         <span class="hljs-keyword">if</span> (extName == <span class="hljs-keyword">null</span>)
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Fail to get extension(org.apache.dubbo.rpc.Protocol) name from url("</span> + url.toString() + <span class="hljs-string">") use keys([protocol])"</span>);
-        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(org.apache.dubbo.rpc.Protocol.class).getExtension(extName);
+        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(org.apache.dubbo.rpc.Protocol<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getExtension</span>(<span class="hljs-title">extName</span>)</span>;
         <span class="hljs-keyword">return</span> extension.refer(arg0, arg1);
     }
 }

@@ -48,7 +48,7 @@ ServiceConfig&lt;XxxService&gt; service = <span class="hljs-keyword">new</span> 
 service.setApplication(application);
 service.setRegistry(registry); <span class="hljs-comment">// Use setRegistries() for multi-registry case</span>
 service.setProtocol(protocol); <span class="hljs-comment">// Use setProtocols() for multi-protocol case</span>
-service.setInterface(XxxService.class);
+service.setInterface(XxxService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 service.setRef(xxxService);
 service.setVersion(<span class="hljs-string">"1.0.0"</span>);
  
@@ -78,7 +78,7 @@ registry.setPassword(<span class="hljs-string">"bbb"</span>);
 ReferenceConfig&lt;XxxService&gt; reference = <span class="hljs-keyword">new</span> ReferenceConfig&lt;XxxService&gt;(); <span class="hljs-comment">// In case of memory leak, please cache.</span>
 reference.setApplication(application);
 reference.setRegistry(registry); 
-reference.setInterface(XxxService.class);
+reference.setInterface(XxxService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 reference.setVersion(<span class="hljs-string">"1.0.0"</span>);
  
 <span class="hljs-comment">// Use xxxService just like a local bean</span>

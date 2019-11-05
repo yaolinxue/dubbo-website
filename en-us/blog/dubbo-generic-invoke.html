@@ -27,9 +27,9 @@ Generic invoke does not require attention on the server and can be exposed as no
 <pre><code class="language-xml">"userService" interface="com.alibaba.dubbo.samples.generic.api.IUserService" generic="true"/&gt;
 </code></pre>
 <p>Where you need to use it, you can call it by forcing a type cast to GenericService.</p>
-<pre><code class="language-java">GenericService userService = (GenericService) context.getBean(<span class="hljs-string">"userService"</span>);
-<span class="hljs-comment">// primary param and return value</span>
-String name = (String) userService.$invoke(<span class="hljs-string">"delete"</span>, <span class="hljs-keyword">new</span> String[]{<span class="hljs-keyword">int</span>.class.getName()}, <span class="hljs-keyword">new</span> Object[]{<span class="hljs-number">1</span>});
+<pre><code class="language-java">GenericService userService = (GenericService) context.getBean("userService");
+// primary param and return value
+String name = (String) userService.$invoke("delete", new String[]{int.class.getName()}, new Object[]{1});
 System.out.println(name);
 </code></pre>
 <p>Among them,</p>
@@ -45,26 +45,26 @@ System.out.println(name);
 </li>
 </ol>
 <h2>Generic invoke through API programming</h2>
-<pre><code class="language-java">ApplicationConfig application = <span class="hljs-keyword">new</span> ApplicationConfig()ApplicationConfig application = <span class="hljs-keyword">new</span> ApplicationConfig();
-application.setName(<span class="hljs-string">"api-generic-consumer"</span>);
+<pre><code class="language-java">ApplicationConfig application = new ApplicationConfig()ApplicationConfig application = new ApplicationConfig();
+application.setName("api-generic-consumer");
 
-RegistryConfig registry = <span class="hljs-keyword">new</span> RegistryConfig();
-registry.setAddress(<span class="hljs-string">"zookeeper://127.0.0.1:2181"</span>);
+RegistryConfig registry = new RegistryConfig();
+registry.setAddress("zookeeper://127.0.0.1:2181");
 
 application.setRegistry(registry);
 
-ReferenceConfig&lt;GenericService&gt; reference = <span class="hljs-keyword">new</span> ReferenceConfig&lt;GenericService&gt;();
-<span class="hljs-comment">// weak type interface name</span>
-reference.setInterface(<span class="hljs-string">"com.alibaba.dubbo.samples.generic.api.IUserService"</span>);
-<span class="hljs-comment">// declared as a generalized interface</span>
-reference.setGeneric(<span class="hljs-keyword">true</span>);
+ReferenceConfig&lt;GenericService&gt; reference = new ReferenceConfig&lt;GenericService&gt;();
+// weak type interface name
+reference.setInterface("com.alibaba.dubbo.samples.generic.api.IUserService");
+// declared as a generalized interface
+reference.setGeneric(true);
 
 reference.setApplication(application);
 
-<span class="hljs-comment">// replace all interface references with com.alibaba.dubbo.rpc.service.GenericService</span>
+// replace all interface references with com.alibaba.dubbo.rpc.service.GenericService
 GenericService genericService = reference.get();
 
-String name = (String) genericService.$invoke(<span class="hljs-string">"delete"</span>, <span class="hljs-keyword">new</span> String[]{<span class="hljs-keyword">int</span>.class.getName()}, <span class="hljs-keyword">new</span> Object[]{<span class="hljs-number">1</span>});
+String name = (String) genericService.$invoke("delete", new String[]{int.class.getName()}, new Object[]{1});
 System.out.println(name);
 </code></pre>
 <p>Through the API, you don't need to configure the service in advance like XML. You can dynamically construct ReferenceConfig; the API is more common than XML.</p>
@@ -134,7 +134,7 @@ application.setRegistry(registry);
 
 ReferenceConfig&lt;GenericService&gt; reference = <span class="hljs-keyword">new</span> ReferenceConfig&lt;GenericService&gt;();
 <span class="hljs-comment">// weak type interface name</span>
-reference.setInterface(HiService.class);
+reference.setInterface(HiService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 reference.setApplication(application);
 
 HiService hiService = (HiService) reference.get();
@@ -142,7 +142,7 @@ System.out.println(hiService.hi(<span class="hljs-string">"dubbo"</span>));
 
 ReferenceConfig&lt;GenericService&gt; reference2 = <span class="hljs-keyword">new</span> ReferenceConfig&lt;GenericService&gt;();
 <span class="hljs-comment">// weak type interface name</span>
-reference2.setInterface(HelloService.class);
+reference2.setInterface(HelloService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 reference2.setApplication(application);
 
 HelloService helloService = (HelloService) reference2.get();

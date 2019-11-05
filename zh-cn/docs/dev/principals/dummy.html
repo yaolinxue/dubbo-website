@@ -20,7 +20,7 @@
 <h2>检查重复的jar包</h2>
 <p>最痴呆的问题，就是有多个版本的相同jar包，会出现新版本的 A 类，调用了旧版本的 B 类，而且和JVM加载顺序有关，问题带有偶然性，误导性，遇到这种莫名其妙的问题，最头疼，所以，第一条，先把它防住，在每个 jar 包中挑一个一定会加载的类，加上重复类检查，给个示例：</p>
 <pre><code class="language-java"><span class="hljs-keyword">static</span> {  
-    Duplicate.checkDuplicate(Xxx.class);  
+    Duplicate.checkDuplicate(Xxx<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;  
 }  
 </code></pre>
 <p>检查重复工具类：</p>
@@ -73,43 +73,43 @@
 }  
 </code></pre>
 <p>获取版本号工具类：</p>
-<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Version</span> </span>{  
+<pre><code class="language-java">public final class Version {  
   
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Version</span><span class="hljs-params">()</span> </span>{}  
+    private Version() {}  
   
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(Version.class);  
+    private static final Logger logger = LoggerFactory.getLogger(Version.class);  
   
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Pattern VERSION_PATTERN = Pattern.compile(<span class="hljs-string">"([0-9][0-9\\.\\-]*)\\.jar"</span>);  
+    private static final Pattern VERSION_PATTERN = Pattern.compile("([0-9][0-9\\.\\-]*)\\.jar");  
   
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String VERSION = getVersion(Version.class, <span class="hljs-string">"2.0.0"</span>);  
+    private static final String VERSION = getVersion(Version.class, "2.0.0");  
   
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getVersion</span><span class="hljs-params">()</span></span>{  
-        <span class="hljs-keyword">return</span> VERSION;  
+    public static String getVersion(){  
+        return VERSION;  
     }  
   
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getVersion</span><span class="hljs-params">(Class cls, String defaultVersion)</span> </span>{  
-        <span class="hljs-keyword">try</span> {  
-            <span class="hljs-comment">// 首先查找MANIFEST.MF规范中的版本号  </span>
+    public static String getVersion(Class cls, String defaultVersion) {  
+        try {  
+            // 首先查找MANIFEST.MF规范中的版本号  
             String version = cls.getPackage().getImplementationVersion();  
-            <span class="hljs-keyword">if</span> (version == <span class="hljs-keyword">null</span> || version.length() == <span class="hljs-number">0</span>) {  
+            if (version == null || version.length() == 0) {  
                 version = cls.getPackage().getSpecificationVersion();  
             }  
-            <span class="hljs-keyword">if</span> (version == <span class="hljs-keyword">null</span> || version.length() == <span class="hljs-number">0</span>) {  
-                <span class="hljs-comment">// 如果MANIFEST.MF规范中没有版本号，基于jar包名获取版本号  </span>
+            if (version == null || version.length() == 0) {  
+                // 如果MANIFEST.MF规范中没有版本号，基于jar包名获取版本号  
                 String file = cls.getProtectionDomain().getCodeSource().getLocation().getFile();  
-                <span class="hljs-keyword">if</span> (file != <span class="hljs-keyword">null</span> &amp;&amp; file.length() &gt; <span class="hljs-number">0</span> &amp;&amp; file.endsWith(<span class="hljs-string">".jar"</span>)) {  
+                if (file != null &amp;&amp; file.length() &gt; 0 &amp;&amp; file.endsWith(".jar")) {  
                     Matcher matcher = VERSION_PATTERN.matcher(file);  
-                    <span class="hljs-keyword">while</span> (matcher.find() &amp;&amp; matcher.groupCount() &gt; <span class="hljs-number">0</span>) {  
-                        version = matcher.group(<span class="hljs-number">1</span>);  
+                    while (matcher.find() &amp;&amp; matcher.groupCount() &gt; 0) {  
+                        version = matcher.group(1);  
                     }  
                 }  
             }  
-            <span class="hljs-comment">// 返回版本号，如果为空返回缺省版本号  </span>
-            <span class="hljs-keyword">return</span> version == <span class="hljs-keyword">null</span> || version.length() == <span class="hljs-number">0</span> ? defaultVersion : version;  
-        } <span class="hljs-keyword">catch</span> (Throwable e) { <span class="hljs-comment">// 防御性容错  </span>
-            <span class="hljs-comment">// 忽略异常，返回缺省版本号  </span>
+            // 返回版本号，如果为空返回缺省版本号  
+            return version == null || version.length() == 0 ? defaultVersion : version;  
+        } catch (Throwable e) { // 防御性容错  
+            // 忽略异常，返回缺省版本号  
             logger.error(e.getMessage(), e);  
-            <span class="hljs-keyword">return</span> defaultVersion;  
+            return defaultVersion;  
         }  
     }  
   

@@ -67,7 +67,7 @@ com.demo.MysqlRepository
 <ol start="4">
 <li>通过ServiceLoader加载IRepository实现</li>
 </ol>
-<pre><code class="language-java">ServiceLoader&lt;IRepository&gt; serviceLoader = ServiceLoader.load(IRepository.class);
+<pre><code class="language-java">ServiceLoader&lt;IRepository&gt; serviceLoader = ServiceLoader.load(IRepository<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 Iterator&lt;IRepository&gt; it = serviceLoader.iterator();
 <span class="hljs-keyword">while</span> (it != <span class="hljs-keyword">null</span> &amp;&amp; it.hasNext()){
     IRepository demoService = it.next();
@@ -157,7 +157,7 @@ consistenthash=com.alibaba.dubbo.rpc.cluster.loadbalance.ConsistentHashLoadBalan
 </ul>
 <h3>6.2 获取LoadBalance扩展</h3>
 <p>Dubbo中获取LoadBalance的代码如下:</p>
-<pre><code class="language-java">LoadBalance lb = ExtensionLoader.getExtensionLoader(LoadBalance.class).getExtension(loadbalanceName);
+<pre><code class="language-java">LoadBalance lb = ExtensionLoader.getExtensionLoader(LoadBalance<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getExtension</span>(<span class="hljs-title">loadbalanceName</span>)</span>;
 </code></pre>
 <p>使用ExtensionLoader.getExtensionLoader(LoadBalance.class)方法获取一个ExtensionLoader的实例，然后调用getExtension，传入一个扩展的别名来获取对应的扩展实例。</p>
 <h2>7. 自定义一个LoadBalance扩展</h2>

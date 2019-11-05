@@ -52,7 +52,7 @@ String status = echoService.$echo(<span class="hljs-string">"OK"</span>);
             <span class="hljs-keyword">if</span> (types != <span class="hljs-keyword">null</span> &amp;&amp; types.length &gt; <span class="hljs-number">0</span>) {
                 interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[types.length + <span class="hljs-number">2</span>];
                 interfaces[<span class="hljs-number">0</span>] = invoker.getInterface();
-                interfaces[<span class="hljs-number">1</span>] = EchoService.class;
+                interfaces[<span class="hljs-number">1</span>] = EchoService<span class="hljs-class">.<span class="hljs-keyword">class</span></span>;
                 <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; types.length; i++) {
                     <span class="hljs-comment">// TODO can we load successfully for a different classloader?.</span>
                     interfaces[i + <span class="hljs-number">2</span>] = ReflectUtils.forName(types[i]);
@@ -60,15 +60,15 @@ String status = echoService.$echo(<span class="hljs-string">"OK"</span>);
             }
         }
         <span class="hljs-keyword">if</span> (interfaces == <span class="hljs-keyword">null</span>) {
-            interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[]{invoker.getInterface(), EchoService.class};
+            interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[]{invoker.getInterface(), EchoService<span class="hljs-class">.<span class="hljs-keyword">class</span>}</span>;
         }
 
-        <span class="hljs-keyword">if</span> (!GenericService.class.isAssignableFrom(invoker.getInterface()) &amp;&amp; generic) {
+        <span class="hljs-keyword">if</span> (!GenericService<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">isAssignableFrom</span>(<span class="hljs-title">invoker</span>.<span class="hljs-title">getInterface</span>()) &amp;&amp; <span class="hljs-title">generic</span>) </span>{
             <span class="hljs-keyword">int</span> len = interfaces.length;
             Class&lt;?&gt;[] temp = interfaces;
             interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[len + <span class="hljs-number">1</span>];
             System.arraycopy(temp, <span class="hljs-number">0</span>, interfaces, <span class="hljs-number">0</span>, len);
-            interfaces[len] = com.alibaba.dubbo.rpc.service.GenericService.class;
+            interfaces[len] = com.alibaba.dubbo.rpc.service.GenericService<span class="hljs-class">.<span class="hljs-keyword">class</span></span>;
         }
 
         <span class="hljs-keyword">return</span> getProxy(invoker, interfaces);

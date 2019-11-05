@@ -25,9 +25,9 @@
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:reference</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"userService"</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">"com.alibaba.dubbo.samples.generic.api.IUserService"</span> <span class="hljs-attr">generic</span>=<span class="hljs-string">"true"</span>/&gt;</span>
 </code></pre>
 <p>需要使用的地方，通过强制类型转化为 GenericService 进行调用：</p>
-<pre><code class="language-java">GenericService userService = (GenericService) context.getBean(<span class="hljs-string">"userService"</span>);
-<span class="hljs-comment">// primary param and return value</span>
-String name = (String) userService.$invoke(<span class="hljs-string">"delete"</span>, <span class="hljs-keyword">new</span> String[]{<span class="hljs-keyword">int</span>.class.getName()}, <span class="hljs-keyword">new</span> Object[]{<span class="hljs-number">1</span>});
+<pre><code class="language-java">GenericService userService = (GenericService) context.getBean("userService");
+// primary param and return value
+String name = (String) userService.$invoke("delete", new String[]{int.class.getName()}, new Object[]{1});
 System.out.println(name);
 </code></pre>
 <p>其中：</p>
@@ -130,7 +130,7 @@ application.setRegistry(registry);
 
 ReferenceConfig&lt;GenericService&gt; reference = <span class="hljs-keyword">new</span> ReferenceConfig&lt;GenericService&gt;();
 <span class="hljs-comment">// 弱类型接口名</span>
-reference.setInterface(HiService.class);
+reference.setInterface(HiService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 reference.setApplication(application);
 
 HiService hiService = (HiService) reference.get();
@@ -138,7 +138,7 @@ System.out.println(hiService.hi(<span class="hljs-string">"dubbo"</span>));
 
 ReferenceConfig&lt;GenericService&gt; reference2 = <span class="hljs-keyword">new</span> ReferenceConfig&lt;GenericService&gt;();
 <span class="hljs-comment">// 弱类型接口名</span>
-reference2.setInterface(HelloService.class);
+reference2.setInterface(HelloService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 reference2.setApplication(application);
 
 HelloService helloService = (HelloService) reference2.get();

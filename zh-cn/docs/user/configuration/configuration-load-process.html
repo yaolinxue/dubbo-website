@@ -147,7 +147,7 @@
     ServiceConfig&lt;GreetingsService&gt; service = <span class="hljs-keyword">new</span> ServiceConfig&lt;&gt;();
     service.setApplication(<span class="hljs-keyword">new</span> ApplicationConfig(<span class="hljs-string">"first-dubbo-provider"</span>));
     service.setRegistry(<span class="hljs-keyword">new</span> RegistryConfig(<span class="hljs-string">"multicast://224.5.6.7:1234"</span>));
-    service.setInterface(GreetingsService.class);
+    service.setInterface(GreetingsService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
     service.setRef(<span class="hljs-keyword">new</span> GreetingsServiceImpl());
     service.export();
     System.out.println(<span class="hljs-string">"first-dubbo-provider is running."</span>);

@@ -60,7 +60,7 @@
 
     <span class="hljs-comment">// 检测是否为泛化接口</span>
     <span class="hljs-keyword">if</span> (ProtocolUtils.isGeneric(getGeneric())) {
-        interfaceClass = GenericService.class;
+        interfaceClass = GenericService<span class="hljs-class">.<span class="hljs-keyword">class</span></span>;
     } <span class="hljs-keyword">else</span> {
         <span class="hljs-keyword">try</span> {
             <span class="hljs-comment">// 加载类</span>
@@ -436,7 +436,7 @@
     url = url.addParameterIfAbsent(Constants.HEARTBEAT_KEY, String.valueOf(Constants.DEFAULT_HEARTBEAT));
 
     <span class="hljs-comment">// 检测客户端类型是否存在，不存在则抛出异常</span>
-    <span class="hljs-keyword">if</span> (str != <span class="hljs-keyword">null</span> &amp;&amp; str.length() &gt; <span class="hljs-number">0</span> &amp;&amp; !ExtensionLoader.getExtensionLoader(Transporter.class).hasExtension(str)) {
+    <span class="hljs-keyword">if</span> (str != <span class="hljs-keyword">null</span> &amp;&amp; str.length() &gt; <span class="hljs-number">0</span> &amp;&amp; !ExtensionLoader.getExtensionLoader(Transporter<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">hasExtension</span>(<span class="hljs-title">str</span>)) </span>{
         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RpcException(<span class="hljs-string">"Unsupported client type: ..."</span>);
     }
 
@@ -510,7 +510,7 @@
     url = url.setProtocol(url.getParameter(Constants.REGISTRY_KEY, Constants.DEFAULT_REGISTRY)).removeParameter(Constants.REGISTRY_KEY);
     <span class="hljs-comment">// 获取注册中心实例</span>
     Registry registry = registryFactory.getRegistry(url);
-    <span class="hljs-keyword">if</span> (RegistryService.class.equals(type)) {
+    <span class="hljs-keyword">if</span> (RegistryService<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">equals</span>(<span class="hljs-title">type</span>)) </span>{
         <span class="hljs-keyword">return</span> proxyFactory.getInvoker((T) registry, type, url);
     }
 
@@ -579,7 +579,7 @@
             interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[types.length + <span class="hljs-number">2</span>];
             <span class="hljs-comment">// 设置服务接口类和 EchoService.class 到 interfaces 中</span>
             interfaces[<span class="hljs-number">0</span>] = invoker.getInterface();
-            interfaces[<span class="hljs-number">1</span>] = EchoService.class;
+            interfaces[<span class="hljs-number">1</span>] = EchoService<span class="hljs-class">.<span class="hljs-keyword">class</span></span>;
             <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; types.length; i++) {
                 <span class="hljs-comment">// 加载接口类</span>
                 interfaces[i + <span class="hljs-number">1</span>] = ReflectUtils.forName(types[i]);
@@ -587,18 +587,18 @@
         }
     }
     <span class="hljs-keyword">if</span> (interfaces == <span class="hljs-keyword">null</span>) {
-        interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[]{invoker.getInterface(), EchoService.class};
+        interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[]{invoker.getInterface(), EchoService<span class="hljs-class">.<span class="hljs-keyword">class</span>}</span>;
     }
 
     <span class="hljs-comment">// 为 http 和 hessian 协议提供泛化调用支持，参考 pull request #1827</span>
-    <span class="hljs-keyword">if</span> (!invoker.getInterface().equals(GenericService.class) &amp;&amp; generic) {
+    <span class="hljs-keyword">if</span> (!invoker.getInterface().equals(GenericService<span class="hljs-class">.<span class="hljs-keyword">class</span>) &amp;&amp; <span class="hljs-title">generic</span>) </span>{
         <span class="hljs-keyword">int</span> len = interfaces.length;
         Class&lt;?&gt;[] temp = interfaces;
         <span class="hljs-comment">// 创建新的 interfaces 数组</span>
         interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[len + <span class="hljs-number">1</span>];
         System.arraycopy(temp, <span class="hljs-number">0</span>, interfaces, <span class="hljs-number">0</span>, len);
         <span class="hljs-comment">// 设置 GenericService.class 到数组中</span>
-        interfaces[len] = GenericService.class;
+        interfaces[len] = GenericService<span class="hljs-class">.<span class="hljs-keyword">class</span></span>;
     }
 
     <span class="hljs-comment">// 调用重载方法</span>
@@ -614,199 +614,199 @@
 }
 </code></pre>
 <p>上面代码并不多，首先是通过 Proxy 的 getProxy 方法获取 Proxy 子类，然后创建 InvokerInvocationHandler 对象，并将该对象传给 newInstance 生成 Proxy 实例。InvokerInvocationHandler 实现自 JDK 的 InvocationHandler 接口，具体的用途是拦截接口类调用。该类逻辑比较简单，这里就不分析了。下面我们重点关注一下 Proxy 的 getProxy 方法，如下。</p>
-<pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Proxy <span class="hljs-title">getProxy</span><span class="hljs-params">(Class&lt;?&gt;... ics)</span> </span>{
-    <span class="hljs-comment">// 调用重载方法</span>
-    <span class="hljs-keyword">return</span> getProxy(ClassHelper.getClassLoader(Proxy.class), ics);
+<pre><code class="language-java">public static Proxy getProxy(Class&lt;?&gt;... ics) {
+    // 调用重载方法
+    return getProxy(ClassHelper.getClassLoader(Proxy.class), ics);
 }
 
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Proxy <span class="hljs-title">getProxy</span><span class="hljs-params">(ClassLoader cl, Class&lt;?&gt;... ics)</span> </span>{
-    <span class="hljs-keyword">if</span> (ics.length &gt; <span class="hljs-number">65535</span>)
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"interface limit exceeded"</span>);
+public static Proxy getProxy(ClassLoader cl, Class&lt;?&gt;... ics) {
+    if (ics.length &gt; 65535)
+        throw new IllegalArgumentException("interface limit exceeded");
 
-    StringBuilder sb = <span class="hljs-keyword">new</span> StringBuilder();
-    <span class="hljs-comment">// 遍历接口列表</span>
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; ics.length; i++) {
+    StringBuilder sb = new StringBuilder();
+    // 遍历接口列表
+    for (int i = 0; i &lt; ics.length; i++) {
         String itf = ics[i].getName();
-        <span class="hljs-comment">// 检测类型是否为接口</span>
-        <span class="hljs-keyword">if</span> (!ics[i].isInterface())
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(itf + <span class="hljs-string">" is not a interface."</span>);
+        // 检测类型是否为接口
+        if (!ics[i].isInterface())
+            throw new RuntimeException(itf + " is not a interface.");
 
-        Class&lt;?&gt; tmp = <span class="hljs-keyword">null</span>;
-        <span class="hljs-keyword">try</span> {
-            <span class="hljs-comment">// 重新加载接口类</span>
-            tmp = Class.forName(itf, <span class="hljs-keyword">false</span>, cl);
-        } <span class="hljs-keyword">catch</span> (ClassNotFoundException e) {
+        Class&lt;?&gt; tmp = null;
+        try {
+            // 重新加载接口类
+            tmp = Class.forName(itf, false, cl);
+        } catch (ClassNotFoundException e) {
         }
 
-        <span class="hljs-comment">// 检测接口是否相同，这里 tmp 有可能为空</span>
-        <span class="hljs-keyword">if</span> (tmp != ics[i])
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(ics[i] + <span class="hljs-string">" is not visible from class loader"</span>);
+        // 检测接口是否相同，这里 tmp 有可能为空
+        if (tmp != ics[i])
+            throw new IllegalArgumentException(ics[i] + " is not visible from class loader");
 
-        <span class="hljs-comment">// 拼接接口全限定名，分隔符为 ;</span>
-        sb.append(itf).append(<span class="hljs-string">';'</span>);
+        // 拼接接口全限定名，分隔符为 ;
+        sb.append(itf).append(';');
     }
 
-    <span class="hljs-comment">// 使用拼接后的接口名作为 key</span>
+    // 使用拼接后的接口名作为 key
     String key = sb.toString();
 
     Map&lt;String, Object&gt; cache;
-    <span class="hljs-keyword">synchronized</span> (ProxyCacheMap) {
+    synchronized (ProxyCacheMap) {
         cache = ProxyCacheMap.get(cl);
-        <span class="hljs-keyword">if</span> (cache == <span class="hljs-keyword">null</span>) {
-            cache = <span class="hljs-keyword">new</span> HashMap&lt;String, Object&gt;();
+        if (cache == null) {
+            cache = new HashMap&lt;String, Object&gt;();
             ProxyCacheMap.put(cl, cache);
         }
     }
 
-    Proxy proxy = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">synchronized</span> (cache) {
-        <span class="hljs-keyword">do</span> {
-            <span class="hljs-comment">// 从缓存中获取 Reference&lt;Proxy&gt; 实例</span>
+    Proxy proxy = null;
+    synchronized (cache) {
+        do {
+            // 从缓存中获取 Reference&lt;Proxy&gt; 实例
             Object value = cache.get(key);
-            <span class="hljs-keyword">if</span> (value <span class="hljs-keyword">instanceof</span> Reference&lt;?&gt;) {
+            if (value instanceof Reference&lt;?&gt;) {
                 proxy = (Proxy) ((Reference&lt;?&gt;) value).get();
-                <span class="hljs-keyword">if</span> (proxy != <span class="hljs-keyword">null</span>) {
-                    <span class="hljs-keyword">return</span> proxy;
+                if (proxy != null) {
+                    return proxy;
                 }
             }
 
-            <span class="hljs-comment">// 并发控制，保证只有一个线程可以进行后续操作</span>
-            <span class="hljs-keyword">if</span> (value == PendingGenerationMarker) {
-                <span class="hljs-keyword">try</span> {
-                    <span class="hljs-comment">// 其他线程在此处进行等待</span>
+            // 并发控制，保证只有一个线程可以进行后续操作
+            if (value == PendingGenerationMarker) {
+                try {
+                    // 其他线程在此处进行等待
                     cache.wait();
-                } <span class="hljs-keyword">catch</span> (InterruptedException e) {
+                } catch (InterruptedException e) {
                 }
-            } <span class="hljs-keyword">else</span> {
-                <span class="hljs-comment">// 放置标志位到缓存中，并跳出 while 循环进行后续操作</span>
+            } else {
+                // 放置标志位到缓存中，并跳出 while 循环进行后续操作
                 cache.put(key, PendingGenerationMarker);
-                <span class="hljs-keyword">break</span>;
+                break;
             }
         }
-        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>);
+        while (true);
     }
 
-    <span class="hljs-keyword">long</span> id = PROXY_CLASS_COUNTER.getAndIncrement();
-    String pkg = <span class="hljs-keyword">null</span>;
-    ClassGenerator ccp = <span class="hljs-keyword">null</span>, ccm = <span class="hljs-keyword">null</span>;
-    <span class="hljs-keyword">try</span> {
-        <span class="hljs-comment">// 创建 ClassGenerator 对象</span>
+    long id = PROXY_CLASS_COUNTER.getAndIncrement();
+    String pkg = null;
+    ClassGenerator ccp = null, ccm = null;
+    try {
+        // 创建 ClassGenerator 对象
         ccp = ClassGenerator.newInstance(cl);
 
-        Set&lt;String&gt; worked = <span class="hljs-keyword">new</span> HashSet&lt;String&gt;();
-        List&lt;Method&gt; methods = <span class="hljs-keyword">new</span> ArrayList&lt;Method&gt;();
+        Set&lt;String&gt; worked = new HashSet&lt;String&gt;();
+        List&lt;Method&gt; methods = new ArrayList&lt;Method&gt;();
 
-        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; ics.length; i++) {
-            <span class="hljs-comment">// 检测接口访问级别是否为 protected 或 privete</span>
-            <span class="hljs-keyword">if</span> (!Modifier.isPublic(ics[i].getModifiers())) {
-                <span class="hljs-comment">// 获取接口包名</span>
+        for (int i = 0; i &lt; ics.length; i++) {
+            // 检测接口访问级别是否为 protected 或 privete
+            if (!Modifier.isPublic(ics[i].getModifiers())) {
+                // 获取接口包名
                 String npkg = ics[i].getPackage().getName();
-                <span class="hljs-keyword">if</span> (pkg == <span class="hljs-keyword">null</span>) {
+                if (pkg == null) {
                     pkg = npkg;
-                } <span class="hljs-keyword">else</span> {
-                    <span class="hljs-keyword">if</span> (!pkg.equals(npkg))
-                        <span class="hljs-comment">// 非 public 级别的接口必须在同一个包下，否者抛出异常</span>
-                        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"non-public interfaces from different packages"</span>);
+                } else {
+                    if (!pkg.equals(npkg))
+                        // 非 public 级别的接口必须在同一个包下，否者抛出异常
+                        throw new IllegalArgumentException("non-public interfaces from different packages");
                 }
             }
             
-            <span class="hljs-comment">// 添加接口到 ClassGenerator 中</span>
+            // 添加接口到 ClassGenerator 中
             ccp.addInterface(ics[i]);
 
-            <span class="hljs-comment">// 遍历接口方法</span>
-            <span class="hljs-keyword">for</span> (Method method : ics[i].getMethods()) {
-                <span class="hljs-comment">// 获取方法描述，可理解为方法签名</span>
+            // 遍历接口方法
+            for (Method method : ics[i].getMethods()) {
+                // 获取方法描述，可理解为方法签名
                 String desc = ReflectUtils.getDesc(method);
-                <span class="hljs-comment">// 如果方法描述字符串已在 worked 中，则忽略。考虑这种情况，</span>
-                <span class="hljs-comment">// A 接口和 B 接口中包含一个完全相同的方法</span>
-                <span class="hljs-keyword">if</span> (worked.contains(desc))
-                    <span class="hljs-keyword">continue</span>;
+                // 如果方法描述字符串已在 worked 中，则忽略。考虑这种情况，
+                // A 接口和 B 接口中包含一个完全相同的方法
+                if (worked.contains(desc))
+                    continue;
                 worked.add(desc);
 
-                <span class="hljs-keyword">int</span> ix = methods.size();
-                <span class="hljs-comment">// 获取方法返回值类型</span>
+                int ix = methods.size();
+                // 获取方法返回值类型
                 Class&lt;?&gt; rt = method.getReturnType();
-                <span class="hljs-comment">// 获取参数列表</span>
+                // 获取参数列表
                 Class&lt;?&gt;[] pts = method.getParameterTypes();
 
-                <span class="hljs-comment">// 生成 Object[] args = new Object[1...N]</span>
-                StringBuilder code = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">"Object[] args = new Object["</span>).append(pts.length).append(<span class="hljs-string">"];"</span>);
-                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; pts.length; j++)
-                    <span class="hljs-comment">// 生成 args[1...N] = ($w)$1...N;</span>
-                    code.append(<span class="hljs-string">" args["</span>).append(j).append(<span class="hljs-string">"] = ($w)$"</span>).append(j + <span class="hljs-number">1</span>).append(<span class="hljs-string">";"</span>);
-                <span class="hljs-comment">// 生成 InvokerHandler 接口的 invoker 方法调用语句，如下：</span>
-                <span class="hljs-comment">// Object ret = handler.invoke(this, methods[1...N], args);</span>
-                code.append(<span class="hljs-string">" Object ret = handler.invoke(this, methods["</span> + ix + <span class="hljs-string">"], args);"</span>);
+                // 生成 Object[] args = new Object[1...N]
+                StringBuilder code = new StringBuilder("Object[] args = new Object[").append(pts.length).append("];");
+                for (int j = 0; j &lt; pts.length; j++)
+                    // 生成 args[1...N] = ($w)$1...N;
+                    code.append(" args[").append(j).append("] = ($w)$").append(j + 1).append(";");
+                // 生成 InvokerHandler 接口的 invoker 方法调用语句，如下：
+                // Object ret = handler.invoke(this, methods[1...N], args);
+                code.append(" Object ret = handler.invoke(this, methods[" + ix + "], args);");
 
-                <span class="hljs-comment">// 返回值不为 void</span>
-                <span class="hljs-keyword">if</span> (!Void.TYPE.equals(rt))
-                    <span class="hljs-comment">// 生成返回语句，形如 return (java.lang.String) ret;</span>
-                    code.append(<span class="hljs-string">" return "</span>).append(asArgument(rt, <span class="hljs-string">"ret"</span>)).append(<span class="hljs-string">";"</span>);
+                // 返回值不为 void
+                if (!Void.TYPE.equals(rt))
+                    // 生成返回语句，形如 return (java.lang.String) ret;
+                    code.append(" return ").append(asArgument(rt, "ret")).append(";");
 
                 methods.add(method);
-                <span class="hljs-comment">// 添加方法名、访问控制符、参数列表、方法代码等信息到 ClassGenerator 中 </span>
+                // 添加方法名、访问控制符、参数列表、方法代码等信息到 ClassGenerator 中 
                 ccp.addMethod(method.getName(), method.getModifiers(), rt, pts, method.getExceptionTypes(), code.toString());
             }
         }
 
-        <span class="hljs-keyword">if</span> (pkg == <span class="hljs-keyword">null</span>)
+        if (pkg == null)
             pkg = PACKAGE_NAME;
 
-        <span class="hljs-comment">// 构建接口代理类名称：pkg + ".proxy" + id，比如 org.apache.dubbo.proxy0</span>
-        String pcn = pkg + <span class="hljs-string">".proxy"</span> + id;
+        // 构建接口代理类名称：pkg + ".proxy" + id，比如 org.apache.dubbo.proxy0
+        String pcn = pkg + ".proxy" + id;
         ccp.setClassName(pcn);
-        ccp.addField(<span class="hljs-string">"public static java.lang.reflect.Method[] methods;"</span>);
-        <span class="hljs-comment">// 生成 private java.lang.reflect.InvocationHandler handler;</span>
-        ccp.addField(<span class="hljs-string">"private "</span> + InvocationHandler.class.getName() + <span class="hljs-string">" handler;"</span>);
+        ccp.addField("public static java.lang.reflect.Method[] methods;");
+        // 生成 private java.lang.reflect.InvocationHandler handler;
+        ccp.addField("private " + InvocationHandler.class.getName() + " handler;");
 
-        <span class="hljs-comment">// 为接口代理类添加带有 InvocationHandler 参数的构造方法，比如：</span>
-        <span class="hljs-comment">// porxy0(java.lang.reflect.InvocationHandler arg0) {</span>
-        <span class="hljs-comment">//     handler=$1;</span>
-    	<span class="hljs-comment">// }</span>
-        ccp.addConstructor(Modifier.PUBLIC, <span class="hljs-keyword">new</span> Class&lt;?&gt;[]{InvocationHandler.class}, <span class="hljs-keyword">new</span> Class&lt;?&gt;[<span class="hljs-number">0</span>], <span class="hljs-string">"handler=$1;"</span>);
-        <span class="hljs-comment">// 为接口代理类添加默认构造方法</span>
+        // 为接口代理类添加带有 InvocationHandler 参数的构造方法，比如：
+        // porxy0(java.lang.reflect.InvocationHandler arg0) {
+        //     handler=$1;
+    	// }
+        ccp.addConstructor(Modifier.PUBLIC, new Class&lt;?&gt;[]{InvocationHandler.class}, new Class&lt;?&gt;[0], "handler=$1;");
+        // 为接口代理类添加默认构造方法
         ccp.addDefaultConstructor();
         
-        <span class="hljs-comment">// 生成接口代理类</span>
+        // 生成接口代理类
         Class&lt;?&gt; clazz = ccp.toClass();
-        clazz.getField(<span class="hljs-string">"methods"</span>).set(<span class="hljs-keyword">null</span>, methods.toArray(<span class="hljs-keyword">new</span> Method[<span class="hljs-number">0</span>]));
+        clazz.getField("methods").set(null, methods.toArray(new Method[0]));
 
-        <span class="hljs-comment">// 构建 Proxy 子类名称，比如 Proxy1，Proxy2 等</span>
+        // 构建 Proxy 子类名称，比如 Proxy1，Proxy2 等
         String fcn = Proxy.class.getName() + id;
         ccm = ClassGenerator.newInstance(cl);
         ccm.setClassName(fcn);
         ccm.addDefaultConstructor();
         ccm.setSuperClass(Proxy.class);
-        <span class="hljs-comment">// 为 Proxy 的抽象方法 newInstance 生成实现代码，形如：</span>
-        <span class="hljs-comment">// public Object newInstance(java.lang.reflect.InvocationHandler h) { </span>
-        <span class="hljs-comment">//     return new org.apache.dubbo.proxy0($1);</span>
-        <span class="hljs-comment">// }</span>
-        ccm.addMethod(<span class="hljs-string">"public Object newInstance("</span> + InvocationHandler.class.getName() + <span class="hljs-string">" h){ return new "</span> + pcn + <span class="hljs-string">"($1); }"</span>);
-        <span class="hljs-comment">// 生成 Proxy 实现类</span>
+        // 为 Proxy 的抽象方法 newInstance 生成实现代码，形如：
+        // public Object newInstance(java.lang.reflect.InvocationHandler h) { 
+        //     return new org.apache.dubbo.proxy0($1);
+        // }
+        ccm.addMethod("public Object newInstance(" + InvocationHandler.class.getName() + " h){ return new " + pcn + "($1); }");
+        // 生成 Proxy 实现类
         Class&lt;?&gt; pc = ccm.toClass();
-        <span class="hljs-comment">// 通过反射创建 Proxy 实例</span>
+        // 通过反射创建 Proxy 实例
         proxy = (Proxy) pc.newInstance();
-    } <span class="hljs-keyword">catch</span> (RuntimeException e) {
-        <span class="hljs-keyword">throw</span> e;
-    } <span class="hljs-keyword">catch</span> (Exception e) {
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(e.getMessage(), e);
-    } <span class="hljs-keyword">finally</span> {
-        <span class="hljs-keyword">if</span> (ccp != <span class="hljs-keyword">null</span>)
-            <span class="hljs-comment">// 释放资源</span>
+    } catch (RuntimeException e) {
+        throw e;
+    } catch (Exception e) {
+        throw new RuntimeException(e.getMessage(), e);
+    } finally {
+        if (ccp != null)
+            // 释放资源
             ccp.release();
-        <span class="hljs-keyword">if</span> (ccm != <span class="hljs-keyword">null</span>)
+        if (ccm != null)
             ccm.release();
-        <span class="hljs-keyword">synchronized</span> (cache) {
-            <span class="hljs-keyword">if</span> (proxy == <span class="hljs-keyword">null</span>)
+        synchronized (cache) {
+            if (proxy == null)
                 cache.remove(key);
-            <span class="hljs-keyword">else</span>
-                <span class="hljs-comment">// 写缓存</span>
-                cache.put(key, <span class="hljs-keyword">new</span> WeakReference&lt;Proxy&gt;(proxy));
-            <span class="hljs-comment">// 唤醒其他等待线程</span>
+            else
+                // 写缓存
+                cache.put(key, new WeakReference&lt;Proxy&gt;(proxy));
+            // 唤醒其他等待线程
             cache.notifyAll();
         }
     }
-    <span class="hljs-keyword">return</span> proxy;
+    return proxy;
 }
 </code></pre>
 <p>上面代码比较复杂，我们写了大量的注释。大家在阅读这段代码时，要搞清楚 ccp 和 ccm 的用途，不然会被搞晕。ccp 用于为服务接口生成代理类，比如我们有一个 DemoService 接口，这个接口代理类就是由 ccp 生成的。ccm 则是用于为 org.apache.dubbo.common.bytecode.Proxy 抽象类生成子类，主要是实现 Proxy 类的抽象方法。下面以 org.apache.dubbo.demo.DemoService 这个接口为例，来看一下该接口代理类代码大致是怎样的（忽略 EchoService 接口）。</p>

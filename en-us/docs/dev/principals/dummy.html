@@ -20,7 +20,7 @@
 <h2>Check for duplicated jars</h2>
 <p>The most annoying problem is that, if we have several jars with different version number at the same time, there will be a problem. Imagine that, a new version of the Class A may invoke a old version of the Class B, it's related to the JVM loading order. The problem may encounter occasionally and hard to resolve. So the first, let's try to avoid it. For each jar package, pick a class that will be loaded, check it for duplication for example:</p>
 <pre><code class="language-java"><span class="hljs-keyword">static</span> {  
-    Duplicate.checkDuplicate(Xxx.class);  
+    Duplicate.checkDuplicate(Xxx<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;  
 }  
 </code></pre>
 <p>Utility class for check duplication：</p>
@@ -72,43 +72,43 @@
 }  
 </code></pre>
 <p>Utility class for retrieve version：</p>
-<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Version</span> </span>{  
+<pre><code class="language-java">public final class Version {  
   
-    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">Version</span><span class="hljs-params">()</span> </span>{}  
+    private Version() {}  
   
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(Version.class);  
+    private static final Logger logger = LoggerFactory.getLogger(Version.class);  
   
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Pattern VERSION_PATTERN = Pattern.compile(<span class="hljs-string">"([0-9][0-9\\.\\-]*)\\.jar"</span>);  
+    private static final Pattern VERSION_PATTERN = Pattern.compile("([0-9][0-9\\.\\-]*)\\.jar");  
   
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String VERSION = getVersion(Version.class, <span class="hljs-string">"2.0.0"</span>);  
+    private static final String VERSION = getVersion(Version.class, "2.0.0");  
   
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getVersion</span><span class="hljs-params">()</span></span>{  
-        <span class="hljs-keyword">return</span> VERSION;  
+    public static String getVersion(){  
+        return VERSION;  
     }  
   
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">getVersion</span><span class="hljs-params">(Class cls, String defaultVersion)</span> </span>{  
-        <span class="hljs-keyword">try</span> {  
-            <span class="hljs-comment">// search version number from MANIFEST.MF </span>
+    public static String getVersion(Class cls, String defaultVersion) {  
+        try {  
+            // search version number from MANIFEST.MF 
             String version = cls.getPackage().getImplementationVersion();  
-            <span class="hljs-keyword">if</span> (version == <span class="hljs-keyword">null</span> || version.length() == <span class="hljs-number">0</span>) {  
+            if (version == null || version.length() == 0) {  
                 version = cls.getPackage().getSpecificationVersion();  
             }  
-            <span class="hljs-keyword">if</span> (version == <span class="hljs-keyword">null</span> || version.length() == <span class="hljs-number">0</span>) {  
-                <span class="hljs-comment">// if not found, extract from jar name</span>
+            if (version == null || version.length() == 0) {  
+                // if not found, extract from jar name
                 String file = cls.getProtectionDomain().getCodeSource().getLocation().getFile();  
-                <span class="hljs-keyword">if</span> (file != <span class="hljs-keyword">null</span> &amp;amp;&amp;amp; file.length() &amp;gt; <span class="hljs-number">0</span> &amp;amp;&amp;amp; file.endsWith(<span class="hljs-string">".jar"</span>)) {  
+                if (file != null &amp;amp;&amp;amp; file.length() &amp;gt; 0 &amp;amp;&amp;amp; file.endsWith(".jar")) {  
                     Matcher matcher = VERSION_PATTERN.matcher(file);  
-                    <span class="hljs-keyword">while</span> (matcher.find() &amp;amp;&amp;amp; matcher.groupCount() &amp;gt; <span class="hljs-number">0</span>) {  
-                        version = matcher.group(<span class="hljs-number">1</span>);  
+                    while (matcher.find() &amp;amp;&amp;amp; matcher.groupCount() &amp;gt; 0) {  
+                        version = matcher.group(1);  
                     }  
                 }  
             }  
-            <span class="hljs-comment">// return version, return default if null</span>
-            <span class="hljs-keyword">return</span> version == <span class="hljs-keyword">null</span> || version.length() == <span class="hljs-number">0</span> ? defaultVersion : version;  
-        } <span class="hljs-keyword">catch</span> (Throwable e) { 
-            <span class="hljs-comment">// ignore exception, return default version</span>
+            // return version, return default if null
+            return version == null || version.length() == 0 ? defaultVersion : version;  
+        } catch (Throwable e) { 
+            // ignore exception, return default version
             logger.error(e.getMessage(), e);  
-            <span class="hljs-keyword">return</span> defaultVersion;  
+            return defaultVersion;  
         }  
     }  
   

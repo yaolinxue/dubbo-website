@@ -285,7 +285,7 @@
             <span class="hljs-keyword">continue</span>;
         }
         <span class="hljs-comment">// 通过 SPI 检测服务端协议是否被消费端支持，不支持则抛出异常</span>
-        <span class="hljs-keyword">if</span> (!ExtensionLoader.getExtensionLoader(Protocol.class).hasExtension(providerUrl.getProtocol())) {
+        <span class="hljs-keyword">if</span> (!ExtensionLoader.getExtensionLoader(Protocol<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">hasExtension</span>(<span class="hljs-title">providerUrl</span>.<span class="hljs-title">getProtocol</span>())) </span>{
             logger.error(<span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Unsupported protocol..."</span>));
             <span class="hljs-keyword">continue</span>;
         }

@@ -62,7 +62,7 @@ com.demo.MysqlRepository
 <ol start="4">
 <li>Load IRepository using ServiceLoader</li>
 </ol>
-<pre><code class="language-java">ServiceLoader&lt;IRepository&gt; serviceLoader = ServiceLoader.load(IRepository.class);
+<pre><code class="language-java">ServiceLoader&lt;IRepository&gt; serviceLoader = ServiceLoader.load(IRepository<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 Iterator&lt;IRepository&gt; it = serviceLoader.iterator();
 <span class="hljs-keyword">while</span> (it != <span class="hljs-keyword">null</span> &amp;&amp; it.hasNext()){
     IRepository demoService = it.next();
@@ -146,7 +146,7 @@ consistenthash=com.alibaba.dubbo.rpc.cluster.loadbalance.ConsistentHashLoadBalan
 </ul>
 <h3>6.2 Obtain LoadBalance extension</h3>
 <p>The code of LoadBalance in Dubbo is as follows:</p>
-<pre><code class="language-java">LoadBalance lb = ExtensionLoader.getExtensionLoader(LoadBalance.class).getExtension(loadbalanceName);
+<pre><code class="language-java">LoadBalance lb = ExtensionLoader.getExtensionLoader(LoadBalance<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getExtension</span>(<span class="hljs-title">loadbalanceName</span>)</span>;
 </code></pre>
 <p>Using ExtensionLoader.getExtensionLoader(LoadBalance.class) method to obtain an implementation of ExtensionLoader, then we call getExtension and pass an extension alias to obtain the corresponding extension implementation.</p>
 <h2>7. Customize a LoadBalance Extension</h2>

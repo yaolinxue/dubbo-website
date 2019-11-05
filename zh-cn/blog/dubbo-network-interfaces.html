@@ -378,10 +378,10 @@ utun1: flags=8051&lt;UP,POINTOPOINT,RUNNING,MULTICAST&gt; mtu 1380
 <p>可以配置 <code>/etc/hosts</code> 文件，将 hostname 对应的 IP 显式配置进去。</p>
 <p><strong>Dubbo User Action 2:</strong></p>
 <p>可以使用启动参数去显式指定注册的 IP：</p>
-<pre><code class="language-java">-DDUBBO_IP_TO_REGISTRY=<span class="hljs-number">1.2</span>.3.4
+<pre><code class="language-java">-DDUBBO_IP_TO_REGISTRY=<span class="hljs-number">1.2</span><span class="hljs-number">.3</span><span class="hljs-number">.4</span>
 </code></pre>
 <p>也可以指定 Dubbo 服务绑定在哪块网卡上：</p>
-<pre><code class="language-java">-DDUBBO_IP_TO_BIND=<span class="hljs-number">1.2</span>.3.4
+<pre><code class="language-java">-DDUBBO_IP_TO_BIND=<span class="hljs-number">1.2</span><span class="hljs-number">.3</span><span class="hljs-number">.4</span>
 </code></pre>
 <h2>9 参考文章</h2>
 <p><a href="https://www.jianshu.com/p/09f9375b7fa7">TUN/TAP 设备浅析</a></p>

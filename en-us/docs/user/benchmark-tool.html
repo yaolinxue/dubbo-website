@@ -33,7 +33,7 @@
 <li>Implement the invoke method and create a local interface proxy by serviceFactory，and finish your own business logic, as follows:</li>
 </ul>
 <pre><code class="language-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(ServiceFactory serviceFactory)</span> </span>{
-        DemoService demoService = (DemoService) serviceFactory.get(DemoService.class);
+        DemoService demoService = (DemoService) serviceFactory.get(DemoService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-keyword">return</span> demoService.sendRequest(<span class="hljs-string">"hello"</span>);
     }
 </code></pre>
@@ -45,7 +45,7 @@
 <p>Put the demo.benchmark.jar and service API jar into directory dubbo.benchmark/lib</p>
 </li>
 <li>
-<p>Configuring duubo.properties</p>
+<p>Configuring dubbo.properties</p>
 </li>
 <li>
 <p>Run run.bat(windows) or <a href="http://run.sh">run.sh</a>(linux)</p>

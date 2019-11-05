@@ -89,7 +89,7 @@
         Class&lt;?&gt;[] parameterTypes = method.getParameterTypes();
         
         <span class="hljs-comment">// 拦截定义在 Object 类中的方法（未被子类重写），比如 wait/notify</span>
-        <span class="hljs-keyword">if</span> (method.getDeclaringClass() == Object.class) {
+        <span class="hljs-keyword">if</span> (method.getDeclaringClass() == Object<span class="hljs-class">.<span class="hljs-keyword">class</span>) </span>{
             <span class="hljs-keyword">return</span> method.invoke(invoker, args);
         }
         
@@ -750,7 +750,7 @@
     <span class="hljs-keyword">protected</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">byte</span> FLAG_TWOWAY = (<span class="hljs-keyword">byte</span>) <span class="hljs-number">0x40</span>;
     <span class="hljs-keyword">protected</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">byte</span> FLAG_EVENT = (<span class="hljs-keyword">byte</span>) <span class="hljs-number">0x20</span>;
     <span class="hljs-keyword">protected</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> SERIALIZATION_MASK = <span class="hljs-number">0x1f</span>;
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(ExchangeCodec.class);
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(ExchangeCodec<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> Short <span class="hljs-title">getMagicCode</span><span class="hljs-params">()</span> </span>{
         <span class="hljs-keyword">return</span> MAGIC;
@@ -1045,7 +1045,7 @@
             setParameterTypes(pts);
 
             <span class="hljs-comment">// 通过反序列化得到原 attachment 的内容</span>
-            Map&lt;String, String&gt; map = (Map&lt;String, String&gt;) in.readObject(Map.class);
+            Map&lt;String, String&gt; map = (Map&lt;String, String&gt;) in.readObject(Map<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
             <span class="hljs-keyword">if</span> (map != <span class="hljs-keyword">null</span> &amp;&amp; map.size() &gt; <span class="hljs-number">0</span>) {
                 Map&lt;String, String&gt; attachment = getAttachments();
                 <span class="hljs-keyword">if</span> (attachment == <span class="hljs-keyword">null</span>) {
@@ -1776,7 +1776,7 @@
             <span class="hljs-keyword">case</span> DubboCodec.RESPONSE_NULL_VALUE_WITH_ATTACHMENTS:
                 <span class="hljs-keyword">try</span> {
                     <span class="hljs-comment">// 反序列化 attachments 集合，并存储起来 </span>
-                    setAttachments((Map&lt;String, String&gt;) in.readObject(Map.class));
+                    setAttachments((Map&lt;String, String&gt;) in.readObject(Map<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
                 } <span class="hljs-keyword">catch</span> (ClassNotFoundException e) {
                     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException(StringUtils.toString(<span class="hljs-string">"Read response data failed."</span>, e));
                 }
@@ -1792,7 +1792,7 @@
                             (returnType.length == <span class="hljs-number">1</span> ? in.readObject((Class&lt;?&gt;) returnType[<span class="hljs-number">0</span>])
                                     : in.readObject((Class&lt;?&gt;) returnType[<span class="hljs-number">0</span>], returnType[<span class="hljs-number">1</span>])));
                     <span class="hljs-comment">// 反序列化 attachments 集合，并存储起来</span>
-                    setAttachments((Map&lt;String, String&gt;) in.readObject(Map.class));
+                    setAttachments((Map&lt;String, String&gt;) in.readObject(Map<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
                 } <span class="hljs-keyword">catch</span> (ClassNotFoundException e) {
                     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException(StringUtils.toString(<span class="hljs-string">"Read response data failed."</span>, e));
                 }
@@ -1808,7 +1808,7 @@
                     <span class="hljs-comment">// 设置异常对象</span>
                     setException((Throwable) obj);
                     <span class="hljs-comment">// 反序列化 attachments 集合，并存储起来</span>
-                    setAttachments((Map&lt;String, String&gt;) in.readObject(Map.class));
+                    setAttachments((Map&lt;String, String&gt;) in.readObject(Map<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
                 } <span class="hljs-keyword">catch</span> (ClassNotFoundException e) {
                     <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException(StringUtils.toString(<span class="hljs-string">"Read response data failed."</span>, e));
                 }

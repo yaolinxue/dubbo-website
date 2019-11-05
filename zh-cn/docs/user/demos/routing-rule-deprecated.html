@@ -16,7 +16,7 @@
 <p>路由规则 <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> 决定一次 dubbo 服务调用的目标服务器，分为条件路由规则和脚本路由规则，并且支持可扩展 <sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>。</p>
 <h2>写入路由规则</h2>
 <p>向注册中心写入路由规则的操作通常由监控中心或治理中心的页面完成</p>
-<pre><code class="language-java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension();
+<pre><code class="language-java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getAdaptiveExtension</span>()</span>;
 Registry registry = registryFactory.getRegistry(URL.valueOf(<span class="hljs-string">"zookeeper://10.20.153.10:2181"</span>));
 registry.register(URL.valueOf(<span class="hljs-string">"route://0.0.0.0/com.foo.BarService?category=routers&amp;dynamic=false&amp;rule="</span> + URL.encode(<span class="hljs-string">"host = 10.20.153.10 =&gt; host = 10.20.153.11"</span>)));
 </code></pre>

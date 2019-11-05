@@ -110,7 +110,7 @@
 <p>因此在<code>ExtensionLoader</code>这个类里，做了特殊的处理：</p>
 <pre><code class="language-java">    <span class="hljs-comment">// synchronized in getExtensionClasses</span>
     <span class="hljs-keyword">private</span> Map&lt;String, Class&lt;?&gt;&gt; loadExtensionClasses() {
-        <span class="hljs-keyword">final</span> SPI defaultAnnotation = type.getAnnotation(SPI.class);
+        <span class="hljs-keyword">final</span> SPI defaultAnnotation = type.getAnnotation(SPI<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-keyword">if</span> (defaultAnnotation != <span class="hljs-keyword">null</span>) {
             String value = defaultAnnotation.value();
             <span class="hljs-keyword">if</span> ((value = value.trim()).length() &gt; <span class="hljs-number">0</span>) {

@@ -21,7 +21,7 @@
 </code></pre>
 <p>服务提供者初次注册时为禁用状态，需人工启用。断线时，将不会被自动删除，需人工禁用。</p>
 <p>如果是一个第三方服务提供者，比如 memcached，可以直接向注册中心写入提供者地址信息，消费者正常使用 <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>：</p>
-<pre><code class="language-java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension();
+<pre><code class="language-java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getAdaptiveExtension</span>()</span>;
 Registry registry = registryFactory.getRegistry(URL.valueOf(<span class="hljs-string">"zookeeper://10.20.153.10:2181"</span>));
 registry.register(URL.valueOf(<span class="hljs-string">"memcached://10.20.153.11/com.foo.BarService?category=providers&amp;dynamic=false&amp;application=foo"</span>));
 </code></pre>

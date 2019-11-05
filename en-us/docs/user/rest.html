@@ -424,12 +424,12 @@ In order to maintain the neutrality of the protocol, <code>RpcContext.getRequest
 implemented the servlet container.</p>
 </blockquote>
 <p>To simplify the programme, you can also use generic to get a specific type of request/response:</p>
-<pre><code class="language-java"><span class="hljs-keyword">if</span> (RpcContext.getContext().getRequest(HttpServletRequest.class) != <span class="hljs-keyword">null</span>) {
-    System.out.println(<span class="hljs-string">"Client address is "</span> + RpcContext.getContext().getRequest(HttpServletRequest.class).getRemoteAddr());
+<pre><code class="language-java"><span class="hljs-keyword">if</span> (RpcContext.getContext().getRequest(HttpServletRequest<span class="hljs-class">.<span class="hljs-keyword">class</span>) !</span>= <span class="hljs-keyword">null</span>) {
+    System.out.println(<span class="hljs-string">"Client address is "</span> + RpcContext.getContext().getRequest(HttpServletRequest<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getRemoteAddr</span>())</span>;
 }
 
-<span class="hljs-keyword">if</span> (RpcContext.getContext().getResponse(HttpServletResponse.class) != <span class="hljs-keyword">null</span>) {
-    System.out.println(<span class="hljs-string">"Response object from RpcContext: "</span> + RpcContext.getContext().getResponse(HttpServletResponse.class));
+<span class="hljs-keyword">if</span> (RpcContext.getContext().getResponse(HttpServletResponse<span class="hljs-class">.<span class="hljs-keyword">class</span>) !</span>= <span class="hljs-keyword">null</span>) {
+    System.out.println(<span class="hljs-string">"Response object from RpcContext: "</span> + RpcContext.getContext().getResponse(HttpServletResponse<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
 }
 </code></pre>
 <p>If request/response does not correspond to the specific type, it would return null.</p>
@@ -690,7 +690,7 @@ Response response = target.request().post(Entity.entity(user, MediaType.APPLICAT
     <span class="hljs-keyword">if</span> (response.getStatus() != <span class="hljs-number">200</span>) {
         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"Failed with HTTP error code : "</span> + response.getStatus());
     }
-    System.out.println(<span class="hljs-string">"The generated id is "</span> + response.readEntity(RegistrationResult.class).getId());
+    System.out.println(<span class="hljs-string">"The generated id is "</span> + response.readEntity(RegistrationResult<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getId</span>())</span>;
 } <span class="hljs-keyword">finally</span> {
     response.close();
     client.close(); <span class="hljs-comment">//Do not close the client every time in real development, such as HTTP long connection is held by the client</span>

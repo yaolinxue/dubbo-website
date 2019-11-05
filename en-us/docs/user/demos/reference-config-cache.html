@@ -17,7 +17,7 @@
 <p>Therefore, since <code>2.4.0</code>, dubbo provides a simple utility ReferenceConfigCache for caching instances of <code>ReferenceConfig</code>.</p>
 <p>Use as follows：</p>
 <pre><code class="language-java">ReferenceConfig&lt;XxxService&gt; reference = <span class="hljs-keyword">new</span> ReferenceConfig&lt;XxxService&gt;();
-reference.setInterface(XxxService.class);
+reference.setInterface(XxxService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 reference.setVersion(<span class="hljs-string">"1.0.0"</span>);
 ......
 ReferenceConfigCache cache = ReferenceConfigCache.getCache();

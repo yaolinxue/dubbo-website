@@ -52,7 +52,7 @@
 <h2>开发一个本地存根 Stub</h2>
 <p>本地存根 <em>Stub</em> 由用户来提供，并在服务消费方部署。完整的示例可以在这里 <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> 获得。</p>
 <pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoServiceStub</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DemoService</span> </span>{ <span class="hljs-comment">// #1</span>
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Logger logger = LoggerFactory.getLogger(DemoServiceStub.class);
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Logger logger = LoggerFactory.getLogger(DemoServiceStub<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> DemoService demoService;
 
@@ -116,10 +116,10 @@
 </ol>
 <p>在客户端提供本地伪装的实现。当远程调用发生错误的时候，返回给调用方的不是服务端的 &quot;hello name&quot;，取而代之的是 &quot;mock name&quot;。</p>
 <pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoServiceMock</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">DemoService</span> </span>{
-    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Logger logger = LoggerFactory.getLogger(DemoServiceMock.class);
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Logger logger = LoggerFactory.getLogger(DemoServiceMock<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">sayHello</span><span class="hljs-params">(String name)</span> </span>{
-        logger.warn(<span class="hljs-string">"about to execute mock: "</span> + DemoServiceMock.class.getSimpleName());
+        logger.warn(<span class="hljs-string">"about to execute mock: "</span> + DemoServiceMock<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getSimpleName</span>())</span>;
         <span class="hljs-keyword">return</span> <span class="hljs-string">"mock "</span> + name;
     }
 }
@@ -153,16 +153,16 @@
 [09/04/19 02:20:49:049 CST] main  INFO mock.MockConsumer: result: mock world
 </code></pre>
 <p>下面通过规则推送为例展示这种快捷方式的用法，更多的用法请参考 Dubbo 官方用户手册 <sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup>。通过向配置中心推送指定服务的配置，就可以做到动态服务降级的目的。</p>
-<pre><code class="language-yaml"><span class="hljs-bullet">-</span><span class="hljs-bullet">--</span> <span class="hljs-comment"># 1</span>
+<pre><code class="language-yaml"><span class="hljs-string">---</span> <span class="hljs-comment"># 1</span>
 <span class="hljs-attr">configVersion:</span> <span class="hljs-string">v2.7</span>
 <span class="hljs-attr">scope:</span> <span class="hljs-string">service</span>
-<span class="hljs-attr">  key:</span> <span class="hljs-string">org.apache.dubbo.samples.mock.api.DemoService</span> <span class="hljs-comment">#2</span>
-<span class="hljs-attr">  enabled:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">  configs:</span>
-<span class="hljs-attr">    - addresses:</span> <span class="hljs-string">[0.0.0.0]</span>
-<span class="hljs-attr">      side:</span> <span class="hljs-string">consumer</span> <span class="hljs-comment">#3</span>
-<span class="hljs-attr">      parameters:</span>
-<span class="hljs-attr">        mock:</span> <span class="hljs-string">return</span> <span class="hljs-string">configured-mock-value</span> <span class="hljs-comment">#4</span>
+  <span class="hljs-attr">key:</span> <span class="hljs-string">org.apache.dubbo.samples.mock.api.DemoService</span> <span class="hljs-comment">#2</span>
+  <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-attr">configs:</span>
+    <span class="hljs-bullet">-</span> <span class="hljs-attr">addresses:</span> <span class="hljs-string">[0.0.0.0]</span>
+      <span class="hljs-attr">side:</span> <span class="hljs-string">consumer</span> <span class="hljs-comment">#3</span>
+      <span class="hljs-attr">parameters:</span>
+        <span class="hljs-attr">mock:</span> <span class="hljs-string">return</span> <span class="hljs-string">configured-mock-value</span> <span class="hljs-comment">#4</span>
       <span class="hljs-string">...</span>
 </code></pre>
 <ol>

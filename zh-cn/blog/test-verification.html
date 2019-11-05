@@ -65,14 +65,14 @@ assert(status.equals(&quot;OK&quot;));
             <span class="hljs-keyword">if</span> (types != <span class="hljs-keyword">null</span> &amp;&amp; types.length &gt; <span class="hljs-number">0</span>) {
                 interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[types.length + <span class="hljs-number">2</span>];
                 interfaces[<span class="hljs-number">0</span>] = invoker.getInterface();
-                interfaces[<span class="hljs-number">1</span>] = EchoService.class;
+                interfaces[<span class="hljs-number">1</span>] = EchoService<span class="hljs-class">.<span class="hljs-keyword">class</span></span>;
                 <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; types.length; i++) {
                     interfaces[i + <span class="hljs-number">1</span>] = ReflectUtils.forName(types[i]);
                 }
             }
         }
         <span class="hljs-keyword">if</span> (interfaces == <span class="hljs-keyword">null</span>) {
-            interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[]{invoker.getInterface(), EchoService.class};
+            interfaces = <span class="hljs-keyword">new</span> Class&lt;?&gt;[]{invoker.getInterface(), EchoService<span class="hljs-class">.<span class="hljs-keyword">class</span>}</span>;
         }
         <span class="hljs-keyword">return</span> getProxy(invoker, interfaces);
     }

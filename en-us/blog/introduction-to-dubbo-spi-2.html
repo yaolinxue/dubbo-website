@@ -31,29 +31,29 @@
 <li>getExtensionLoader
 This is a static factory method that enters an extensible interface and returns an ExtensionLoader entity class for this interface. With this entity class, you can get not only a specific extension based on name, but also an adaptive extension.</li>
 </ol>
-<pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">ExtensionLoader&lt;T&gt; <span class="hljs-title">getExtensionLoader</span><span class="hljs-params">(Class&lt;T&gt; type)</span> </span>{
-        <span class="hljs-comment">// An extension point must be an interface</span>
-        <span class="hljs-keyword">if</span> (!type.isInterface()) {
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Extension type("</span> + type + <span class="hljs-string">") is not interface!"</span>);
+<pre><code class="language-java">public static &lt;T&gt; ExtensionLoader&lt;T&gt; getExtensionLoader(Class&lt;T&gt; type) {
+        // An extension point must be an interface
+        if (!type.isInterface()) {
+            throw new IllegalArgumentException("Extension type(" + type + ") is not interface!");
         }
-        <span class="hljs-comment">// @SPI annotations must be provided</span>
-        <span class="hljs-keyword">if</span> (!withExtensionAnnotation(type)) {
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Extension type without @SPI Annotation!"</span>);
+        // @SPI annotations must be provided
+        if (!withExtensionAnnotation(type)) {
+            throw new IllegalArgumentException("Extension type without @SPI Annotation!");
         }
-        <span class="hljs-comment">// Get the corresponding ExtensionLoader from the cache according to the interface</span>
-        <span class="hljs-comment">// Each extension will only be loaded once</span>
+        // Get the corresponding ExtensionLoader from the cache according to the interface
+        // Each extension will only be loaded once
         ExtensionLoader&lt;T&gt; loader = (ExtensionLoader&lt;T&gt;) EXTENSION_LOADERS.get(type);
-        <span class="hljs-keyword">if</span> (loader == <span class="hljs-keyword">null</span>) {
-            <span class="hljs-comment">// Initialize extension</span>
-            EXTENSION_LOADERS.putIfAbsent(type, <span class="hljs-keyword">new</span> ExtensionLoader&lt;T&gt;(type));
+        if (loader == null) {
+            // Initialize extension
+            EXTENSION_LOADERS.putIfAbsent(type, new ExtensionLoader&lt;T&gt;(type));
             loader = (ExtensionLoader&lt;T&gt;) EXTENSION_LOADERS.get(type);
         }
-        <span class="hljs-keyword">return</span> loader;
+        return loader;
 }
     
-<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">ExtensionLoader</span><span class="hljs-params">(Class&lt;?&gt; type)</span> </span>{
-        <span class="hljs-keyword">this</span>.type = type;
-        objectFactory = (type == ExtensionFactory.class ? <span class="hljs-keyword">null</span> : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
+private ExtensionLoader(Class&lt;?&gt; type) {
+        this.type = type;
+        objectFactory = (type == ExtensionFactory.class ? null : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
 }
 </code></pre>
 <ol start="2">
@@ -129,7 +129,7 @@ This is a static factory method that enters an extensible interface and returns 
 
 <span class="hljs-comment">// synchronized in getExtensionClasses</span>
 <span class="hljs-keyword">private</span> Map&lt;String, Class&lt;?&gt;&gt; loadExtensionClasses() {
-        <span class="hljs-keyword">final</span> SPI defaultAnnotation = type.getAnnotation(SPI.class);
+        <span class="hljs-keyword">final</span> SPI defaultAnnotation = type.getAnnotation(SPI<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-keyword">if</span> (defaultAnnotation != <span class="hljs-keyword">null</span>) {
             String value = defaultAnnotation.value();
             <span class="hljs-keyword">if</span> (value != <span class="hljs-keyword">null</span> &amp;&amp; (value = value.trim()).length() &gt; <span class="hljs-number">0</span>) {
@@ -180,9 +180,9 @@ This is a static factory method that enters an extensible interface and returns 
 }
 </code></pre>
 <p>To accomplish the automatic assembly of dependencies of the extended instances, you first need to know what the dependencies are and what the types of dependencies are. The solution of Dubbo is to find the Java standard setter method. That is, the method name starting with set has only one parameter. If such a set method exists in an extension class, Dubbo injects it into dependencies, which is similar to the injection of Spring's set method. However, dependency injection in Dubbo is more complicated than that in Spring, because all the methods injected into Spring are Spring beans and managed by the Spring container. In Dubbo's dependency injection, you may need to inject another extension of Dubbo, or a Spring Bean, or a component of Google guice, or a component in any other framework. Dubbo needs to be able to load extensions from any scenario. In the injectExtension method, it is implemented with <code>Object object = objectFactory. getExtension (pt, property)</code>. ObjectFactory is ExtensionFactory type and initialized when creating ExtensionLoader:</p>
-<pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">ExtensionLoader</span><span class="hljs-params">(Class&lt;?&gt; type)</span> </span>{
-        <span class="hljs-keyword">this</span>.type = type;
-        objectFactory = (type == ExtensionFactory.class ? <span class="hljs-keyword">null</span> : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
+<pre><code class="language-java">private ExtensionLoader(Class&lt;?&gt; type) {
+        this.type = type;
+        objectFactory = (type == ExtensionFactory.class ? null : ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension());
 }
 </code></pre>
 <p>ObjectFacore is also an extension, obtained through <code>ExtensionLoader.getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension()</code>.</p>
@@ -200,7 +200,7 @@ This is a static factory method that enters an extensible interface and returns 
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;ExtensionFactory&gt; factories;
 
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AdaptiveExtensionFactory</span><span class="hljs-params">()</span> </span>{
-        ExtensionLoader&lt;ExtensionFactory&gt; loader = ExtensionLoader.getExtensionLoader(ExtensionFactory.class);
+        ExtensionLoader&lt;ExtensionFactory&gt; loader = ExtensionLoader.getExtensionLoader(ExtensionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         List&lt;ExtensionFactory&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;ExtensionFactory&gt;();
         <span class="hljs-keyword">for</span> (String name : loader.getSupportedExtensions()) {
             list.add(loader.getExtension(name));
@@ -304,7 +304,7 @@ Let's first look at the code to create an adaptive extension class:</p>
 <pre><code class="language-java"><span class="hljs-keyword">private</span> Class&lt;?&gt; createAdaptiveExtensionClass() {
         String code = createAdaptiveExtensionClassCode();
         ClassLoader classLoader = findClassLoader();
-        org.apache.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(org.apache.dubbo.common.compiler.Compiler.class).getAdaptiveExtension();
+        org.apache.dubbo.common.compiler.Compiler compiler = ExtensionLoader.getExtensionLoader(org.apache.dubbo.common.compiler.Compiler<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getAdaptiveExtension</span>()</span>;
         <span class="hljs-keyword">return</span> compiler.compile(code, classLoader);
 }
 </code></pre>
@@ -337,7 +337,7 @@ Below are the Java code example for Protocol adaptive class created by createAda
         String extName = (url.getProtocol() == <span class="hljs-keyword">null</span> ? <span class="hljs-string">"dubbo"</span> : url.getProtocol());
         <span class="hljs-keyword">if</span> (extName == <span class="hljs-keyword">null</span>)
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Fail to get extension(org.apache.dubbo.rpc.Protocol) name from url("</span> + url.toString() + <span class="hljs-string">") use keys([protocol])"</span>);
-        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(org.apache.dubbo.rpc.Protocol.class).getExtension(extName);
+        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(org.apache.dubbo.rpc.Protocol<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getExtension</span>(<span class="hljs-title">extName</span>)</span>;
         <span class="hljs-keyword">return</span> extension.export(arg0);
     }
 
@@ -347,7 +347,7 @@ Below are the Java code example for Protocol adaptive class created by createAda
         String extName = (url.getProtocol() == <span class="hljs-keyword">null</span> ? <span class="hljs-string">"dubbo"</span> : url.getProtocol());
         <span class="hljs-keyword">if</span> (extName == <span class="hljs-keyword">null</span>)
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Fail to get extension(org.apache.dubbo.rpc.Protocol) name from url("</span> + url.toString() + <span class="hljs-string">") use keys([protocol])"</span>);
-        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(org.apache.dubbo.rpc.Protocol.class).getExtension(extName);
+        org.apache.dubbo.rpc.Protocol extension = (org.apache.dubbo.rpc.Protocol) ExtensionLoader.getExtensionLoader(org.apache.dubbo.rpc.Protocol<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getExtension</span>(<span class="hljs-title">extName</span>)</span>;
         <span class="hljs-keyword">return</span> extension.refer(arg0, arg1);
     }
 }

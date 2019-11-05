@@ -37,7 +37,7 @@
      * <span class="hljs-doctag">@return</span> the base packages to scan
      * <span class="hljs-doctag">@see</span> DubboComponentScan#basePackages()
      */</span>
-    <span class="hljs-meta">@AliasFor</span>(annotation = DubboComponentScan.class, attribute = <span class="hljs-string">"basePackages"</span>)
+    <span class="hljs-meta">@AliasFor</span>(annotation = DubboComponentScan<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">attribute</span> </span>= <span class="hljs-string">"basePackages"</span>)
     String[] scanBasePackages() <span class="hljs-keyword">default</span> {};
 
     <span class="hljs-comment">/**
@@ -48,7 +48,7 @@
      * <span class="hljs-doctag">@return</span> classes from the base packages to scan
      * <span class="hljs-doctag">@see</span> DubboComponentScan#basePackageClasses
      */</span>
-    <span class="hljs-meta">@AliasFor</span>(annotation = DubboComponentScan.class, attribute = <span class="hljs-string">"basePackageClasses"</span>)
+    <span class="hljs-meta">@AliasFor</span>(annotation = DubboComponentScan<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">attribute</span> </span>= <span class="hljs-string">"basePackageClasses"</span>)
     Class&lt;?&gt;[] scanBasePackageClasses() <span class="hljs-keyword">default</span> {};    
 }
 </code></pre>
@@ -72,7 +72,7 @@
 <span class="hljs-meta">@Target</span>({ElementType.TYPE}) <span class="hljs-comment">// #1</span>
 <span class="hljs-meta">@Inherited</span>
 <span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Service {
-    Class&lt;?&gt; interfaceClass() <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span>.class; <span class="hljs-comment">// #2</span>
+    Class&lt;?&gt; interfaceClass() <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span><span class="hljs-class">.<span class="hljs-keyword">class</span></span>; <span class="hljs-comment">// #2</span>
     <span class="hljs-function">String <span class="hljs-title">interfaceName</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> ""</span>; <span class="hljs-comment">// #3</span>
     <span class="hljs-function">String <span class="hljs-title">version</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> ""</span>; <span class="hljs-comment">// #4</span>
     <span class="hljs-function">String <span class="hljs-title">group</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> ""</span>; <span class="hljs-comment">// #5</span>
@@ -123,7 +123,7 @@
 <span class="hljs-meta">@Retention</span>(RetentionPolicy.RUNTIME)
 <span class="hljs-meta">@Target</span>({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE}) <span class="hljs-comment">// #1</span>
 <span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> Reference {
-    Class&lt;?&gt; interfaceClass() <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span>.class; <span class="hljs-comment">// #2</span>
+    Class&lt;?&gt; interfaceClass() <span class="hljs-keyword">default</span> <span class="hljs-keyword">void</span><span class="hljs-class">.<span class="hljs-keyword">class</span></span>; <span class="hljs-comment">// #2</span>
     <span class="hljs-function">String <span class="hljs-title">interfaceName</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> ""</span>; <span class="hljs-comment">// #3</span>
     <span class="hljs-function">String <span class="hljs-title">version</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> ""</span>; <span class="hljs-comment">// #4</span>
     <span class="hljs-function">String <span class="hljs-title">group</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> ""</span>; <span class="hljs-comment">// #5</span>
@@ -227,7 +227,7 @@
 <pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProviderBootstrap</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>{
         <span class="hljs-keyword">new</span> EmbeddedZooKeeper(<span class="hljs-number">2181</span>, <span class="hljs-keyword">false</span>).start(); <span class="hljs-comment">// #1</span>
-        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ProviderConfiguration.class); <span class="hljs-comment">// #2</span>
+        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ProviderConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>; <span class="hljs-comment">// #2</span>
         context.start(); <span class="hljs-comment">// #3</span>
         System.in.read(); <span class="hljs-comment">// #4</span>
     }
@@ -302,9 +302,9 @@
 <p>在 <code>main</code> 方法中通过启动一个 Spring Context，从其中查找到组装好的 Dubbo 的服务消费者，并发起一次远程调用。</p>
 <pre><code class="language-java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerBootstrap</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
-        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ConsumerConfiguration.class); <span class="hljs-comment">// #1</span>
+        AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext(ConsumerConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>; <span class="hljs-comment">// #1</span>
         context.start(); <span class="hljs-comment">// #2</span>
-        GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer.class); <span class="hljs-comment">// #3</span>
+        GreetingServiceConsumer greetingServiceConsumer = context.getBean(GreetingServiceConsumer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>; <span class="hljs-comment">// #3</span>
         String hello = greetingServiceConsumer.doSayHello(<span class="hljs-string">"annotation"</span>); <span class="hljs-comment">// #4</span>
         System.out.println(<span class="hljs-string">"result: "</span> + hello); <span class="hljs-comment">// #5</span>
     }

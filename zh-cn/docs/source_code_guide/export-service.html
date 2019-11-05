@@ -127,7 +127,7 @@
     <span class="hljs-comment">// 检测 ref 是否为泛化服务类型</span>
     <span class="hljs-keyword">if</span> (ref <span class="hljs-keyword">instanceof</span> GenericService) {
         <span class="hljs-comment">// 设置 interfaceClass 为 GenericService.class</span>
-        interfaceClass = GenericService.class;
+        interfaceClass = GenericService<span class="hljs-class">.<span class="hljs-keyword">class</span></span>;
         <span class="hljs-keyword">if</span> (StringUtils.isEmpty(generic)) {
             <span class="hljs-comment">// 设置 generic = "true"</span>
             generic = Boolean.TRUE.toString();
@@ -212,65 +212,65 @@
 }
 </code></pre>
 <p>上面代码首先是通过 loadRegistries 加载注册中心链接，然后再遍历 ProtocolConfig 集合导出每个服务。并在导出服务的过程中，将服务注册到注册中心。下面，我们先来看一下 loadRegistries 方法的逻辑。</p>
-<pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">protected</span> List&lt;URL&gt; <span class="hljs-title">loadRegistries</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> provider)</span> </span>{
-    <span class="hljs-comment">// 检测是否存在注册中心配置类，不存在则抛出异常</span>
+<pre><code class="language-java">protected List&lt;URL&gt; loadRegistries(boolean provider) {
+    // 检测是否存在注册中心配置类，不存在则抛出异常
     checkRegistry();
-    List&lt;URL&gt; registryList = <span class="hljs-keyword">new</span> ArrayList&lt;URL&gt;();
-    <span class="hljs-keyword">if</span> (registries != <span class="hljs-keyword">null</span> &amp;&amp; !registries.isEmpty()) {
-        <span class="hljs-keyword">for</span> (RegistryConfig config : registries) {
+    List&lt;URL&gt; registryList = new ArrayList&lt;URL&gt;();
+    if (registries != null &amp;&amp; !registries.isEmpty()) {
+        for (RegistryConfig config : registries) {
             String address = config.getAddress();
-            <span class="hljs-keyword">if</span> (address == <span class="hljs-keyword">null</span> || address.length() == <span class="hljs-number">0</span>) {
-                <span class="hljs-comment">// 若 address 为空，则将其设为 0.0.0.0</span>
+            if (address == null || address.length() == 0) {
+                // 若 address 为空，则将其设为 0.0.0.0
                 address = Constants.ANYHOST_VALUE;
             }
 
-            <span class="hljs-comment">// 从系统属性中加载注册中心地址</span>
-            String sysaddress = System.getProperty(<span class="hljs-string">"dubbo.registry.address"</span>);
-            <span class="hljs-keyword">if</span> (sysaddress != <span class="hljs-keyword">null</span> &amp;&amp; sysaddress.length() &gt; <span class="hljs-number">0</span>) {
+            // 从系统属性中加载注册中心地址
+            String sysaddress = System.getProperty("dubbo.registry.address");
+            if (sysaddress != null &amp;&amp; sysaddress.length() &gt; 0) {
                 address = sysaddress;
             }
-            <span class="hljs-comment">// 检测 address 是否合法</span>
-            <span class="hljs-keyword">if</span> (address.length() &gt; <span class="hljs-number">0</span> &amp;&amp; !RegistryConfig.NO_AVAILABLE.equalsIgnoreCase(address)) {
-                Map&lt;String, String&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;String, String&gt;();
-                <span class="hljs-comment">// 添加 ApplicationConfig 中的字段信息到 map 中</span>
+            // 检测 address 是否合法
+            if (address.length() &gt; 0 &amp;&amp; !RegistryConfig.NO_AVAILABLE.equalsIgnoreCase(address)) {
+                Map&lt;String, String&gt; map = new HashMap&lt;String, String&gt;();
+                // 添加 ApplicationConfig 中的字段信息到 map 中
                 appendParameters(map, application);
-                <span class="hljs-comment">// 添加 RegistryConfig 字段信息到 map 中</span>
+                // 添加 RegistryConfig 字段信息到 map 中
                 appendParameters(map, config);
                 
-                <span class="hljs-comment">// 添加 path、pid，protocol 等信息到 map 中</span>
-                map.put(<span class="hljs-string">"path"</span>, RegistryService.class.getName());
-                map.put(<span class="hljs-string">"dubbo"</span>, Version.getProtocolVersion());
+                // 添加 path、pid，protocol 等信息到 map 中
+                map.put("path", RegistryService.class.getName());
+                map.put("dubbo", Version.getProtocolVersion());
                 map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis()));
-                <span class="hljs-keyword">if</span> (ConfigUtils.getPid() &gt; <span class="hljs-number">0</span>) {
+                if (ConfigUtils.getPid() &gt; 0) {
                     map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPid()));
                 }
-                <span class="hljs-keyword">if</span> (!map.containsKey(<span class="hljs-string">"protocol"</span>)) {
-                    <span class="hljs-keyword">if</span> (ExtensionLoader.getExtensionLoader(RegistryFactory.class).hasExtension(<span class="hljs-string">"remote"</span>)) {
-                        map.put(<span class="hljs-string">"protocol"</span>, <span class="hljs-string">"remote"</span>);
-                    } <span class="hljs-keyword">else</span> {
-                        map.put(<span class="hljs-string">"protocol"</span>, <span class="hljs-string">"dubbo"</span>);
+                if (!map.containsKey("protocol")) {
+                    if (ExtensionLoader.getExtensionLoader(RegistryFactory.class).hasExtension("remote")) {
+                        map.put("protocol", "remote");
+                    } else {
+                        map.put("protocol", "dubbo");
                     }
                 }
 
-                <span class="hljs-comment">// 解析得到 URL 列表，address 可能包含多个注册中心 ip，</span>
-                <span class="hljs-comment">// 因此解析得到的是一个 URL 列表</span>
+                // 解析得到 URL 列表，address 可能包含多个注册中心 ip，
+                // 因此解析得到的是一个 URL 列表
                 List&lt;URL&gt; urls = UrlUtils.parseURLs(address, map);
-                <span class="hljs-keyword">for</span> (URL url : urls) {
+                for (URL url : urls) {
                     url = url.addParameter(Constants.REGISTRY_KEY, url.getProtocol());
-                    <span class="hljs-comment">// 将 URL 协议头设置为 registry</span>
+                    // 将 URL 协议头设置为 registry
                     url = url.setProtocol(Constants.REGISTRY_PROTOCOL);
-                    <span class="hljs-comment">// 通过判断条件，决定是否添加 url 到 registryList 中，条件如下：</span>
-                    <span class="hljs-comment">// (服务提供者 &amp;&amp; register = true 或 null) </span>
-                    <span class="hljs-comment">//    || (非服务提供者 &amp;&amp; subscribe = true 或 null)</span>
-                    <span class="hljs-keyword">if</span> ((provider &amp;&amp; url.getParameter(Constants.REGISTER_KEY, <span class="hljs-keyword">true</span>))
-                            || (!provider &amp;&amp; url.getParameter(Constants.SUBSCRIBE_KEY, <span class="hljs-keyword">true</span>))) {
+                    // 通过判断条件，决定是否添加 url 到 registryList 中，条件如下：
+                    // (服务提供者 &amp;&amp; register = true 或 null) 
+                    //    || (非服务提供者 &amp;&amp; subscribe = true 或 null)
+                    if ((provider &amp;&amp; url.getParameter(Constants.REGISTER_KEY, true))
+                            || (!provider &amp;&amp; url.getParameter(Constants.SUBSCRIBE_KEY, true))) {
                         registryList.add(url);
                     }
                 }
             }
         }
     }
-    <span class="hljs-keyword">return</span> registryList;
+    return registryList;
 }
 </code></pre>
 <p>loadRegistries 方法主要包含如下的逻辑：</p>
@@ -469,11 +469,11 @@
     
     <span class="hljs-comment">// 省略无关代码</span>
     
-    <span class="hljs-keyword">if</span> (ExtensionLoader.getExtensionLoader(ConfiguratorFactory.class)
-            .hasExtension(url.getProtocol())) {
+    <span class="hljs-keyword">if</span> (ExtensionLoader.getExtensionLoader(ConfiguratorFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)
+            .<span class="hljs-title">hasExtension</span>(<span class="hljs-title">url</span>.<span class="hljs-title">getProtocol</span>())) </span>{
         <span class="hljs-comment">// 加载 ConfiguratorFactory，并生成 Configurator 实例，然后通过实例配置 url</span>
-        url = ExtensionLoader.getExtensionLoader(ConfiguratorFactory.class)
-                .getExtension(url.getProtocol()).getConfigurator(url).configure(url);
+        url = ExtensionLoader.getExtensionLoader(ConfiguratorFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)
+                .<span class="hljs-title">getExtension</span>(<span class="hljs-title">url</span>.<span class="hljs-title">getProtocol</span>()).<span class="hljs-title">getConfigurator</span>(<span class="hljs-title">url</span>).<span class="hljs-title">configure</span>(<span class="hljs-title">url</span>)</span>;
     }
 
     String scope = url.getParameter(Constants.SCOPE_KEY);
@@ -557,8 +557,8 @@
     <span class="hljs-keyword">while</span> (ClassGenerator.isDynamicClass(c))
         c = c.getSuperclass();
 
-    <span class="hljs-keyword">if</span> (c == Object.class)
-        <span class="hljs-keyword">return</span> OBJECT_WRAPPER;
+    <span class="hljs-keyword">if</span> (c == Object<span class="hljs-class">.<span class="hljs-keyword">class</span>)
+        <span class="hljs-title">return</span> <span class="hljs-title">OBJECT_WRAPPER</span></span>;
 
     <span class="hljs-comment">// 从缓存中获取 Wrapper 实例</span>
     Wrapper ret = WRAPPER_MAP.get(c);
@@ -572,239 +572,239 @@
 }
 </code></pre>
 <p>getWrapper 方法仅包含一些缓存操作逻辑，不难理解。下面我们看一下 makeWrapper 方法。</p>
-<pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Wrapper <span class="hljs-title">makeWrapper</span><span class="hljs-params">(Class&lt;?&gt; c)</span> </span>{
-    <span class="hljs-comment">// 检测 c 是否为基本类型，若是则抛出异常</span>
-    <span class="hljs-keyword">if</span> (c.isPrimitive())
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Can not create wrapper for primitive type: "</span> + c);
+<pre><code class="language-java">private static Wrapper makeWrapper(Class&lt;?&gt; c) {
+    // 检测 c 是否为基本类型，若是则抛出异常
+    if (c.isPrimitive())
+        throw new IllegalArgumentException("Can not create wrapper for primitive type: " + c);
 
     String name = c.getName();
     ClassLoader cl = ClassHelper.getClassLoader(c);
 
-    <span class="hljs-comment">// c1 用于存储 setPropertyValue 方法代码</span>
-    StringBuilder c1 = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">"public void setPropertyValue(Object o, String n, Object v){ "</span>);
-    <span class="hljs-comment">// c2 用于存储 getPropertyValue 方法代码</span>
-    StringBuilder c2 = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">"public Object getPropertyValue(Object o, String n){ "</span>);
-    <span class="hljs-comment">// c3 用于存储 invokeMethod 方法代码</span>
-    StringBuilder c3 = <span class="hljs-keyword">new</span> StringBuilder(<span class="hljs-string">"public Object invokeMethod(Object o, String n, Class[] p, Object[] v) throws "</span> + InvocationTargetException.class.getName() + <span class="hljs-string">"{ "</span>);
+    // c1 用于存储 setPropertyValue 方法代码
+    StringBuilder c1 = new StringBuilder("public void setPropertyValue(Object o, String n, Object v){ ");
+    // c2 用于存储 getPropertyValue 方法代码
+    StringBuilder c2 = new StringBuilder("public Object getPropertyValue(Object o, String n){ ");
+    // c3 用于存储 invokeMethod 方法代码
+    StringBuilder c3 = new StringBuilder("public Object invokeMethod(Object o, String n, Class[] p, Object[] v) throws " + InvocationTargetException.class.getName() + "{ ");
 
-    <span class="hljs-comment">// 生成类型转换代码及异常捕捉代码，比如：</span>
-    <span class="hljs-comment">//   DemoService w; try { w = ((DemoServcie) $1); }}catch(Throwable e){ throw new IllegalArgumentException(e); }</span>
-    c1.append(name).append(<span class="hljs-string">" w; try{ w = (("</span>).append(name).append(<span class="hljs-string">")$1); }catch(Throwable e){ throw new IllegalArgumentException(e); }"</span>);
-    c2.append(name).append(<span class="hljs-string">" w; try{ w = (("</span>).append(name).append(<span class="hljs-string">")$1); }catch(Throwable e){ throw new IllegalArgumentException(e); }"</span>);
-    c3.append(name).append(<span class="hljs-string">" w; try{ w = (("</span>).append(name).append(<span class="hljs-string">")$1); }catch(Throwable e){ throw new IllegalArgumentException(e); }"</span>);
+    // 生成类型转换代码及异常捕捉代码，比如：
+    //   DemoService w; try { w = ((DemoServcie) $1); }}catch(Throwable e){ throw new IllegalArgumentException(e); }
+    c1.append(name).append(" w; try{ w = ((").append(name).append(")$1); }catch(Throwable e){ throw new IllegalArgumentException(e); }");
+    c2.append(name).append(" w; try{ w = ((").append(name).append(")$1); }catch(Throwable e){ throw new IllegalArgumentException(e); }");
+    c3.append(name).append(" w; try{ w = ((").append(name).append(")$1); }catch(Throwable e){ throw new IllegalArgumentException(e); }");
 
-    <span class="hljs-comment">// pts 用于存储成员变量名和类型</span>
-    Map&lt;String, Class&lt;?&gt;&gt; pts = <span class="hljs-keyword">new</span> HashMap&lt;String, Class&lt;?&gt;&gt;();
-    <span class="hljs-comment">// ms 用于存储方法描述信息（可理解为方法签名）及 Method 实例</span>
-    Map&lt;String, Method&gt; ms = <span class="hljs-keyword">new</span> LinkedHashMap&lt;String, Method&gt;();
-    <span class="hljs-comment">// mns 为方法名列表</span>
-    List&lt;String&gt; mns = <span class="hljs-keyword">new</span> ArrayList&lt;String&gt;();
-    <span class="hljs-comment">// dmns 用于存储“定义在当前类中的方法”的名称</span>
-    List&lt;String&gt; dmns = <span class="hljs-keyword">new</span> ArrayList&lt;String&gt;();
+    // pts 用于存储成员变量名和类型
+    Map&lt;String, Class&lt;?&gt;&gt; pts = new HashMap&lt;String, Class&lt;?&gt;&gt;();
+    // ms 用于存储方法描述信息（可理解为方法签名）及 Method 实例
+    Map&lt;String, Method&gt; ms = new LinkedHashMap&lt;String, Method&gt;();
+    // mns 为方法名列表
+    List&lt;String&gt; mns = new ArrayList&lt;String&gt;();
+    // dmns 用于存储“定义在当前类中的方法”的名称
+    List&lt;String&gt; dmns = new ArrayList&lt;String&gt;();
 
-    <span class="hljs-comment">// --------------------------------✨ 分割线1 ✨-------------------------------------</span>
+    // --------------------------------✨ 分割线1 ✨-------------------------------------
 
-    <span class="hljs-comment">// 获取 public 访问级别的字段，并为所有字段生成条件判断语句</span>
-    <span class="hljs-keyword">for</span> (Field f : c.getFields()) {
+    // 获取 public 访问级别的字段，并为所有字段生成条件判断语句
+    for (Field f : c.getFields()) {
         String fn = f.getName();
         Class&lt;?&gt; ft = f.getType();
-        <span class="hljs-keyword">if</span> (Modifier.isStatic(f.getModifiers()) || Modifier.isTransient(f.getModifiers()))
-            <span class="hljs-comment">// 忽略关键字 static 或 transient 修饰的变量</span>
-            <span class="hljs-keyword">continue</span>;
+        if (Modifier.isStatic(f.getModifiers()) || Modifier.isTransient(f.getModifiers()))
+            // 忽略关键字 static 或 transient 修饰的变量
+            continue;
 
-        <span class="hljs-comment">// 生成条件判断及赋值语句，比如：</span>
-        <span class="hljs-comment">// if( $2.equals("name") ) { w.name = (java.lang.String) $3; return;}</span>
-        <span class="hljs-comment">// if( $2.equals("age") ) { w.age = ((Number) $3).intValue(); return;}</span>
-        c1.append(<span class="hljs-string">" if( $2.equals(\""</span>).append(fn).append(<span class="hljs-string">"\") ){ w."</span>).append(fn).append(<span class="hljs-string">"="</span>).append(arg(ft, <span class="hljs-string">"$3"</span>)).append(<span class="hljs-string">"; return; }"</span>);
+        // 生成条件判断及赋值语句，比如：
+        // if( $2.equals("name") ) { w.name = (java.lang.String) $3; return;}
+        // if( $2.equals("age") ) { w.age = ((Number) $3).intValue(); return;}
+        c1.append(" if( $2.equals(\"").append(fn).append("\") ){ w.").append(fn).append("=").append(arg(ft, "$3")).append("; return; }");
 
-        <span class="hljs-comment">// 生成条件判断及返回语句，比如：</span>
-        <span class="hljs-comment">// if( $2.equals("name") ) { return ($w)w.name; }</span>
-        c2.append(<span class="hljs-string">" if( $2.equals(\""</span>).append(fn).append(<span class="hljs-string">"\") ){ return ($w)w."</span>).append(fn).append(<span class="hljs-string">"; }"</span>);
+        // 生成条件判断及返回语句，比如：
+        // if( $2.equals("name") ) { return ($w)w.name; }
+        c2.append(" if( $2.equals(\"").append(fn).append("\") ){ return ($w)w.").append(fn).append("; }");
 
-        <span class="hljs-comment">// 存储 &lt;字段名, 字段类型&gt; 键值对到 pts 中</span>
+        // 存储 &lt;字段名, 字段类型&gt; 键值对到 pts 中
         pts.put(fn, ft);
     }
 
-    <span class="hljs-comment">// --------------------------------✨ 分割线2 ✨-------------------------------------</span>
+    // --------------------------------✨ 分割线2 ✨-------------------------------------
 
     Method[] methods = c.getMethods();
-    <span class="hljs-comment">// 检测 c 中是否包含在当前类中声明的方法</span>
-    <span class="hljs-keyword">boolean</span> hasMethod = hasMethods(methods);
-    <span class="hljs-keyword">if</span> (hasMethod) {
-        c3.append(<span class="hljs-string">" try{"</span>);
+    // 检测 c 中是否包含在当前类中声明的方法
+    boolean hasMethod = hasMethods(methods);
+    if (hasMethod) {
+        c3.append(" try{");
     }
-    <span class="hljs-keyword">for</span> (Method m : methods) {
-        <span class="hljs-keyword">if</span> (m.getDeclaringClass() == Object.class)
-            <span class="hljs-comment">// 忽略 Object 中定义的方法</span>
-            <span class="hljs-keyword">continue</span>;
+    for (Method m : methods) {
+        if (m.getDeclaringClass() == Object.class)
+            // 忽略 Object 中定义的方法
+            continue;
 
         String mn = m.getName();
-        <span class="hljs-comment">// 生成方法名判断语句，比如：</span>
-        <span class="hljs-comment">// if ( "sayHello".equals( $2 )</span>
-        c3.append(<span class="hljs-string">" if( \""</span>).append(mn).append(<span class="hljs-string">"\".equals( $2 ) "</span>);
-        <span class="hljs-keyword">int</span> len = m.getParameterTypes().length;
-        <span class="hljs-comment">// 生成“运行时传入的参数数量与方法参数列表长度”判断语句，比如：</span>
-        <span class="hljs-comment">// &amp;&amp; $3.length == 2</span>
-        c3.append(<span class="hljs-string">" &amp;&amp; "</span>).append(<span class="hljs-string">" $3.length == "</span>).append(len);
+        // 生成方法名判断语句，比如：
+        // if ( "sayHello".equals( $2 )
+        c3.append(" if( \"").append(mn).append("\".equals( $2 ) ");
+        int len = m.getParameterTypes().length;
+        // 生成“运行时传入的参数数量与方法参数列表长度”判断语句，比如：
+        // &amp;&amp; $3.length == 2
+        c3.append(" &amp;&amp; ").append(" $3.length == ").append(len);
 
-        <span class="hljs-keyword">boolean</span> override = <span class="hljs-keyword">false</span>;
-        <span class="hljs-keyword">for</span> (Method m2 : methods) {
-            <span class="hljs-comment">// 检测方法是否存在重载情况，条件为：方法对象不同 &amp;&amp; 方法名相同</span>
-            <span class="hljs-keyword">if</span> (m != m2 &amp;&amp; m.getName().equals(m2.getName())) {
-                override = <span class="hljs-keyword">true</span>;
-                <span class="hljs-keyword">break</span>;
+        boolean override = false;
+        for (Method m2 : methods) {
+            // 检测方法是否存在重载情况，条件为：方法对象不同 &amp;&amp; 方法名相同
+            if (m != m2 &amp;&amp; m.getName().equals(m2.getName())) {
+                override = true;
+                break;
             }
         }
-        <span class="hljs-comment">// 对重载方法进行处理，考虑下面的方法：</span>
-        <span class="hljs-comment">//    1. void sayHello(Integer, String)</span>
-        <span class="hljs-comment">//    2. void sayHello(Integer, Integer)</span>
-        <span class="hljs-comment">// 方法名相同，参数列表长度也相同，因此不能仅通过这两项判断两个方法是否相等。</span>
-        <span class="hljs-comment">// 需要进一步判断方法的参数类型</span>
-        <span class="hljs-keyword">if</span> (override) {
-            <span class="hljs-keyword">if</span> (len &gt; <span class="hljs-number">0</span>) {
-                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>; l &lt; len; l++) {
-                    <span class="hljs-comment">// 生成参数类型进行检测代码，比如：</span>
-                    <span class="hljs-comment">// &amp;&amp; $3[0].getName().equals("java.lang.Integer") </span>
-                    <span class="hljs-comment">//    &amp;&amp; $3[1].getName().equals("java.lang.String")</span>
-                    c3.append(<span class="hljs-string">" &amp;&amp; "</span>).append(<span class="hljs-string">" $3["</span>).append(l).append(<span class="hljs-string">"].getName().equals(\""</span>)
-                            .append(m.getParameterTypes()[l].getName()).append(<span class="hljs-string">"\")"</span>);
+        // 对重载方法进行处理，考虑下面的方法：
+        //    1. void sayHello(Integer, String)
+        //    2. void sayHello(Integer, Integer)
+        // 方法名相同，参数列表长度也相同，因此不能仅通过这两项判断两个方法是否相等。
+        // 需要进一步判断方法的参数类型
+        if (override) {
+            if (len &gt; 0) {
+                for (int l = 0; l &lt; len; l++) {
+                    // 生成参数类型进行检测代码，比如：
+                    // &amp;&amp; $3[0].getName().equals("java.lang.Integer") 
+                    //    &amp;&amp; $3[1].getName().equals("java.lang.String")
+                    c3.append(" &amp;&amp; ").append(" $3[").append(l).append("].getName().equals(\"")
+                            .append(m.getParameterTypes()[l].getName()).append("\")");
                 }
             }
         }
 
-        <span class="hljs-comment">// 添加 ) {，完成方法判断语句，此时生成的代码可能如下（已格式化）：</span>
-        <span class="hljs-comment">// if ("sayHello".equals($2) </span>
-        <span class="hljs-comment">//     &amp;&amp; $3.length == 2</span>
-        <span class="hljs-comment">//     &amp;&amp; $3[0].getName().equals("java.lang.Integer") </span>
-        <span class="hljs-comment">//     &amp;&amp; $3[1].getName().equals("java.lang.String")) {</span>
-        c3.append(<span class="hljs-string">" ) { "</span>);
+        // 添加 ) {，完成方法判断语句，此时生成的代码可能如下（已格式化）：
+        // if ("sayHello".equals($2) 
+        //     &amp;&amp; $3.length == 2
+        //     &amp;&amp; $3[0].getName().equals("java.lang.Integer") 
+        //     &amp;&amp; $3[1].getName().equals("java.lang.String")) {
+        c3.append(" ) { ");
 
-        <span class="hljs-comment">// 根据返回值类型生成目标方法调用语句</span>
-        <span class="hljs-keyword">if</span> (m.getReturnType() == Void.TYPE)
-            <span class="hljs-comment">// w.sayHello((java.lang.Integer)$4[0], (java.lang.String)$4[1]); return null;</span>
-            c3.append(<span class="hljs-string">" w."</span>).append(mn).append(<span class="hljs-string">'('</span>).append(args(m.getParameterTypes(), <span class="hljs-string">"$4"</span>)).append(<span class="hljs-string">");"</span>).append(<span class="hljs-string">" return null;"</span>);
-        <span class="hljs-keyword">else</span>
-            <span class="hljs-comment">// return w.sayHello((java.lang.Integer)$4[0], (java.lang.String)$4[1]);</span>
-            c3.append(<span class="hljs-string">" return ($w)w."</span>).append(mn).append(<span class="hljs-string">'('</span>).append(args(m.getParameterTypes(), <span class="hljs-string">"$4"</span>)).append(<span class="hljs-string">");"</span>);
+        // 根据返回值类型生成目标方法调用语句
+        if (m.getReturnType() == Void.TYPE)
+            // w.sayHello((java.lang.Integer)$4[0], (java.lang.String)$4[1]); return null;
+            c3.append(" w.").append(mn).append('(').append(args(m.getParameterTypes(), "$4")).append(");").append(" return null;");
+        else
+            // return w.sayHello((java.lang.Integer)$4[0], (java.lang.String)$4[1]);
+            c3.append(" return ($w)w.").append(mn).append('(').append(args(m.getParameterTypes(), "$4")).append(");");
 
-        <span class="hljs-comment">// 添加 }, 生成的代码形如（已格式化）：</span>
-        <span class="hljs-comment">// if ("sayHello".equals($2) </span>
-        <span class="hljs-comment">//     &amp;&amp; $3.length == 2</span>
-        <span class="hljs-comment">//     &amp;&amp; $3[0].getName().equals("java.lang.Integer") </span>
-        <span class="hljs-comment">//     &amp;&amp; $3[1].getName().equals("java.lang.String")) {</span>
-        <span class="hljs-comment">//</span>
-        <span class="hljs-comment">//     w.sayHello((java.lang.Integer)$4[0], (java.lang.String)$4[1]); </span>
-        <span class="hljs-comment">//     return null;</span>
-        <span class="hljs-comment">// }</span>
-        c3.append(<span class="hljs-string">" }"</span>);
+        // 添加 }, 生成的代码形如（已格式化）：
+        // if ("sayHello".equals($2) 
+        //     &amp;&amp; $3.length == 2
+        //     &amp;&amp; $3[0].getName().equals("java.lang.Integer") 
+        //     &amp;&amp; $3[1].getName().equals("java.lang.String")) {
+        //
+        //     w.sayHello((java.lang.Integer)$4[0], (java.lang.String)$4[1]); 
+        //     return null;
+        // }
+        c3.append(" }");
 
-        <span class="hljs-comment">// 添加方法名到 mns 集合中</span>
+        // 添加方法名到 mns 集合中
         mns.add(mn);
-        <span class="hljs-comment">// 检测当前方法是否在 c 中被声明的</span>
-        <span class="hljs-keyword">if</span> (m.getDeclaringClass() == c)
-            <span class="hljs-comment">// 若是，则将当前方法名添加到 dmns 中</span>
+        // 检测当前方法是否在 c 中被声明的
+        if (m.getDeclaringClass() == c)
+            // 若是，则将当前方法名添加到 dmns 中
             dmns.add(mn);
         ms.put(ReflectUtils.getDesc(m), m);
     }
-    <span class="hljs-keyword">if</span> (hasMethod) {
-        <span class="hljs-comment">// 添加异常捕捉语句</span>
-        c3.append(<span class="hljs-string">" } catch(Throwable e) { "</span>);
-        c3.append(<span class="hljs-string">"     throw new java.lang.reflect.InvocationTargetException(e); "</span>);
-        c3.append(<span class="hljs-string">" }"</span>);
+    if (hasMethod) {
+        // 添加异常捕捉语句
+        c3.append(" } catch(Throwable e) { ");
+        c3.append("     throw new java.lang.reflect.InvocationTargetException(e); ");
+        c3.append(" }");
     }
 
-    <span class="hljs-comment">// 添加 NoSuchMethodException 异常抛出代码</span>
-    c3.append(<span class="hljs-string">" throw new "</span> + NoSuchMethodException.class.getName() + <span class="hljs-string">"(\"Not found method \\\"\"+$2+\"\\\" in class "</span> + c.getName() + <span class="hljs-string">".\"); }"</span>);
+    // 添加 NoSuchMethodException 异常抛出代码
+    c3.append(" throw new " + NoSuchMethodException.class.getName() + "(\"Not found method \\\"\"+$2+\"\\\" in class " + c.getName() + ".\"); }");
 
-    <span class="hljs-comment">// --------------------------------✨ 分割线3 ✨-------------------------------------</span>
+    // --------------------------------✨ 分割线3 ✨-------------------------------------
 
     Matcher matcher;
-    <span class="hljs-comment">// 处理 get/set 方法</span>
-    <span class="hljs-keyword">for</span> (Map.Entry&lt;String, Method&gt; entry : ms.entrySet()) {
+    // 处理 get/set 方法
+    for (Map.Entry&lt;String, Method&gt; entry : ms.entrySet()) {
         String md = entry.getKey();
         Method method = (Method) entry.getValue();
-        <span class="hljs-comment">// 匹配以 get 开头的方法</span>
-        <span class="hljs-keyword">if</span> ((matcher = ReflectUtils.GETTER_METHOD_DESC_PATTERN.matcher(md)).matches()) {
-            <span class="hljs-comment">// 获取属性名</span>
-            String pn = propertyName(matcher.group(<span class="hljs-number">1</span>));
-            <span class="hljs-comment">// 生成属性判断以及返回语句，示例如下：</span>
-            <span class="hljs-comment">// if( $2.equals("name") ) { return ($w).w.getName(); }</span>
-            c2.append(<span class="hljs-string">" if( $2.equals(\""</span>).append(pn).append(<span class="hljs-string">"\") ){ return ($w)w."</span>).append(method.getName()).append(<span class="hljs-string">"(); }"</span>);
+        // 匹配以 get 开头的方法
+        if ((matcher = ReflectUtils.GETTER_METHOD_DESC_PATTERN.matcher(md)).matches()) {
+            // 获取属性名
+            String pn = propertyName(matcher.group(1));
+            // 生成属性判断以及返回语句，示例如下：
+            // if( $2.equals("name") ) { return ($w).w.getName(); }
+            c2.append(" if( $2.equals(\"").append(pn).append("\") ){ return ($w)w.").append(method.getName()).append("(); }");
             pts.put(pn, method.getReturnType());
 
-        <span class="hljs-comment">// 匹配以 is/has/can 开头的方法</span>
-        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((matcher = ReflectUtils.IS_HAS_CAN_METHOD_DESC_PATTERN.matcher(md)).matches()) {
-            String pn = propertyName(matcher.group(<span class="hljs-number">1</span>));
-            <span class="hljs-comment">// 生成属性判断以及返回语句，示例如下：</span>
-            <span class="hljs-comment">// if( $2.equals("dream") ) { return ($w).w.hasDream(); }</span>
-            c2.append(<span class="hljs-string">" if( $2.equals(\""</span>).append(pn).append(<span class="hljs-string">"\") ){ return ($w)w."</span>).append(method.getName()).append(<span class="hljs-string">"(); }"</span>);
+        // 匹配以 is/has/can 开头的方法
+        } else if ((matcher = ReflectUtils.IS_HAS_CAN_METHOD_DESC_PATTERN.matcher(md)).matches()) {
+            String pn = propertyName(matcher.group(1));
+            // 生成属性判断以及返回语句，示例如下：
+            // if( $2.equals("dream") ) { return ($w).w.hasDream(); }
+            c2.append(" if( $2.equals(\"").append(pn).append("\") ){ return ($w)w.").append(method.getName()).append("(); }");
             pts.put(pn, method.getReturnType());
 
-        <span class="hljs-comment">// 匹配以 set 开头的方法</span>
-        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> ((matcher = ReflectUtils.SETTER_METHOD_DESC_PATTERN.matcher(md)).matches()) {
-            Class&lt;?&gt; pt = method.getParameterTypes()[<span class="hljs-number">0</span>];
-            String pn = propertyName(matcher.group(<span class="hljs-number">1</span>));
-            <span class="hljs-comment">// 生成属性判断以及 setter 调用语句，示例如下：</span>
-            <span class="hljs-comment">// if( $2.equals("name") ) { w.setName((java.lang.String)$3); return; }</span>
-            c1.append(<span class="hljs-string">" if( $2.equals(\""</span>).append(pn).append(<span class="hljs-string">"\") ){ w."</span>).append(method.getName()).append(<span class="hljs-string">"("</span>).append(arg(pt, <span class="hljs-string">"$3"</span>)).append(<span class="hljs-string">"); return; }"</span>);
+        // 匹配以 set 开头的方法
+        } else if ((matcher = ReflectUtils.SETTER_METHOD_DESC_PATTERN.matcher(md)).matches()) {
+            Class&lt;?&gt; pt = method.getParameterTypes()[0];
+            String pn = propertyName(matcher.group(1));
+            // 生成属性判断以及 setter 调用语句，示例如下：
+            // if( $2.equals("name") ) { w.setName((java.lang.String)$3); return; }
+            c1.append(" if( $2.equals(\"").append(pn).append("\") ){ w.").append(method.getName()).append("(").append(arg(pt, "$3")).append("); return; }");
             pts.put(pn, pt);
         }
     }
 
-    <span class="hljs-comment">// 添加 NoSuchPropertyException 异常抛出代码</span>
-    c1.append(<span class="hljs-string">" throw new "</span> + NoSuchPropertyException.class.getName() + <span class="hljs-string">"(\"Not found property \\\"\"+$2+\"\\\" filed or setter method in class "</span> + c.getName() + <span class="hljs-string">".\"); }"</span>);
-    c2.append(<span class="hljs-string">" throw new "</span> + NoSuchPropertyException.class.getName() + <span class="hljs-string">"(\"Not found property \\\"\"+$2+\"\\\" filed or setter method in class "</span> + c.getName() + <span class="hljs-string">".\"); }"</span>);
+    // 添加 NoSuchPropertyException 异常抛出代码
+    c1.append(" throw new " + NoSuchPropertyException.class.getName() + "(\"Not found property \\\"\"+$2+\"\\\" filed or setter method in class " + c.getName() + ".\"); }");
+    c2.append(" throw new " + NoSuchPropertyException.class.getName() + "(\"Not found property \\\"\"+$2+\"\\\" filed or setter method in class " + c.getName() + ".\"); }");
 
-    <span class="hljs-comment">// --------------------------------✨ 分割线4 ✨-------------------------------------</span>
+    // --------------------------------✨ 分割线4 ✨-------------------------------------
 
-    <span class="hljs-keyword">long</span> id = WRAPPER_CLASS_COUNTER.getAndIncrement();
-    <span class="hljs-comment">// 创建类生成器</span>
+    long id = WRAPPER_CLASS_COUNTER.getAndIncrement();
+    // 创建类生成器
     ClassGenerator cc = ClassGenerator.newInstance(cl);
-    <span class="hljs-comment">// 设置类名及超类</span>
-    cc.setClassName((Modifier.isPublic(c.getModifiers()) ? Wrapper.class.getName() : c.getName() + <span class="hljs-string">"$sw"</span>) + id);
+    // 设置类名及超类
+    cc.setClassName((Modifier.isPublic(c.getModifiers()) ? Wrapper.class.getName() : c.getName() + "$sw") + id);
     cc.setSuperClass(Wrapper.class);
 
-    <span class="hljs-comment">// 添加默认构造方法</span>
+    // 添加默认构造方法
     cc.addDefaultConstructor();
 
-    <span class="hljs-comment">// 添加字段</span>
-    cc.addField(<span class="hljs-string">"public static String[] pns;"</span>);
-    cc.addField(<span class="hljs-string">"public static "</span> + Map.class.getName() + <span class="hljs-string">" pts;"</span>);
-    cc.addField(<span class="hljs-string">"public static String[] mns;"</span>);
-    cc.addField(<span class="hljs-string">"public static String[] dmns;"</span>);
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>, len = ms.size(); i &lt; len; i++)
-        cc.addField(<span class="hljs-string">"public static Class[] mts"</span> + i + <span class="hljs-string">";"</span>);
+    // 添加字段
+    cc.addField("public static String[] pns;");
+    cc.addField("public static " + Map.class.getName() + " pts;");
+    cc.addField("public static String[] mns;");
+    cc.addField("public static String[] dmns;");
+    for (int i = 0, len = ms.size(); i &lt; len; i++)
+        cc.addField("public static Class[] mts" + i + ";");
 
-    <span class="hljs-comment">// 添加方法代码</span>
-    cc.addMethod(<span class="hljs-string">"public String[] getPropertyNames(){ return pns; }"</span>);
-    cc.addMethod(<span class="hljs-string">"public boolean hasProperty(String n){ return pts.containsKey($1); }"</span>);
-    cc.addMethod(<span class="hljs-string">"public Class getPropertyType(String n){ return (Class)pts.get($1); }"</span>);
-    cc.addMethod(<span class="hljs-string">"public String[] getMethodNames(){ return mns; }"</span>);
-    cc.addMethod(<span class="hljs-string">"public String[] getDeclaredMethodNames(){ return dmns; }"</span>);
+    // 添加方法代码
+    cc.addMethod("public String[] getPropertyNames(){ return pns; }");
+    cc.addMethod("public boolean hasProperty(String n){ return pts.containsKey($1); }");
+    cc.addMethod("public Class getPropertyType(String n){ return (Class)pts.get($1); }");
+    cc.addMethod("public String[] getMethodNames(){ return mns; }");
+    cc.addMethod("public String[] getDeclaredMethodNames(){ return dmns; }");
     cc.addMethod(c1.toString());
     cc.addMethod(c2.toString());
     cc.addMethod(c3.toString());
 
-    <span class="hljs-keyword">try</span> {
-        <span class="hljs-comment">// 生成类</span>
+    try {
+        // 生成类
         Class&lt;?&gt; wc = cc.toClass();
         
-        <span class="hljs-comment">// 设置字段值</span>
-        wc.getField(<span class="hljs-string">"pts"</span>).set(<span class="hljs-keyword">null</span>, pts);
-        wc.getField(<span class="hljs-string">"pns"</span>).set(<span class="hljs-keyword">null</span>, pts.keySet().toArray(<span class="hljs-keyword">new</span> String[<span class="hljs-number">0</span>]));
-        wc.getField(<span class="hljs-string">"mns"</span>).set(<span class="hljs-keyword">null</span>, mns.toArray(<span class="hljs-keyword">new</span> String[<span class="hljs-number">0</span>]));
-        wc.getField(<span class="hljs-string">"dmns"</span>).set(<span class="hljs-keyword">null</span>, dmns.toArray(<span class="hljs-keyword">new</span> String[<span class="hljs-number">0</span>]));
-        <span class="hljs-keyword">int</span> ix = <span class="hljs-number">0</span>;
-        <span class="hljs-keyword">for</span> (Method m : ms.values())
-            wc.getField(<span class="hljs-string">"mts"</span> + ix++).set(<span class="hljs-keyword">null</span>, m.getParameterTypes());
+        // 设置字段值
+        wc.getField("pts").set(null, pts);
+        wc.getField("pns").set(null, pts.keySet().toArray(new String[0]));
+        wc.getField("mns").set(null, mns.toArray(new String[0]));
+        wc.getField("dmns").set(null, dmns.toArray(new String[0]));
+        int ix = 0;
+        for (Method m : ms.values())
+            wc.getField("mts" + ix++).set(null, m.getParameterTypes());
 
-        <span class="hljs-comment">// 创建 Wrapper 实例</span>
-        <span class="hljs-keyword">return</span> (Wrapper) wc.newInstance();
-    } <span class="hljs-keyword">catch</span> (RuntimeException e) {
-        <span class="hljs-keyword">throw</span> e;
-    } <span class="hljs-keyword">catch</span> (Throwable e) {
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(e.getMessage(), e);
-    } <span class="hljs-keyword">finally</span> {
+        // 创建 Wrapper 实例
+        return (Wrapper) wc.newInstance();
+    } catch (RuntimeException e) {
+        throw e;
+    } catch (Throwable e) {
+        throw new RuntimeException(e.getMessage(), e);
+    } finally {
         cc.release();
         ms.clear();
         mns.clear();
@@ -960,39 +960,39 @@
 }
 </code></pre>
 <p>如上，在同一台机器上（单网卡），同一个端口上仅允许启动一个服务器实例。若某个端口上已有服务器实例，此时则调用 reset 方法重置服务器的一些配置。考虑到篇幅问题，关于服务器实例重置的代码就不分析了。接下来分析服务器实例的创建过程。如下：</p>
-<pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">private</span> ExchangeServer <span class="hljs-title">createServer</span><span class="hljs-params">(URL url)</span> </span>{
+<pre><code class="language-java">private ExchangeServer createServer(URL url) {
     url = url.addParameterIfAbsent(Constants.CHANNEL_READONLYEVENT_SENT_KEY,
-    <span class="hljs-comment">// 添加心跳检测配置到 url 中</span>
+    // 添加心跳检测配置到 url 中
     url = url.addParameterIfAbsent(Constants.HEARTBEAT_KEY, String.valueOf(Constants.DEFAULT_HEARTBEAT));
-	<span class="hljs-comment">// 获取 server 参数，默认为 netty</span>
+	// 获取 server 参数，默认为 netty
     String str = url.getParameter(Constants.SERVER_KEY, Constants.DEFAULT_REMOTING_SERVER);
 
-	<span class="hljs-comment">// 通过 SPI 检测是否存在 server 参数所代表的 Transporter 拓展，不存在则抛出异常</span>
-    <span class="hljs-keyword">if</span> (str != <span class="hljs-keyword">null</span> &amp;&amp; str.length() &gt; <span class="hljs-number">0</span> &amp;&amp; !ExtensionLoader.getExtensionLoader(Transporter.class).hasExtension(str))
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RpcException(<span class="hljs-string">"Unsupported server type: "</span> + str + <span class="hljs-string">", url: "</span> + url);
+	// 通过 SPI 检测是否存在 server 参数所代表的 Transporter 拓展，不存在则抛出异常
+    if (str != null &amp;&amp; str.length() &gt; 0 &amp;&amp; !ExtensionLoader.getExtensionLoader(Transporter.class).hasExtension(str))
+        throw new RpcException("Unsupported server type: " + str + ", url: " + url);
 
-    <span class="hljs-comment">// 添加编码解码器参数</span>
+    // 添加编码解码器参数
     url = url.addParameter(Constants.CODEC_KEY, DubboCodec.NAME);
     ExchangeServer server;
-    <span class="hljs-keyword">try</span> {
-        <span class="hljs-comment">// 创建 ExchangeServer</span>
+    try {
+        // 创建 ExchangeServer
         server = Exchangers.bind(url, requestHandler);
-    } <span class="hljs-keyword">catch</span> (RemotingException e) {
-        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RpcException(<span class="hljs-string">"Fail to start server..."</span>);
+    } catch (RemotingException e) {
+        throw new RpcException("Fail to start server...");
     }
                                    
-	<span class="hljs-comment">// 获取 client 参数，可指定 netty，mina</span>
+	// 获取 client 参数，可指定 netty，mina
     str = url.getParameter(Constants.CLIENT_KEY);
-    <span class="hljs-keyword">if</span> (str != <span class="hljs-keyword">null</span> &amp;&amp; str.length() &gt; <span class="hljs-number">0</span>) {
-        <span class="hljs-comment">// 获取所有的 Transporter 实现类名称集合，比如 supportedTypes = [netty, mina]</span>
+    if (str != null &amp;&amp; str.length() &gt; 0) {
+        // 获取所有的 Transporter 实现类名称集合，比如 supportedTypes = [netty, mina]
         Set&lt;String&gt; supportedTypes = ExtensionLoader.getExtensionLoader(Transporter.class).getSupportedExtensions();
-        <span class="hljs-comment">// 检测当前 Dubbo 所支持的 Transporter 实现类名称列表中，</span>
-        <span class="hljs-comment">// 是否包含 client 所表示的 Transporter，若不包含，则抛出异常</span>
-        <span class="hljs-keyword">if</span> (!supportedTypes.contains(str)) {
-            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RpcException(<span class="hljs-string">"Unsupported client type..."</span>);
+        // 检测当前 Dubbo 所支持的 Transporter 实现类名称列表中，
+        // 是否包含 client 所表示的 Transporter，若不包含，则抛出异常
+        if (!supportedTypes.contains(str)) {
+            throw new RpcException("Unsupported client type...");
         }
     }
-    <span class="hljs-keyword">return</span> server;
+    return server;
 }
 </code></pre>
 <p>如上，createServer 包含三个核心的逻辑。第一是检测是否存在 server 参数所代表的 Transporter 拓展，不存在则抛出异常。第二是创建服务器实例。第三是检测是否支持 client 参数所表示的 Transporter 拓展，不存在也是抛出异常。两次检测操作所对应的代码比较直白了，无需多说。但创建服务器的操作目前还不是很清晰，我们继续往下看。</p>
@@ -1076,7 +1076,7 @@
             <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RemotingException(<span class="hljs-string">"Failed to bind "</span>);
         }
 
-        DataStore dataStore = ExtensionLoader.getExtensionLoader(DataStore.class).getDefaultExtension();
+        DataStore dataStore = ExtensionLoader.getExtensionLoader(DataStore<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getDefaultExtension</span>()</span>;
         executor = (ExecutorService) dataStore.get(Constants.EXECUTOR_SERVICE_COMPONENT_KEY, Integer.toString(url.getPort()));
     }
     
@@ -1155,9 +1155,9 @@
 <h4>2.2.4.1 创建注册中心</h4>
 <p>本节内容以 Zookeeper 注册中心为例进行分析。下面先来看一下 getRegistry 方法的源码，这个方法由 AbstractRegistryFactory 实现。如下：</p>
 <pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">public</span> Registry <span class="hljs-title">getRegistry</span><span class="hljs-params">(URL url)</span> </span>{
-    url = url.setPath(RegistryService.class.getName())
-            .addParameter(Constants.INTERFACE_KEY, RegistryService.class.getName())
-            .removeParameters(Constants.EXPORT_KEY, Constants.REFER_KEY);
+    url = url.setPath(RegistryService<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getName</span>())
+            .<span class="hljs-title">addParameter</span>(<span class="hljs-title">Constants</span>.<span class="hljs-title">INTERFACE_KEY</span>, <span class="hljs-title">RegistryService</span>.<span class="hljs-title">class</span>.<span class="hljs-title">getName</span>())
+            .<span class="hljs-title">removeParameters</span>(<span class="hljs-title">Constants</span>.<span class="hljs-title">EXPORT_KEY</span>, <span class="hljs-title">Constants</span>.<span class="hljs-title">REFER_KEY</span>)</span>;
     String key = url.toServiceString();
     LOCK.lock();
     <span class="hljs-keyword">try</span> {

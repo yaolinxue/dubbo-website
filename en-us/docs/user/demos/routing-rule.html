@@ -16,7 +16,7 @@
 <p>The routing rules <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> determine the target server of one service call. It has two kinds of routing rules: conditional routing rules and script routing rules. It also support extension<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>.</p>
 <h2>Write Routing Rules</h2>
 <p>Writing routing rules to the registry is usually done by the monitoring center or the console page.</p>
-<pre><code class="language-java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension();
+<pre><code class="language-java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getAdaptiveExtension</span>()</span>;
 Registry registry = registryFactory.getRegistry(URL.valueOf(<span class="hljs-string">"zookeeper://10.20.153.10:2181"</span>));
 registry.register(URL.valueOf(<span class="hljs-string">"route://0.0.0.0/com.foo.BarService?category=routers&amp;dynamic=false&amp;rule="</span> + URL.encode(<span class="hljs-string">"host = 10.20.153.10 =&gt; host = 10.20.153.11"</span>)));
 </code></pre>

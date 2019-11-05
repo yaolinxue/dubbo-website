@@ -71,13 +71,11 @@ configCenter.setAddress(<span class="hljs-string">"zookeeper://127.0.0.1:2181"</
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:config-center</span> <span class="hljs-attr">protocol</span>=<span class="hljs-string">"apollo"</span> <span class="hljs-attr">address</span>=<span class="hljs-string">"127.0.0.1:2181"</span>/&gt;</span>
 </code></pre>
 <p>Apollo中的一个核心概念是命名空间 - namespace（和上面zookeeper的namespace概念不同），在这里全局和应用级别配置就是通过命名空间来区分的。</p>
-<p>默认情况下，Dubbo会从名叫<code>dubbo</code>的命名空间中读取全局配置（<code>&lt;dubbo:config-center namespace=&quot;your namespace&quot;&gt;</code>）</p>
-<p><img src="/img/apollo-configcenter-dubbo.jpg" alt="image-20190128095444169"></p>
-<p>而应用自有的配置，会从<code>application</code>命名空间读取</p>
-<p><img src="/img/apollo-configcenter-application.jpg" alt="image-20190128095659517"></p>
+<p>默认情况下，Dubbo会从名叫<code>dubbo-properties</code>（由于 Apollo 不支持特殊后缀 <code>.properties</code> ）的命名空间中读取全局配置（<code>&lt;dubbo:config-center namespace=&quot;your namespace&quot;&gt;</code>）</p>
+<p><img src="/img/apollo-configcenter-dubbo.png" alt="image-20190128095444169"></p>
 <blockquote>
-<p>注意：当前dubbo.properties是作为一个key存储在Apollo namespace中，为更好的适应Apollo的设计理念，在接下来的版本中可能会调整为</p>
-<p><img src="/img/apollo-configcenter-enhance.jpg" alt="image-20190128100058755"></p>
+<p>这里相当于是把 <code>dubbo.properties</code> 配置文件的内容存储在了 Apollo 中，应用通过关联共享的 <code>dubbo-properties</code> namespace 继承公共配置,
+应用也可以按照 Apollo 的做法来覆盖个别配置项。</p>
 </blockquote>
 <h4>自己加载外部化配置</h4>
 <p>所谓Dubbo对配置中心的支持，本质上就是把<code>.properties</code>从远程拉取到本地，然后和本地的配置做一次融合。理论上只要Dubbo框架能拿到需要的配置就可以正常的启动，它并不关心这些配置是自己加载到的还是应用直接塞给它的，所以Dubbo还提供了以下API，让用户将自己组织好的配置塞给Dubbo框架（配置加载的过程是用户要完成的），这样Dubbo框架就不再直接和Apollo或Zookeeper做读取配置交互。</p>

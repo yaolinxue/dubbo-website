@@ -122,7 +122,7 @@ Understand the work flow and basic concepts of RMI is helpful to handle current 
         ServiceConfig&lt;GreetingsService&gt; service = <span class="hljs-keyword">new</span> ServiceConfig&lt;&gt;(); <span class="hljs-comment">// #1</span>
         service.setApplication(<span class="hljs-keyword">new</span> ApplicationConfig(<span class="hljs-string">"first-dubbo-provider"</span>)); <span class="hljs-comment">// #2</span>
         service.setRegistry(<span class="hljs-keyword">new</span> RegistryConfig(<span class="hljs-string">"multicast://224.5.6.7:1234"</span>)); <span class="hljs-comment">// #3</span>
-        service.setInterface(GreetingsService.class); <span class="hljs-comment">// #4</span>
+        service.setInterface(GreetingsService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>; <span class="hljs-comment">// #4</span>
         service.setRef(<span class="hljs-keyword">new</span> GreetingsServiceImpl()); <span class="hljs-comment">// #5</span>
         service.export(); <span class="hljs-comment">// #6</span>
         System.in.read(); <span class="hljs-comment">// #7</span>
@@ -145,7 +145,7 @@ Understand the work flow and basic concepts of RMI is helpful to handle current 
         ReferenceConfig&lt;GreetingsService&gt; reference = <span class="hljs-keyword">new</span> ReferenceConfig&lt;&gt;(); <span class="hljs-comment">// #1</span>
         reference.setApplication(<span class="hljs-keyword">new</span> ApplicationConfig(<span class="hljs-string">"first-dubbo-client"</span>)); <span class="hljs-comment">// #2</span>
         reference.setRegistry(<span class="hljs-keyword">new</span> RegistryConfig(<span class="hljs-string">"multicast://224.5.6.7:1234"</span>)); <span class="hljs-comment">// #3</span>
-        reference.setInterface(GreetingsService.class); <span class="hljs-comment">// #4</span>
+        reference.setInterface(GreetingsService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>; <span class="hljs-comment">// #4</span>
         GreetingsService greetingsService = reference.get(); <span class="hljs-comment">// #5</span>
         String message = greetingsService.sayHi(<span class="hljs-string">"dubbo"</span>); <span class="hljs-comment">// #6</span>
         System.out.println(message); <span class="hljs-comment">// #7</span>
@@ -155,7 +155,7 @@ Understand the work flow and basic concepts of RMI is helpful to handle current 
 <p><strong>Notes</strong>：</p>
 <ol>
 <li>Create an instance of <em>ReferenceConfig</em> with service interface type as generics parameters, which is <em>GreetingsService</em> in this example.</li>
-<li>Create an instance of <em>AplicatonConfig</em>, and assemble it into <em>ReferenceConfig</em>.</li>
+<li>Create an instance of <em>ApplicationConfig</em>, and assemble it into <em>ReferenceConfig</em>.</li>
 <li>Generate an instance <em>RegistryConfig</em>, and assemble it into <em>ReferenceConfig</em>. Note that the address information here should be the same as the one of the service provider.</li>
 <li>Assemble the service contract <em>GreetingsService</em> into <em>ReferenceConfig</em>.</li>
 <li>Obtain the agency of <em>GreetingsService</em> from <em>ReferenceConfig</em>.</li>
@@ -243,7 +243,7 @@ hi, dubbo
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoApplication</span> </span>{
 	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
 		<span class="hljs-keyword">new</span> EmbeddedZooKeeper(<span class="hljs-number">2181</span>, <span class="hljs-keyword">false</span>).start();  <span class="hljs-comment">// #1</span>
-		SpringApplication.run(DemoApplication.class, args); <span class="hljs-comment">// #2</span>
+		SpringApplication.run(DemoApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>; <span class="hljs-comment">// #2</span>
 	}
 }
 </code></pre>

@@ -285,35 +285,35 @@ dubbo.registry.address=10.20.153.10:9090
         <span class="hljs-comment">// 创建配置上下文</span>
         AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext();
         <span class="hljs-comment">// 注册当前配置 Bean</span>
-        context.register(DubboConfiguration.class);
+        context.register(DubboConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         context.refresh();
  	    <span class="hljs-comment">// application</span>
-        ApplicationConfig applicationConfig = context.getBean(<span class="hljs-string">"applicationBean"</span>, ApplicationConfig.class);
+        ApplicationConfig applicationConfig = context.getBean(<span class="hljs-string">"applicationBean"</span>, ApplicationConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.printf(<span class="hljs-string">"applicationBean.name = %s \n"</span>, applicationConfig.getName());
 
         <span class="hljs-comment">// module</span>
-        ModuleConfig moduleConfig = context.getBean(<span class="hljs-string">"moduleBean"</span>, ModuleConfig.class);
+        ModuleConfig moduleConfig = context.getBean(<span class="hljs-string">"moduleBean"</span>, ModuleConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.printf(<span class="hljs-string">"moduleBean.name = %s \n"</span>, moduleConfig.getName());
 
         <span class="hljs-comment">// registry</span>
-        RegistryConfig registryConfig = context.getBean(RegistryConfig.class);
+        RegistryConfig registryConfig = context.getBean(RegistryConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.printf(<span class="hljs-string">"registryConfig.name = %s \n"</span>, registryConfig.getAddress());
 
         <span class="hljs-comment">// protocol</span>
-        ProtocolConfig protocolConfig = context.getBean(ProtocolConfig.class);
+        ProtocolConfig protocolConfig = context.getBean(ProtocolConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.printf(<span class="hljs-string">"protocolConfig.name = %s \n"</span>, protocolConfig.getName());
         System.out.printf(<span class="hljs-string">"protocolConfig.port = %s \n"</span>, protocolConfig.getPort());
 
         <span class="hljs-comment">// monitor</span>
-        MonitorConfig monitorConfig = context.getBean(MonitorConfig.class);
+        MonitorConfig monitorConfig = context.getBean(MonitorConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.printf(<span class="hljs-string">"monitorConfig.name = %s \n"</span>, monitorConfig.getAddress());
 
         <span class="hljs-comment">// provider</span>
-        ProviderConfig providerConfig = context.getBean(ProviderConfig.class);
+        ProviderConfig providerConfig = context.getBean(ProviderConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.printf(<span class="hljs-string">"providerConfig.name = %s \n"</span>, providerConfig.getHost());
 
         <span class="hljs-comment">// consumer</span>
-        ConsumerConfig consumerConfig = context.getBean(ConsumerConfig.class);
+        ConsumerConfig consumerConfig = context.getBean(ConsumerConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         System.out.printf(<span class="hljs-string">"consumerConfig.name = %s \n"</span>, consumerConfig.getClient());
     }
 }
@@ -356,13 +356,13 @@ consumerConfig.name = netty
         <span class="hljs-comment">// 创建配置上下文</span>
         AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext();
         <span class="hljs-comment">// 注册当前配置 Bean</span>
-        context.register(DubboMultipleConfiguration.class);
+        context.register(DubboMultipleConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         context.refresh();
 
         <span class="hljs-comment">// 获取 ApplicationConfig Bean："applicationBean"、"applicationBean2" 和 "applicationBean3"</span>
-        ApplicationConfig applicationBean = context.getBean(<span class="hljs-string">"applicationBean"</span>, ApplicationConfig.class);
-        ApplicationConfig applicationBean2 = context.getBean(<span class="hljs-string">"applicationBean2"</span>, ApplicationConfig.class);
-        ApplicationConfig applicationBean3 = context.getBean(<span class="hljs-string">"applicationBean3"</span>, ApplicationConfig.class);
+        ApplicationConfig applicationBean = context.getBean(<span class="hljs-string">"applicationBean"</span>, ApplicationConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        ApplicationConfig applicationBean2 = context.getBean(<span class="hljs-string">"applicationBean2"</span>, ApplicationConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        ApplicationConfig applicationBean3 = context.getBean(<span class="hljs-string">"applicationBean3"</span>, ApplicationConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
         System.out.printf(<span class="hljs-string">"applicationBean.name = %s \n"</span>, applicationBean.getName());
         System.out.printf(<span class="hljs-string">"applicationBean2.name = %s \n"</span>, applicationBean2.getName());
@@ -459,22 +459,22 @@ applicationBean3.name = dubbo-demo-application3
 </code></pre>
 <h5><code>EnableDubboConfigBindings</code> 配置 Bean</h5>
 <p><code>DubboConfiguration</code> 作为 Dubbo 配置 Bean，除通过 <code>@EnableDubboConfigBinding</code> 绑定之外，还需要 <code>@PropertySource</code> 指定外部化配置文件（<code>classpath:/META-INF/bindings.properties</code>）:</p>
-<pre><code class="language-java"><span class="hljs-comment">/**
+<pre><code class="language-java">/**
  * Dubbo 配置 Bean
  *
- * <span class="hljs-doctag">@author</span> &lt;a href="mailto:mercyblitz@gmail.com"&gt;Mercy&lt;/a&gt;
- */</span>
-<span class="hljs-meta">@EnableDubboConfigBindings</span>({
-        <span class="hljs-meta">@EnableDubboConfigBinding</span>(prefix = <span class="hljs-string">"${applications.prefix}"</span>,
-                type = ApplicationConfig.class, multiple = <span class="hljs-keyword">true</span>), <span class="hljs-comment">// 多 ApplicationConfig Bean 绑定</span>
-        <span class="hljs-meta">@EnableDubboConfigBinding</span>(prefix = <span class="hljs-string">"dubbo.module"</span>, <span class="hljs-comment">// 不带 "." 后缀</span>
-                type = ModuleConfig.class), <span class="hljs-comment">// 单 ModuleConfig Bean 绑定</span>
-        <span class="hljs-meta">@EnableDubboConfigBinding</span>(prefix = <span class="hljs-string">"dubbo.registry."</span>, <span class="hljs-comment">// 带 "." 后缀</span>
-                type = RegistryConfig.class) <span class="hljs-comment">// 单 RegistryConfig Bean 绑定</span>
+ * @author &lt;a href="mailto:mercyblitz@gmail.com"&gt;Mercy&lt;/a&gt;
+ */
+@EnableDubboConfigBindings({
+        @EnableDubboConfigBinding(prefix = "${applications.prefix}",
+                type = ApplicationConfig.class, multiple = true), // 多 ApplicationConfig Bean 绑定
+        @EnableDubboConfigBinding(prefix = "dubbo.module", // 不带 "." 后缀
+                type = ModuleConfig.class), // 单 ModuleConfig Bean 绑定
+        @EnableDubboConfigBinding(prefix = "dubbo.registry.", // 带 "." 后缀
+                type = RegistryConfig.class) // 单 RegistryConfig Bean 绑定
 })
-<span class="hljs-meta">@PropertySource</span>(<span class="hljs-string">"META-INF/bindings.properties"</span>)
-<span class="hljs-meta">@Configuration</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DubboConfiguration</span> </span>{
+@PropertySource("META-INF/bindings.properties")
+@Configuration
+public class DubboConfiguration {
   
 }
 </code></pre>
@@ -491,24 +491,24 @@ applicationBean3.name = dubbo-demo-application3
         <span class="hljs-comment">// 创建配置上下文</span>
         AnnotationConfigApplicationContext context = <span class="hljs-keyword">new</span> AnnotationConfigApplicationContext();
         <span class="hljs-comment">// 注册当前配置 Bean</span>
-        context.register(DubboConfiguration.class);
+        context.register(DubboConfiguration<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         context.refresh();
  		<span class="hljs-comment">// 获取 ApplicationConfig Bean："applicationBean"、"applicationBean2" 和 "applicationBean3"</span>
-        ApplicationConfig applicationBean = context.getBean(<span class="hljs-string">"applicationBean"</span>, ApplicationConfig.class);
-        ApplicationConfig applicationBean2 = context.getBean(<span class="hljs-string">"applicationBean2"</span>, ApplicationConfig.class);
-        ApplicationConfig applicationBean3 = context.getBean(<span class="hljs-string">"applicationBean3"</span>, ApplicationConfig.class);
+        ApplicationConfig applicationBean = context.getBean(<span class="hljs-string">"applicationBean"</span>, ApplicationConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        ApplicationConfig applicationBean2 = context.getBean(<span class="hljs-string">"applicationBean2"</span>, ApplicationConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        ApplicationConfig applicationBean3 = context.getBean(<span class="hljs-string">"applicationBean3"</span>, ApplicationConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
         System.out.printf(<span class="hljs-string">"applicationBean.name = %s \n"</span>, applicationBean.getName());
         System.out.printf(<span class="hljs-string">"applicationBean2.name = %s \n"</span>, applicationBean2.getName());
         System.out.printf(<span class="hljs-string">"applicationBean3.name = %s \n"</span>, applicationBean3.getName());
 
         <span class="hljs-comment">// 获取 ModuleConfig Bean："moduleBean"</span>
-        ModuleConfig moduleBean = context.getBean(<span class="hljs-string">"moduleBean"</span>, ModuleConfig.class);
+        ModuleConfig moduleBean = context.getBean(<span class="hljs-string">"moduleBean"</span>, ModuleConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
         System.out.printf(<span class="hljs-string">"moduleBean.name = %s \n"</span>, moduleBean.getName());
 
         <span class="hljs-comment">// 获取 RegistryConfig Bean</span>
-        RegistryConfig registry = context.getBean(RegistryConfig.class);
+        RegistryConfig registry = context.getBean(RegistryConfig<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 
         System.out.printf(<span class="hljs-string">"registry.address = %s \n"</span>, registry.getAddress());
     }

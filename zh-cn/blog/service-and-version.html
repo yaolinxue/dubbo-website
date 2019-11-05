@@ -169,7 +169,7 @@
             <span class="hljs-keyword">return</span> resultList.iterator().next();
         }
 
-        <span class="hljs-keyword">if</span> (returnType == <span class="hljs-keyword">void</span>.class) {
+        <span class="hljs-keyword">if</span> (returnType == <span class="hljs-keyword">void</span><span class="hljs-class">.<span class="hljs-keyword">class</span>) </span>{
             <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RpcResult((Object) <span class="hljs-keyword">null</span>);
         }
 </code></pre>
@@ -178,7 +178,7 @@
   <span class="hljs-keyword">if</span> (ConfigUtils.isDefault(merger)) {
       resultMerger = MergerFactory.getMerger(returnType);
   } <span class="hljs-keyword">else</span> {
-      resultMerger = ExtensionLoader.getExtensionLoader(Merger.class).getExtension(merger);
+      resultMerger = ExtensionLoader.getExtensionLoader(Merger<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getExtension</span>(<span class="hljs-title">merger</span>)</span>;
   }
   <span class="hljs-keyword">if</span> (resultMerger != <span class="hljs-keyword">null</span>) {
       List&lt;Object&gt; rets = <span class="hljs-keyword">new</span> ArrayList&lt;Object&gt;(resultList.size());

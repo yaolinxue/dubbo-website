@@ -120,7 +120,7 @@ String response = stub.sayHello(); <span class="hljs-comment">// #3</span>
         ServiceConfig&lt;GreetingsService&gt; service = <span class="hljs-keyword">new</span> ServiceConfig&lt;&gt;(); <span class="hljs-comment">// #1</span>
         service.setApplication(<span class="hljs-keyword">new</span> ApplicationConfig(<span class="hljs-string">"first-dubbo-provider"</span>)); <span class="hljs-comment">// #2</span>
         service.setRegistry(<span class="hljs-keyword">new</span> RegistryConfig(<span class="hljs-string">"multicast://224.5.6.7:1234"</span>)); <span class="hljs-comment">// #3</span>
-        service.setInterface(GreetingsService.class); <span class="hljs-comment">// #4</span>
+        service.setInterface(GreetingsService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>; <span class="hljs-comment">// #4</span>
         service.setRef(<span class="hljs-keyword">new</span> GreetingsServiceImpl()); <span class="hljs-comment">// #5</span>
         service.export(); <span class="hljs-comment">// #6</span>
         System.in.read(); <span class="hljs-comment">// #7</span>
@@ -130,7 +130,7 @@ String response = stub.sayHello(); <span class="hljs-comment">// #3</span>
 <p><strong>说明</strong>：</p>
 <ol>
 <li>创建一个 <em>ServiceConfig</em> 的实例，泛型参数信息是服务接口类型，即 <em>GreetingsService</em>。</li>
-<li>生成一个 <em>AplicatonConfig</em> 的实例，并将其装配进 <em>ServiceConfig</em>。</li>
+<li>生成一个 <em>ApplicationConfig</em> 的实例，并将其装配进 <em>ServiceConfig</em>。</li>
 <li>生成一个 <em>RegistryConfig</em> 实例，并将其装配进 <em>ServiceConfig</em>，这里使用的是组播方式，参数是 <code>multicast://224.5.6.7:1234</code>。合法的组播地址范围为：<em>224.0.0.0 - 239.255.255.255</em></li>
 <li>将服务契约 <em>GreetingsService</em> 装配进 <em>ServiceConfig</em>。</li>
 <li>将服务提供者提供的实现 <em>GreetingsServiceImpl</em> 的实例装配进 <em>ServiceConfig</em>。</li>
@@ -143,7 +143,7 @@ String response = stub.sayHello(); <span class="hljs-comment">// #3</span>
         ReferenceConfig&lt;GreetingsService&gt; reference = <span class="hljs-keyword">new</span> ReferenceConfig&lt;&gt;(); <span class="hljs-comment">// #1</span>
         reference.setApplication(<span class="hljs-keyword">new</span> ApplicationConfig(<span class="hljs-string">"first-dubbo-client"</span>)); <span class="hljs-comment">// #2</span>
         reference.setRegistry(<span class="hljs-keyword">new</span> RegistryConfig(<span class="hljs-string">"multicast://224.5.6.7:1234"</span>)); <span class="hljs-comment">// #3</span>
-        reference.setInterface(GreetingsService.class); <span class="hljs-comment">// #4</span>
+        reference.setInterface(GreetingsService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>; <span class="hljs-comment">// #4</span>
         GreetingsService greetingsService = reference.get(); <span class="hljs-comment">// #5</span>
         String message = greetingsService.sayHi(<span class="hljs-string">"dubbo"</span>); <span class="hljs-comment">// #6</span>
         System.out.println(message); <span class="hljs-comment">// #7</span>
@@ -153,7 +153,7 @@ String response = stub.sayHello(); <span class="hljs-comment">// #3</span>
 <p><strong>说明</strong>：</p>
 <ol>
 <li>创建一个 <em>ReferenceConfig</em> 的实例，同样，泛型参数信息是服务接口类型，即 <em>GreetingService</em>。</li>
-<li>生成一个 <em>AplicatonConfig</em> 的实例，并将其装配进 <em>ReferenceConfig</em>。</li>
+<li>生成一个 <em>ApplicationConfig</em> 的实例，并将其装配进 <em>ReferenceConfig</em>。</li>
 <li>生成一个 <em>RegistryConfig</em> 实例，并将其装配进 <em>ReferenceConfig</em>，注意这里的组播地址信息需要与服务提供方的相同。</li>
 <li>将服务契约 <em>GreetingsService</em> 装配进 <em>ReferenceConfig</em>。</li>
 <li>从 <em>ReferenceConfig</em> 中获取到 <em>GreetingService</em> 的代理。</li>
@@ -241,7 +241,7 @@ hi, dubbo
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DemoApplication</span> </span>{
 	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>{
 		<span class="hljs-keyword">new</span> EmbeddedZooKeeper(<span class="hljs-number">2181</span>, <span class="hljs-keyword">false</span>).start();  <span class="hljs-comment">// #1</span>
-		SpringApplication.run(DemoApplication.class, args); <span class="hljs-comment">// #2</span>
+		SpringApplication.run(DemoApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>; <span class="hljs-comment">// #2</span>
 	}
 }
 </code></pre>

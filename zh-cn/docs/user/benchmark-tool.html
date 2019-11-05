@@ -33,7 +33,7 @@
 <li>实现invoke方法，通过serviceFactory创建本地接口代理，并实现自己的业务逻辑，如下</li>
 </ul>
 <pre><code class="language-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">invoke</span><span class="hljs-params">(ServiceFactory serviceFactory)</span> </span>{
-        DemoService demoService = (DemoService) serviceFactory.get(DemoService.class);
+        DemoService demoService = (DemoService) serviceFactory.get(DemoService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
         <span class="hljs-keyword">return</span> demoService.sendRequest(<span class="hljs-string">"hello"</span>);
     }
 </code></pre>
@@ -45,7 +45,7 @@
 <p>将demo.benchmark.jar 和服务的api包放到dubbo.benchmark/lib目录下</p>
 </li>
 <li>
-<p>配置duubo.properties</p>
+<p>配置dubbo.properties</p>
 </li>
 <li>
 <p>运行run.bat(windows)<a href="http://xn--run-du5f.sh">或run.sh</a>(linux)</p>

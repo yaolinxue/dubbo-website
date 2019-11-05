@@ -17,7 +17,7 @@
 <p>因此，自 <code>2.4.0</code> 版本开始， dubbo 提供了简单的工具类 <code>ReferenceConfigCache</code>用于缓存 <code>ReferenceConfig</code> 实例。</p>
 <p>使用方式如下：</p>
 <pre><code class="language-java">ReferenceConfig&lt;XxxService&gt; reference = <span class="hljs-keyword">new</span> ReferenceConfig&lt;XxxService&gt;();
-reference.setInterface(XxxService.class);
+reference.setInterface(XxxService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
 reference.setVersion(<span class="hljs-string">"1.0.0"</span>);
 ......
 ReferenceConfigCache cache = ReferenceConfigCache.getCache();

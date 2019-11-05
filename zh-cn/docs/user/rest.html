@@ -416,12 +416,12 @@ http://localhost:8080/users/1003
 <p>注意：只有在设置server=&quot;jetty&quot;或者server=&quot;tomcat&quot;或者server=&quot;servlet&quot;的时候，你才能通过以上方法正确的得到HttpServletRequest和HttpServletResponse，因为只有这几种server实现了servlet容器。</p>
 </blockquote>
 <p>为了简化编程，在此你也可以用泛型的方式来直接获取特定类型的request/response：</p>
-<pre><code class="language-java"><span class="hljs-keyword">if</span> (RpcContext.getContext().getRequest(HttpServletRequest.class) != <span class="hljs-keyword">null</span>) {
-    System.out.println(<span class="hljs-string">"Client address is "</span> + RpcContext.getContext().getRequest(HttpServletRequest.class).getRemoteAddr());
+<pre><code class="language-java"><span class="hljs-keyword">if</span> (RpcContext.getContext().getRequest(HttpServletRequest<span class="hljs-class">.<span class="hljs-keyword">class</span>) !</span>= <span class="hljs-keyword">null</span>) {
+    System.out.println(<span class="hljs-string">"Client address is "</span> + RpcContext.getContext().getRequest(HttpServletRequest<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getRemoteAddr</span>())</span>;
 }
 
-<span class="hljs-keyword">if</span> (RpcContext.getContext().getResponse(HttpServletResponse.class) != <span class="hljs-keyword">null</span>) {
-    System.out.println(<span class="hljs-string">"Response object from RpcContext: "</span> + RpcContext.getContext().getResponse(HttpServletResponse.class));
+<span class="hljs-keyword">if</span> (RpcContext.getContext().getResponse(HttpServletResponse<span class="hljs-class">.<span class="hljs-keyword">class</span>) !</span>= <span class="hljs-keyword">null</span>) {
+    System.out.println(<span class="hljs-string">"Response object from RpcContext: "</span> + RpcContext.getContext().getResponse(HttpServletResponse<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
 }
 </code></pre>
 <p>如果request/response不符合指定的类型，这里也会返回null。</p>
@@ -679,7 +679,7 @@ Response response = target.request().post(Entity.entity(user, MediaType.APPLICAT
     <span class="hljs-keyword">if</span> (response.getStatus() != <span class="hljs-number">200</span>) {
         <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"Failed with HTTP error code : "</span> + response.getStatus());
     }
-    System.out.println(<span class="hljs-string">"The generated id is "</span> + response.readEntity(RegistrationResult.class).getId());
+    System.out.println(<span class="hljs-string">"The generated id is "</span> + response.readEntity(RegistrationResult<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getId</span>())</span>;
 } <span class="hljs-keyword">finally</span> {
     response.close();
     client.close(); <span class="hljs-comment">// 在真正开发中不要每次关闭client，比如HTTP长连接是由client持有的</span>

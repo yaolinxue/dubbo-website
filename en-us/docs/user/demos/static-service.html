@@ -23,7 +23,7 @@
 </code></pre>
 <p>dynamic mode is disabled when service provider initially registers, then we need to enable it manually. When disconnects, the setting will not be deleted automatically, need to disable it manually.</p>
 <p>For a third party service provider like “memcachd”, it can directly write the address information of service provider to registry, which can be used by consumer.</p>
-<pre><code class="language-java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getAdaptiveExtension();
+<pre><code class="language-java">RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">getAdaptiveExtension</span>()</span>;
 Registry registry = registryFactory.getRegistry(URL.valueOf(<span class="hljs-string">"zookeeper://10.20.153.10:2181"</span>));
 registry.register(URL.valueOf(<span class="hljs-string">"memcached://10.20.153.11/com.foo.BarService?category=providers&amp;dynamic=false&amp;application=foo"</span>));
 </code></pre>

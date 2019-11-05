@@ -296,6 +296,11 @@
   ],
   "zh-cn": [
     {
+      "filename": "Dubbo-supporting-gRPC-HTTP2-and-protobuf.md",
+      "link": "/zh-cn/blog/Dubbo-supporting-gRPC-HTTP2-and-protobuf.html",
+      "meta": {}
+    },
+    {
       "filename": "apachecon-na-2018.md",
       "link": "/zh-cn/blog/apachecon-na-2018.html",
       "meta": {
