@@ -60,8 +60,9 @@
 </ol>
 <h3><code>invoke</code></h3>
 <ol start="0">
-<li><code>invoke XxxService.xxxMethod({&quot;prop&quot;: &quot;value&quot;})</code>: 调用服务的方法</li>
-<li><code>invoke xxxMethod({&quot;prop&quot;: &quot;value&quot;})</code>: 调用服务的方法(自动查找包含此方法的服务)</li>
+<li><code>invoke XxxService.xxxMethod(1234, &quot;abcd&quot;, {&quot;prop&quot; : &quot;value&quot;})</code>: 调用服务的方法</li>
+<li><code>invoke com.xxx.XxxService.XxxService.xxxMethod(1234, &quot;abcd&quot;, {&quot;prop&quot; : &quot;value&quot;})</code>: 调用全路径服务的方法</li>
+<li><code>invoke xxxMethod(1234, &quot;abcd&quot;, {&quot;prop&quot; : &quot;value&quot;})</code>: 调用服务的方法(自动查找包含此方法的服务)</li>
 </ol>
 <h3><code>select</code> <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></h3>
 <ol start="0">
