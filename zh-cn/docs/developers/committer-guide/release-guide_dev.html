@@ -88,6 +88,17 @@ $ gpg --delete-keys 1808C6444C781C0AEA0AAD4C4D6A8007D20DB8A4
 <blockquote>
 <p>PS: 最新版本经过实测，本地没有gpg.conf这个文件，因此如果在执行过程中遇到签名失败，可以参考这个文章：<a href="https://blog.csdn.net/wenbo20182/article/details/72850810">https://blog.csdn.net/wenbo20182/article/details/72850810</a> 或 <a href="https://d.sb/2016/11/gpg-inappropriate-ioctl-for-device-errors">https://d.sb/2016/11/gpg-inappropriate-ioctl-for-device-errors</a></p>
 </blockquote>
+<p>由于公钥服务器没有检查机制，任何人都可以用你的名义上传公钥，所以没有办法保证服务器上的公钥的可靠性。
+通常，你可以在网站上公布一个公钥指纹，让其他人核对下载到的公钥是否为真。</p>
+<pre><code class="language-sh"><span class="hljs-comment"># fingerprint参数生成公钥指纹：</span>
+$ gpg --fingerprint liujun
+pub   rsa4096 2019-10-17 [SC]
+      1376 A2FF 67E4 C477 5739  09BD 7DB6 8550 D366 E4C0
+uid           [ultimate] liujun (CODE SIGNING KEY) &lt;liujun@apache.org&gt;
+sub   rsa4096 2019-10-17 [E]
+</code></pre>
+<p>登录 <a href="https://id.apache.org">https://id.apache.org</a>, 将上面的 fingerprint （即 1376 A2FF 67E4 C477 5739  09BD 7DB6 8550 D366 E4C0）
+粘贴到自己的用户信息中 OpenPGP Public Key Primary Fingerprint</p>
 <h3>设置Apache中央仓库</h3>
 <p>Dubbo项目的父pom为Apache pom(2.7.0以上版本需要，2.6.x发布版本不需要此操作)</p>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>

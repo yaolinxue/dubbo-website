@@ -111,6 +111,18 @@ $ gpg --yes --delete-secret-keys shenglicao2@gmail.com   <span class="hljs-comme
 $ gpg --delete-keys 1808C6444C781C0AEA0AAD4C4D6A8007D20DB8A4 
 
 </code></pre>
+<ul>
+<li>config your fingerprint.</li>
+</ul>
+<pre><code class="language-sh"><span class="hljs-comment">### Show fingerprint info：</span>
+$ gpg --fingerprint liujun
+pub   rsa4096 2019-10-17 [SC]
+      1376 A2FF 67E4 C477 5739  09BD 7DB6 8550 D366 E4C0
+uid           [ultimate] liujun (CODE SIGNING KEY) &lt;liujun@apache.org&gt;
+sub   rsa4096 2019-10-17 [E]
+</code></pre>
+<p>Save the fingerprint, as above <code>1376 A2FF 67E4 C477 5739 09BD 7DB6 8550 D366 E4C0</code>,
+to the field <code>OpenPGP Public Key Primary Fingerprint</code> in you profile page at <a href="https://id.apache.org">https://id.apache.org</a>.</p>
 </li>
 <li>
 <p>Set up Apache central repository.</p>
