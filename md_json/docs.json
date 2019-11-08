@@ -528,6 +528,11 @@
       "meta": {}
     },
     {
+      "filename": "config-rule-deprecated.md",
+      "link": "/en-us/docs/user/demos/config-rule-deprecated.html",
+      "meta": {}
+    },
+    {
       "filename": "config-rule.md",
       "link": "/en-us/docs/user/demos/config-rule.html",
       "meta": {}
