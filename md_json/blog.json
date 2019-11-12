@@ -566,7 +566,7 @@
       "meta": {
         "title": "Dubbo在Service Mesh下的思考和方案",
         "keywords": "Dubbo, Service Mesh, Cloud Native",
-        "description": "Dubbo是实现框架，融入servcemesh理念就是我们今天分享的。"
+        "description": "Dubbo是实现框架，融入service mesh理念就是我们今天分享的。"
       }
     },
     {
