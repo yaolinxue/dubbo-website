@@ -58,7 +58,7 @@
 </code></pre>
 <p>When you add <code>dubbo-registry-nacos</code> to your project, you don't need to explicitly program the service discovery and registration logic. The actual implementation is provided by the three-party package.</p>
 <h3>Configure Registry Center</h3>
-<p>Assuming your Dubbo app uses the Spring Framework assembly, there are two configuration options available: [Dubbo Spring Externalization Configuration](<a href="https://mercyblitz.github.io/2018/01/18/Dubbo-%E5%25">https://mercyblitz.github.io/2018/01/18/Dubbo-�%</a> A4%96%E9%83%A8%E5%8C%96%E9%85%8D%E7%BD%AE/) and the Spring XML configuration file.</p>
+<p>Assuming your Dubbo app uses the Spring Framework assembly, there are two configuration options available: <a href="https://mercyblitz.github.io/2018/01/18/Dubbo-%E5%A4%96%E9%83%A8%E5%8C%96%E9%85%8D%E7%BD%AE/">Dubbo Spring Externalization Configuration</a> and the Spring XML configuration file.</p>
 <h3><a href="https://mercyblitz.github.io/2018/01/18/Dubbo-%E5%A4%96%E9%83%A8%E5%8C%96%E9%85%8D%E7%BD%AE/">Dubbo Spring Externalization Configuration</a></h3>
 <p>The Dubbo Spring externalization configuration is a new feature introduced by Dubbo <code>2.5.8</code> that automatically generates and binds Dubbo configuration beans through the Spring <code>Environment</code> property, simplifying configuration and lowering the microservice development threshold.</p>
 <p>Assuming your Nacos Server is also running on server <code>10.20.153.10</code> and using the default Nacos service port <code>8848</code>, you only need to adjust the <code>dubbo.registry.address</code> property as follows:</p>
