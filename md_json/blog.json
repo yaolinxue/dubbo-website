@@ -37,6 +37,11 @@
       }
     },
     {
+      "filename": "dubbo-basic-usage-dubbo-consumer-configuration.md",
+      "link": "/en-us/blog/dubbo-basic-usage-dubbo-consumer-configuration.html",
+      "meta": {}
+    },
+    {
       "filename": "dubbo-basic-usage-dubbo-provider-configuration.md",
       "link": "/en-us/blog/dubbo-basic-usage-dubbo-provider-configuration.html",
       "meta": {
