@@ -154,6 +154,11 @@
       }
     },
     {
+      "filename": "dubbo-registry-nacos-integration.md",
+      "link": "/en-us/blog/dubbo-registry-nacos-integration.html",
+      "meta": {}
+    },
+    {
       "filename": "dubbo-zk.md",
       "link": "/en-us/blog/dubbo-zk.html",
       "meta": {
