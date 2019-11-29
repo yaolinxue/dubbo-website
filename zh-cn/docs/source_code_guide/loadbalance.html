@@ -217,7 +217,7 @@
 <pre><code class="language-java"><span class="hljs-comment">// afterWarmup 等价于上面的 weight 变量，这样命名是为了强调该变量经过了 warmup 降权处理</span>
 <span class="hljs-keyword">int</span> afterWarmup = getWeight(invoker, invocation);
 </code></pre>
-<p>另外，2.6.4 版本中的 LeastActiveLoadBalance 还要一个缺陷，即当一组 Invoker 具有相同的最小活跃数，且其中一个 Invoker 的权重值为1，此时这个 Invoker 无法被选中。缺陷代码如下：</p>
+<p>另外，2.6.4 版本中的 LeastActiveLoadBalance 还有一个缺陷，即当一组 Invoker 具有相同的最小活跃数，且其中一个 Invoker 的权重值为1，此时这个 Invoker 无法被选中。缺陷代码如下：</p>
 <pre><code class="language-java"><span class="hljs-keyword">int</span> offsetWeight = random.nextInt(totalWeight);
 <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; leastCount; i++) {
     <span class="hljs-keyword">int</span> leastIndex = leastIndexs[i];
