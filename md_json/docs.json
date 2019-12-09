@@ -1928,7 +1928,11 @@
     {
       "filename": "requirements.md",
       "link": "/zh-cn/docs/user/preface/requirements.html",
-      "meta": {}
+      "meta": {
+        "title": "需求",
+        "keywords": "服务注册中心，依赖关系，机器支撑",
+        "description": "本文介绍了dubbo要解决的需求"
+      }
     },
     {
       "filename": "usage.md",
