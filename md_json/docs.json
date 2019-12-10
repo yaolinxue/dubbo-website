@@ -463,6 +463,11 @@
       "meta": {}
     },
     {
+      "filename": "configuration-load-process.md",
+      "link": "/en-us/docs/user/configuration/configuration-load-process.html",
+      "meta": {}
+    },
+    {
       "filename": "index.md",
       "link": "/en-us/docs/user/configuration/index.html",
       "meta": {}
@@ -470,11 +475,6 @@
     {
       "filename": "properties.md",
       "link": "/en-us/docs/user/configuration/properties.html",
-      "meta": {}
-    },
-    {
-      "filename": "translate configuration-load-process.md",
-      "link": "/en-us/docs/user/configuration/translate configuration-load-process.html",
       "meta": {}
     },
     {
