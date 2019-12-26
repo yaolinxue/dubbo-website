@@ -171,7 +171,7 @@ timestamp=1552975501873
 <p>在很长的一段时间内，Dubbo 社区经常有人提的一个问题是：Dubbo 如何实现流量隔离和灰度发布，直到 2.7 提供了标签路由，用户可以使用这个功能，来实现上述的需求。</p>
 <p><img src="http://kirito.iocoder.cn/image-20190321191620078.png" alt="标签路由"></p>
 <p>标签路由提供了这样一个能力，当调用链路为 A -&gt; B -&gt; C -&gt; D 时，用户给请求打标，最典型的打标方式可以借助 attachment（他可以在分布式调用中传递下去），调用会优先请求那些匹配的服务端，如 A -&gt; B，C -&gt; D，由于集群中未部署 C 节点，则会降级到普通节点。</p>
-<p>打标方式会收到集成系统差异的影响，从而导致很大的差异，所以 Dubbo 只提供了 <code>RpcContext.getContext().setAttachment()</code> 这样的基础接口，用户可以使用 SPI 扩展，或者 server filter 的扩展，对测试流量进行打标，引导进入隔离环境/灰度环境。</p>
+<p>打标方式会受到集成系统差异的影响，从而导致很大的差异，所以 Dubbo 只提供了 <code>RpcContext.getContext().setAttachment()</code> 这样的基础接口，用户可以使用 SPI 扩展，或者 server filter 的扩展，对测试流量进行打标，引导进入隔离环境/灰度环境。</p>
 <p>新版的 Dubbo Admin 提供了标签路由的配置项：</p>
 <p><img src="http://kirito.iocoder.cn/image-20190321192540774.png" alt="标签路由配置"></p>
 <p>Dubbo 用户可以在自己系统的基础上对标签路由进行二次扩展，或者借鉴标签路由的设计，实现自己系统的流量隔离，灰度发布。</p>
