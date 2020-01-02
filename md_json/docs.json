@@ -1918,7 +1918,11 @@
     {
       "filename": "background.md",
       "link": "/zh-cn/docs/user/preface/background.html",
-      "meta": {}
+      "meta": {
+        "title": "背景",
+        "keywords": "单一应用架构,垂直应用架构,分布式服务架构,流动计算架构",
+        "description": "本文介绍了网站应用的演进"
+      }
     },
     {
       "filename": "index.md",
