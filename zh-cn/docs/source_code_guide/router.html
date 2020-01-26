@@ -173,7 +173,7 @@
 </code></pre>
 <p>路由规则的解析过程稍微有点复杂，大家可通过 ConditionRouter 的测试类对该逻辑进行测试。并且找一个表达式，对照上面的代码走一遍，加深理解。</p>
 <h3>2.2 服务路由</h3>
-<p>服务路由的入口方法是 ConditionRouter 的 router 方法，该方法定义在 Router 接口中。实现代码如下：</p>
+<p>服务路由的入口方法是 ConditionRouter 的 route 方法，该方法定义在 Router 接口中。实现代码如下：</p>
 <pre><code class="language-java"><span class="hljs-keyword">public</span> &lt;T&gt; List&lt;Invoker&lt;T&gt;&gt; route(List&lt;Invoker&lt;T&gt;&gt; invokers, URL url, Invocation invocation) <span class="hljs-keyword">throws</span> RpcException {
     <span class="hljs-keyword">if</span> (invokers == <span class="hljs-keyword">null</span> || invokers.isEmpty()) {
         <span class="hljs-keyword">return</span> invokers;
@@ -220,7 +220,7 @@
     <span class="hljs-keyword">return</span> invokers;
 }
 </code></pre>
-<p>router 方法先是调用 matchWhen 对服务消费者进行匹配，如果匹配失败，直接返回 Invoker 列表。如果匹配成功，再对服务提供者进行匹配，匹配逻辑封装在了 matchThen 方法中。下面来看一下这两个方法的逻辑：</p>
+<p>route 方法先是调用 matchWhen 对服务消费者进行匹配，如果匹配失败，直接返回 Invoker 列表。如果匹配成功，再对服务提供者进行匹配，匹配逻辑封装在了 matchThen 方法中。下面来看一下这两个方法的逻辑：</p>
 <pre><code class="language-java"><span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">matchWhen</span><span class="hljs-params">(URL url, Invocation invocation)</span> </span>{
     <span class="hljs-comment">// 服务消费者条件为 null 或空，均返回 true，比如：</span>
     <span class="hljs-comment">//     =&gt; host != 172.22.3.91</span>
