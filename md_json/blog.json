@@ -407,6 +407,15 @@
       }
     },
     {
+      "filename": "dubbo-consistent-hash-implementation.md",
+      "link": "/zh-cn/blog/dubbo-consistent-hash-implementation.html",
+      "meta": {
+        "title": "Dubbo一致性Hash负载均衡实现剖析",
+        "keywords": "Dubbo, Consistent Hash，一致性Hash，一致性哈希",
+        "description": "本文以一般的一致性Hash实现作为引子，详细剖析了Dubbo一致性Hash负载均衡算法的实现"
+      }
+    },
+    {
       "filename": "dubbo-context-information.md",
       "link": "/zh-cn/blog/dubbo-context-information.html",
       "meta": {
