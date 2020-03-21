@@ -36,9 +36,10 @@
 <pre><code class="language-sh">mvn install -Dmaven.test.skip
 </code></pre>
 <h2>Building jar package of source code</h2>
-<p>build Dubbo source code jar package with below command, which can debug Dubbo source code.</p>
+<p>build Dubbo source code jar package with below command.</p>
 <pre><code class="language-sh">mvn clean <span class="hljs-built_in">source</span>:jar install -Dmaven.test.skip
 </code></pre>
+<p>and modify the dubbo dependency in your sample project to the SANPSHOT version of the local repository, and then use remote debugger to debug dubbo.</p>
 <h2>IDE support</h2>
 <p>use below command to generate IDE.</p>
 <h3>Intellij Idea</h3>

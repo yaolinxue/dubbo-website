@@ -36,9 +36,10 @@
 <pre><code class="language-sh">mvn install -Dmaven.test.skip
 </code></pre>
 <h2>构建源代码 jar 包</h2>
-<p>通过以下命令以构建 Dubbo 的源代码 jar 包，方便用来调试 Dubbo 源代码</p>
+<p>通过以下命令以构建 Dubbo 的源代码 jar 包</p>
 <pre><code class="language-sh">mvn clean <span class="hljs-built_in">source</span>:jar install -Dmaven.test.skip
 </code></pre>
+<p>并且修改你的样例项目中的dubbo依赖为本地仓库的SANPSHOT版本，然后使用远程debug来调试dubbo。</p>
 <h2>IDE 支持</h2>
 <p>使用以下命令来生成 IDE 的工程</p>
 <h3>Intellij Idea</h3>
