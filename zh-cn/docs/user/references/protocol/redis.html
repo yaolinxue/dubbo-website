@@ -29,7 +29,7 @@ registry.register(URL.valueOf(<span class="hljs-string">"redis://10.20.153.11/co
 <p>也可以使用自定义接口：</p>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:reference</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"store"</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">"com.foo.StoreService"</span> <span class="hljs-attr">url</span>=<span class="hljs-string">"redis://10.20.153.10:6379"</span> /&gt;</span>
 </code></pre>
-<p>方法名建议和 redis 的标准方法名相同，即：get(key), set(key, value), delet(key)。</p>
+<p>方法名建议和 redis 的标准方法名相同，即：get(key), set(key, value), delete(key)。</p>
 <p>如果方法名和 redis 的标准方法名不相同，则需要配置映射关系 <sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>：</p>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:reference</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"cache"</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">"com.foo.CacheService"</span> <span class="hljs-attr">url</span>=<span class="hljs-string">"redis://10.20.153.10:6379"</span> <span class="hljs-attr">p:set</span>=<span class="hljs-string">"putFoo"</span> <span class="hljs-attr">p:get</span>=<span class="hljs-string">"getFoo"</span> <span class="hljs-attr">p:delete</span>=<span class="hljs-string">"removeFoo"</span> /&gt;</span>
 </code></pre>
