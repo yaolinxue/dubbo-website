@@ -1624,6 +1624,11 @@
       "meta": {}
     },
     {
+      "filename": "auth.md",
+      "link": "/zh-cn/docs/user/demos/auth.html",
+      "meta": {}
+    },
+    {
       "filename": "callback-parameter.md",
       "link": "/zh-cn/docs/user/demos/callback-parameter.html",
       "meta": {}
@@ -1646,6 +1651,11 @@
     {
       "filename": "config-rule.md",
       "link": "/zh-cn/docs/user/demos/config-rule.html",
+      "meta": {}
+    },
+    {
+      "filename": "consumer-threadpool.md",
+      "link": "/zh-cn/docs/user/demos/consumer-threadpool.html",
       "meta": {}
     },
     {
@@ -1784,6 +1794,11 @@
       "meta": {}
     },
     {
+      "filename": "protobuf-idl.md",
+      "link": "/zh-cn/docs/user/demos/protobuf-idl.html",
+      "meta": {}
+    },
+    {
       "filename": "reference-config-cache.md",
       "link": "/zh-cn/docs/user/demos/reference-config-cache.html",
       "meta": {}
@@ -1859,6 +1874,11 @@
       "meta": {}
     },
     {
+      "filename": "tls.md",
+      "link": "/zh-cn/docs/user/demos/tls.html",
+      "meta": {}
+    },
+    {
       "filename": "token-authorization.md",
       "link": "/zh-cn/docs/user/demos/token-authorization.html",
       "meta": {}
@@ -1900,6 +1920,11 @@
         "keywords": "功能成熟度, 策略成熟度",
         "description": "介绍 Dubbo 各个功能、策略的成熟度"
       }
+    },
+    {
+      "filename": "new-features-in-a-glance.md",
+      "link": "/zh-cn/docs/user/new-features-in-a-glance.html",
+      "meta": {}
     },
     {
       "filename": "perf-test.md",
@@ -1989,6 +2014,11 @@
     {
       "filename": "dubbo.md",
       "link": "/zh-cn/docs/user/references/protocol/dubbo.html",
+      "meta": {}
+    },
+    {
+      "filename": "gRPC.md",
+      "link": "/zh-cn/docs/user/references/protocol/gRPC.html",
       "meta": {}
     },
     {

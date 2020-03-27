@@ -306,6 +306,11 @@
   ],
   "zh-cn": [
     {
+      "filename": "2.7.5-release.md",
+      "link": "/zh-cn/blog/2.7.5-release.html",
+      "meta": {}
+    },
+    {
       "filename": "Dubbo-supporting-gRPC-HTTP2-and-protobuf.md",
       "link": "/zh-cn/blog/Dubbo-supporting-gRPC-HTTP2-and-protobuf.html",
       "meta": {}
@@ -320,6 +325,11 @@
       }
     },
     {
+      "filename": "apche-dubbo-2019-2020.md",
+      "link": "/zh-cn/blog/apche-dubbo-2019-2020.html",
+      "meta": {}
+    },
+    {
       "filename": "build-new-docker-image-in-dockerhub.md",
       "link": "/zh-cn/blog/build-new-docker-image-in-dockerhub.html",
       "meta": {
@@ -327,6 +337,11 @@
         "keywords": "Dubbo Admin,Docker,Dockerhub",
         "description": "本文将介绍如何在Dockerhub上发布Dubbo Admin镜像。"
       }
+    },
+    {
+      "filename": "connect-heterogeneous-microservices.md",
+      "link": "/zh-cn/blog/connect-heterogeneous-microservices.html",
+      "meta": {}
     },
     {
       "filename": "download.md",
@@ -618,6 +633,11 @@
         "keywords": "Dubbo, 异步, async chain",
         "description": "本文回顾了 2.6.x 版本的异步实现，然后引出了 2.7.0 版本基于 CompletableFuture 的异步编程方式。"
       }
+    },
+    {
+      "filename": "dubbo-practice-from-guazi.md",
+      "link": "/zh-cn/blog/dubbo-practice-from-guazi.html",
+      "meta": {}
     },
     {
       "filename": "dubbo-protocol.md",
