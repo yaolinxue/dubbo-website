@@ -64,6 +64,8 @@
 <li><code>invoke XxxService.xxxMethod(1234, &quot;abcd&quot;, {&quot;prop&quot; : &quot;value&quot;})</code>: invoke particular method for the given service</li>
 <li><code>invoke com.xxx.XxxService.XxxService.xxxMethod(1234, &quot;abcd&quot;, {&quot;prop&quot; : &quot;value&quot;})</code>: invoke particular method for the given service</li>
 <li><code>invoke xxxMethod(1234, &quot;abcd&quot;, {&quot;prop&quot; : &quot;value&quot;})</code>: invoke particular method for the default service</li>
+<li><code>invoke xxxMethod({&quot;name&quot;:&quot;zhangsan&quot;,&quot;age&quot;:12,&quot;class&quot;:&quot;org.apache.dubbo.qos.legacy.service.Person&quot;})</code> :When there is parameter overload, or the type conversion fails, you can specify the class to be converted by adding the class attribute</li>
+<li>When the parameter is Map&lt;Integer, T&gt; and the key type is Integer, it is recommended to specify the type. E.g:<code>invoke com.xxx.xxxApiService({&quot;3&quot;:0.123, &quot;class&quot;:&quot;java.util.HashMap&quot;})</code></li>
 </ol>
 <h3><code>select</code> <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></h3>
 <ol start="0">

@@ -63,6 +63,8 @@
 <li><code>invoke XxxService.xxxMethod(1234, &quot;abcd&quot;, {&quot;prop&quot; : &quot;value&quot;})</code>: 调用服务的方法</li>
 <li><code>invoke com.xxx.XxxService.XxxService.xxxMethod(1234, &quot;abcd&quot;, {&quot;prop&quot; : &quot;value&quot;})</code>: 调用全路径服务的方法</li>
 <li><code>invoke xxxMethod(1234, &quot;abcd&quot;, {&quot;prop&quot; : &quot;value&quot;})</code>: 调用服务的方法(自动查找包含此方法的服务)</li>
+<li><code>invoke xxxMethod({&quot;name&quot;:&quot;zhangsan&quot;,&quot;age&quot;:12,&quot;class&quot;:&quot;org.apache.dubbo.qos.legacy.service.Person&quot;})</code> :当有参数重载，或者类型转换失败的时候，可以通过增加class属性指定需要转换类</li>
+<li>当参数为Map&lt;Integer,T&gt;，key的类型为Integer时，建议指定类型。例如<code>invoke com.xxx.xxxApiService({&quot;3&quot;:0.123, &quot;class&quot;:&quot;java.util.HashMap&quot;})</code></li>
 </ol>
 <h3><code>select</code> <sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></h3>
 <ol start="0">
