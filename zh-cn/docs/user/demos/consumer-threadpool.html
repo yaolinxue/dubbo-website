@@ -19,7 +19,7 @@
 <p><a href="https://github.com/apache/dubbo/issues/2013">https://github.com/apache/dubbo/issues/2013</a></p>
 <p>改进后的消费端线程池模型，通过复用业务端被阻塞的线程，很好的解决了这个问题。</p>
 <p><strong>老的线程池模型</strong></p>
-<p><img src="./img/docs/consumer-threadpool0.png" alt="消费端线程池.png"></p>
+<p><img src="/img/docs/consumer-threadpool0.png" alt="消费端线程池.png"></p>
 <p>我们重点关注 Consumer 部分：</p>
 <ol>
 <li>业务线程发出请求，拿到一个 Future 实例。</li>
@@ -28,7 +28,7 @@
 <li>业务线程拿到结果直接返回</li>
 </ol>
 <p><strong>2.7.5 版本引入的线程池模型</strong></p>
-<p><img src="./img/consumer-threadpool1.png" alt="消费端线程池新.png"></p>
+<p><img src="/img/consumer-threadpool1.png" alt="消费端线程池新.png"></p>
 <ol>
 <li>业务线程发出请求，拿到一个 Future 实例。</li>
 <li>在调用 future.get() 之前，先调用 ThreadlessExecutor.wait()，wait 会使业务线程在一个阻塞队列上等待，直到队列中被加入元素。</li>
